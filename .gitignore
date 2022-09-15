@@ -1,0 +1,7 @@
+node_modules/
+
+_source/
+
+config.rb
+
+.DS_Store
