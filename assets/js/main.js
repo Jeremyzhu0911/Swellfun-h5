@@ -92,7 +92,10 @@ function main() {
     progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
         1.5;
 
-    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/"
+    // var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
+
+    var ossURL = "./assets/images/";
+
     //定义相关JSON格式文件列表
     function setupManifest() {
         manifest = [{
@@ -190,8 +193,7 @@ function main() {
         page2background.scaleX = proportion;
         page2background.scaleY = proportion;
 
-        container.addChild(page2background);
-        stage.addChild(container);
+        stage.addChild(page2background);
 
         var startY, moveEndY, Y, img_count = 0, speed = 100;
         canvas.addEventListener("touchstart", function (e) {
@@ -204,8 +206,8 @@ function main() {
             console.log(2)
             console.log("滑动距离")
             moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
-            Y = parseInt(moveEndY - startY);
-            if (Y < 0 && img_count > 0) {
+            Y = -parseInt(moveEndY - startY);
+            if (Y > 0 && img_count > 0) {
                 console.log("上滑")
             } else {
                 console.log("下滑")
@@ -213,17 +215,21 @@ function main() {
 
             console.log(parseInt((img_count + Y) / speed))
 
-            var page2background = new createjs.Bitmap(preload.getResult("bg" + parseInt((img_count + Y) / speed)));
-            page2background.x = (canvas.width - 765 * proportion) / 2;
-            page2background.y = (canvas.height - 1024 * proportion) / 2;
-            page2background.scaleX = proportion;
-            page2background.scaleY = proportion;
+            if (parseInt((img_count + Y) / speed) > 0) {
+                var page2background = new createjs.Bitmap(preload.getResult("bg" + parseInt((img_count + Y) / speed)));
+                page2background.x = (canvas.width - 765 * proportion) / 2;
+                page2background.y = (canvas.height - 1024 * proportion) / 2;
+                page2background.scaleX = proportion;
+                page2background.scaleY = proportion;
 
-            container.addChild(page2background);
-            stage.addChild(container);
+                container.addChild(page2background);
+                stage.addChild(container);
+            }
         })
         canvas.addEventListener("touchend", function (e) {
-            img_count = parseInt(img_count + Y)
+            if (parseInt((img_count + Y) / speed) > 0) {
+                img_count = parseInt(img_count + Y)
+            }
             console.log(img_count)
         })
 
