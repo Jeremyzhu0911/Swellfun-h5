@@ -15,6 +15,8 @@ document.body.addEventListener('touchmove', function (evt) {
  * */
 var canvas = document.getElementById('Canvas');
 
+var fps_count = 165;//379
+
 var ua = navigator.userAgent;
 
 var system = {
@@ -92,9 +94,9 @@ function main() {
     progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
         1.5;
 
-    // var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
+    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
 
-    var ossURL = "./assets/images/";
+    // var ossURL = "./assets/images/";
 
     //定义相关JSON格式文件列表
     function setupManifest() {
@@ -102,7 +104,7 @@ function main() {
             src: "./assets/music/GoWest.mp3",
             id: "GoWest"
         }];
-        for (var i = 1; i < 165; i++) {
+        for (var i = 1; i < fps_count; i++) {
             manifest.push({
                 src: ossURL + i + ".jpg",
                 id: 'bg' + i
@@ -126,28 +128,28 @@ function main() {
 
     //处理单个文件加载
     function handleFileLoad(event) {
-        var mymusic;
-        if (event.item.id == "GoWest") {
-            if (is_weixn()) {
-                if (typeof window.WeixinJSBridge ==
-                    "object" &&
-                    typeof window.WeixinJSBridge
-                        .invoke ==
-                    "function"
-                ) {
-                    window.
-                        WeixinJSBridge
-                        .invoke(
-                            'getNetworkType', {}, () => {
-                                mymusic = createjs.Sound.play("GoWest");
-                                mymusic.loop = -1;
-                            })
-                }
-            } else {
-                mymusic = createjs.Sound.play("GoWest");
-                mymusic.loop = -1;
-            }
-        }
+        // var mymusic;
+        // if (event.item.id == "GoWest") {
+        //     if (is_weixn()) {
+        //         if (typeof window.WeixinJSBridge ==
+        //             "object" &&
+        //             typeof window.WeixinJSBridge
+        //                 .invoke ==
+        //             "function"
+        //         ) {
+        //             window.
+        //                 WeixinJSBridge
+        //                 .invoke(
+        //                     'getNetworkType', {}, () => {
+        //                         mymusic = createjs.Sound.play("GoWest");
+        //                         mymusic.loop = -1;
+        //                     })
+        //         }
+        //     } else {
+        //         mymusic = createjs.Sound.play("GoWest");
+        //         mymusic.loop = -1;
+        //     }
+        // }
     }
 
     //处理加载错误：大家可以修改成错误的文件地址，可在控制台看到此方法调用
@@ -195,41 +197,55 @@ function main() {
 
         stage.addChild(page2background);
 
-        var startY, moveEndY, Y, img_count = 0, speed = 100;
+        var startY, moveEndY, Y, img_count = 1, speed = 80, counts = 0;
         canvas.addEventListener("touchstart", function (e) {
-            console.log(1)
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
         })
 
         canvas.addEventListener("touchmove", function (e) {
             container.removeAllChildren();
-            console.log(2)
             console.log("滑动距离")
             moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
-            Y = -parseInt(moveEndY - startY);
+            Y = parseInt(startY - moveEndY);
             if (Y > 0 && img_count > 0) {
                 console.log("上滑")
             } else {
                 console.log("下滑")
             }
-
-            console.log(parseInt((img_count + Y) / speed))
-
-            if (parseInt((img_count + Y) / speed) > 0) {
-                var page2background = new createjs.Bitmap(preload.getResult("bg" + parseInt((img_count + Y) / speed)));
-                page2background.x = (canvas.width - 765 * proportion) / 2;
-                page2background.y = (canvas.height - 1024 * proportion) / 2;
-                page2background.scaleX = proportion;
-                page2background.scaleY = proportion;
-
-                container.addChild(page2background);
-                stage.addChild(container);
+            console.log("当前img index")
+            console.log(img_count)
+            counts = parseInt(img_count + Y / speed)
+            console.log("NEW img index")
+            console.log(counts)
+            if (Math.sign(counts) === 1) {
+                if (counts > 0 && counts < fps_count) {
+                    page2background = new createjs.Bitmap(preload.getResult("bg" + counts));
+                    page2background.x = (canvas.width - 765 * proportion) / 2;
+                    page2background.y = (canvas.height - 1024 * proportion) / 2;
+                    page2background.scaleX = proportion;
+                    page2background.scaleY = proportion;
+                } else {
+                    counts = fps_count
+                    // console.log(parseInt(img_count + Y / speed))
+                }
             }
+
+
+            container.addChild(page2background);
+            stage.addChild(container);
         })
         canvas.addEventListener("touchend", function (e) {
-            if (parseInt((img_count + Y) / speed) > 0) {
-                img_count = parseInt(img_count + Y)
+            if (Math.sign(counts) === 1) {
+                if (counts > 0 && counts < fps_count) {
+                    img_count = parseInt(img_count + Y / speed)
+                } else {
+                    img_count = counts
+                }
+            } else {
+                img_count = 1
             }
+
+            console.log("END img index")
             console.log(img_count)
         })
 
@@ -243,27 +259,4 @@ function main() {
     function tickhandle() {
         stage.update()
     }
-}
-
-function mask_gif(gif_image) {
-    // 背景特效 烦恼雪花GIF
-    var gif_animate = new createjs.SpriteSheet({
-        "images": gif_image,
-        "frames": {
-            width: 750,
-            height: 1333,
-            spacing: 0,
-            count: 8
-        },
-        "animations": {
-            run: [0, 7]
-        }
-    });
-    Gif = new createjs.Sprite(gif_animate, "run");
-    Gif.x = 0;
-    Gif.y = 0;
-    Gif.alpha = 0.3;
-    Gif.framerate = 10;
-    Gif.scaleX = canvas.width / gif_animate._frameWidth;
-    Gif.scaleY = canvas.height / gif_animate._frameHeight;
 }
