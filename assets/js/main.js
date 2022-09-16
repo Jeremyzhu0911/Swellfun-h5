@@ -206,7 +206,7 @@ function main() {
             container.removeAllChildren();
             console.log("滑动距离")
             moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
-            Y = parseInt(startY - moveEndY);
+            Y = -parseInt(startY - moveEndY);
             if (Y > 0 && img_count > 0) {
                 console.log("上滑")
             } else {
