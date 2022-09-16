@@ -15,7 +15,7 @@ document.body.addEventListener('touchmove', function (evt) {
  * */
 var canvas = document.getElementById('Canvas');
 
-var fps_count = 379;//379  165
+var fps_count = 180;//379  165
 
 var ua = navigator.userAgent;
 
@@ -299,7 +299,7 @@ function main() {
                     page2background.y = (canvas.height - 1024 * proportion) / 2;
                     page2background.scaleX = proportion;
                     page2background.scaleY = proportion;
-                    if (counts > 160 && counts < 167) {
+                    if (counts > 160 && counts < 168) {
                         container.addChild(page2background, btnContainer);
                     } else {
                         container.addChild(page2background);
