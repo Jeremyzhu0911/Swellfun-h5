@@ -271,7 +271,7 @@ function main() {
             container.addChild(page2background, btnContainer, alertContainer);
         })
 
-        var startY, moveEndY, Y, img_count = 1, speed = 10, counts = 0;
+        var startY, moveEndY, Y, img_count = 1, speed = 70, counts = 0;
 
         function handleTouchstart(e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
