@@ -197,7 +197,7 @@ function main() {
 
         stage.addChild(page2background);
 
-        var startY, moveEndY, Y, img_count = 1, speed = 80, counts = 0;
+        var startY, moveEndY, Y, img_count = 1, speed = 70, counts = 0;
         canvas.addEventListener("touchstart", function (e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
         })
