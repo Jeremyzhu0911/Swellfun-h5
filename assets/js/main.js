@@ -15,7 +15,7 @@ document.body.addEventListener('touchmove', function (evt) {
  * */
 var canvas = document.getElementById('Canvas');
 
-var fps_count = 165;//379
+var fps_count = 170;//379  165
 
 var ua = navigator.userAgent;
 
@@ -80,6 +80,9 @@ function main() {
 
     //构建显示对象的容器
     var container = new createjs.Container();
+    var btnContainer = new createjs.Container();
+    var alertContainer = new createjs.Container();
+
     var loadingbox = new createjs.Shape(),
         loadingbg = new createjs.Shape(),
         loadingsp = new createjs.Shape();
@@ -108,6 +111,18 @@ function main() {
             manifest.push({
                 src: ossURL + i + ".jpg",
                 id: 'bg' + i
+            })
+        };
+        for (var i = 1; i < 3; i++) {
+            manifest.push({
+                src: "./assets/images/click_" + i + ".png",
+                id: 'btn' + i
+            })
+        };
+        for (var i = 1; i < 2; i++) {
+            manifest.push({
+                src: "./assets/images/alert" + i + ".png",
+                id: 'alert' + i
             })
         };
 
@@ -197,12 +212,72 @@ function main() {
 
         stage.addChild(page2background);
 
-        var startY, moveEndY, Y, img_count = 1, speed = 70, counts = 0;
-        canvas.addEventListener("touchstart", function (e) {
-            startY = e.changedTouches[0].clientY - canvas.offsetTop;
+        var btn = new createjs.Bitmap(preload.getResult("btn1"))
+        btn.x = (canvas.width - 169 * proportion - 200 * proportion) / 2;
+        btn.y = (canvas.height - 169 * proportion + 230 * proportion) / 2;
+        btn.scaleX = proportion / 3;
+        btn.scaleY = proportion / 3;
+
+        var btn_shou = new createjs.Bitmap(preload.getResult("btn2"))
+        btn_shou.x = (canvas.width - 175 * proportion - 90 * proportion) / 2;
+        btn_shou.y = (canvas.height - 230 * proportion + 400 * proportion) / 2;
+        btn_shou.scaleX = proportion / 3;
+        btn_shou.scaleY = proportion / 3;
+        createjs.Tween.get(btn_shou, { loop: true })
+            .wait(500)
+            .to({
+                x: (canvas.width - 175 * proportion - 140 * proportion) / 2,
+                y: (canvas.height - 230 * proportion + 350 * proportion) / 2
+            }, 1000);
+
+        var btnText = new createjs.Text("点击查看知识点", "25px Arial", "#000");
+        btnText.y = (canvas.height - btnText.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
+            1.5 + 150 * proportion;
+        btnText.x = canvas.width / 2 - btnText.getMeasuredWidth() / 2 - 90 * proportion;
+        createjs.Tween.get(btnText, { loop: true })
+            .wait(500)
+            .to({
+                x: canvas.width / 2 - btnText.getMeasuredWidth() / 2 - 120 * proportion,
+                y: (canvas.height - btnText.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
+                    1.5 + 120 * proportion
+            }, 1000);
+
+        btnContainer.addChild(btn, btn_shou, btnText)
+
+        var alertImg = new createjs.Bitmap(preload.getResult("alert1"));
+        alertImg.x = (canvas.width - 768 * proportion) / 2;
+        alertImg.y = (canvas.height - 1024 * proportion) / 2;
+        alertImg.scaleX = proportion;
+        alertImg.scaleY = proportion;
+        ;
+        var closeBtn = new createjs.Shape();
+        closeBtn.graphics.beginFill("blue").drawRect((canvas.width - 100 * proportion) / 2 + 200 * proportion, (canvas.width - 100 * proportion) / 2 - 150 * proportion, 100, 100);
+        closeBtn.alpha = 0
+
+        alertContainer.addChild(alertImg, closeBtn)
+
+        alertContainer.addEventListener("click", function () {
+            canvas.addEventListener("touchstart", handleTouchstart)
+            canvas.addEventListener("touchmove", handleTouchmove)
+            canvas.addEventListener("touchend", handleTouchend)
+            container.removeAllChildren();
+            container.addChild(page2background, btnContainer);
         })
 
-        canvas.addEventListener("touchmove", function (e) {
+        btnContainer.addEventListener("click", function () {
+            canvas.removeEventListener("touchstart", handleTouchstart)
+            canvas.removeEventListener("touchmove", handleTouchmove)
+            canvas.removeEventListener("touchend", handleTouchend)
+            container.addChild(page2background, btnContainer, alertContainer);
+        })
+
+        var startY, moveEndY, Y, img_count = 1, speed = 10, counts = 0;
+
+        function handleTouchstart(e) {
+            startY = e.changedTouches[0].clientY - canvas.offsetTop;
+        }
+
+        function handleTouchmove(e) {
             container.removeAllChildren();
             console.log("滑动距离")
             moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
@@ -224,17 +299,21 @@ function main() {
                     page2background.y = (canvas.height - 1024 * proportion) / 2;
                     page2background.scaleX = proportion;
                     page2background.scaleY = proportion;
+                    if (counts > 160 && counts < 167) {
+                        container.addChild(page2background, btnContainer);
+                    } else {
+                        container.addChild(page2background);
+                    }
                 } else {
                     counts = fps_count
+                    container.addChild(page2background);
                     // console.log(parseInt(img_count + Y / speed))
                 }
             }
 
-
-            container.addChild(page2background);
             stage.addChild(container);
-        })
-        canvas.addEventListener("touchend", function (e) {
+        }
+        function handleTouchend(e) {
             if (Math.sign(counts) === 1) {
                 if (counts > 0 && counts < fps_count) {
                     img_count = parseInt(img_count + Y / speed)
@@ -247,7 +326,13 @@ function main() {
 
             console.log("END img index")
             console.log(img_count)
-        })
+        }
+
+        canvas.addEventListener("touchstart", handleTouchstart)
+        canvas.addEventListener("touchmove", handleTouchmove)
+        canvas.addEventListener("touchend", handleTouchend)
+
+        // canvas.removeEventListener("touchmove", handleTouchmove)
 
         createjs.Ticker.addEventListener("tick", tickhandle);
     }
