@@ -159,6 +159,13 @@ function main() {
             src: ossURL + "stop.png",
             id: "stop"
         })
+        for (var i = 0; i < 9; i++) {
+            manifest.push({
+                // src: ossURL + "num/" + i + ".png",
+                src: ossURL + "num/" + i + ".png",
+                id: 'num' + i
+            })
+        };
         for (var i = 1; i < 75; i++) {
             manifest.push({
                 src: ossURL + "ms/" + i + ".png",
@@ -547,6 +554,33 @@ function main() {
         alert3Img.scaleX = proportion;
         alert3Img.scaleY = proportion;
 
+        var num_img = new Array();
+        for (var i = 0; i < 9; i++) {
+            num_img[i] = preload.getResult("num" + i);
+        }
+
+        var num_animate = new createjs.SpriteSheet({
+            "images": num_img,
+            "frames": {
+                width: 768,
+                height: 1024,
+                spacing: 0,
+                count: 9
+            },
+            "animations": {
+                run: [0, 8, 'end'],
+                end: [8]
+            },
+            "framerate": 9
+        });
+
+        var alert2num = new createjs.Sprite(num_animate, "run");
+        alert2num.scaleX = proportion / 1.15;
+        alert2num.scaleY = proportion / 1.15;
+        alert2num.x = (canvas.width - num_animate._frameWidth * proportion / 1.15) / 2;
+        alert2num.y = (canvas.height - num_animate._frameHeight * proportion / 1.15 - 8 * proportion / 1.15) / 2;
+        alert2num.framerate = 9;
+
         var lizi2 = new createjs.Sprite(lizi_animate, "run");
         lizi2.scaleX = proportion / 2;
         lizi2.scaleY = proportion / 2;
@@ -560,7 +594,7 @@ function main() {
         close3Btn.scaleX = proportion;
         close3Btn.scaleY = proportion;
 
-        alert3Container.addChild(alert3Img, close3Btn, lizi2)
+        alert3Container.addChild(alert3Img, close3Btn, alert2num, lizi2)
 
         /**
          * 第四个按钮
@@ -746,6 +780,7 @@ function main() {
         })
 
         btn3Container.addEventListener("click", function () {
+            alert2num.gotoAndPlay("run")
             lizi2.gotoAndPlay("run")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
