@@ -131,12 +131,12 @@ function main() {
             src: ossURL + "logo.png",
             id: "logo"
         }, {
-            src: "./assets/images/down.png",
+            src: ossURL + "down.png",
             id: "down_up"
         }];
         for (var i = 1; i < fps_count; i++) {
             manifest.push({
-                src: ossURL + "bg/" + i + ".jpg",
+                src: ossURL + "bg2/" + i + ".jpg",
                 id: 'bg' + i
             })
         };
@@ -159,7 +159,7 @@ function main() {
         })
         for (var i = 0; i < 251; i++) {
             manifest.push({
-                src: ossURL + "lizi/" + i + ".png",
+                src: ossURL + "lizi2/" + i + ".png",
                 id: 'lizi' + i
             })
         };
@@ -200,15 +200,15 @@ function main() {
     function handleFileLoad(event) {
         if (event.item.id === "bg1") {
             page2background = new createjs.Bitmap(preload.getResult("bg1"));
-            page2background.x = (canvas.width - 765 * proportion) / 2;
+            page2background.x = (canvas.width - 768 * proportion) / 2;
             page2background.y = (canvas.height - 1024 * proportion) / 2;
-            page2background.scaleX = proportion;
-            page2background.scaleY = proportion;
+            page2background.scaleX = proportion * 768 / 375;
+            page2background.scaleY = proportion * 768 / 375;
 
             stage.addChild(page2background);
         }
 
-        if (event.item.id === "bg16") {
+        if (event.item.id === "bg20") {
             var ms_img = new Array();
             for (var i = 1; i < 17; i++) {
                 ms_img[i - 1] = preload.getResult("bg" + i);
@@ -217,8 +217,8 @@ function main() {
             var ms_animate = new createjs.SpriteSheet({
                 "images": ms_img,
                 "frames": {
-                    width: 768,
-                    height: 1024,
+                    width: 375,
+                    height: 500,
                     spacing: 0,
                     count: 16
                 },
@@ -230,10 +230,10 @@ function main() {
             });
 
             pagebackground = new createjs.Sprite(ms_animate, "run");
-            pagebackground.scaleX = proportion;
-            pagebackground.scaleY = proportion;
-            pagebackground.x = (canvas.width - ms_animate._frameWidth * proportion) / 2;
-            pagebackground.y = (canvas.height - ms_animate._frameHeight * proportion) / 2;
+            pagebackground.scaleX = proportion * 768 / 375;
+            pagebackground.scaleY = proportion * 768 / 375;
+            pagebackground.x = (canvas.width - ms_animate._frameWidth * proportion * 768 / 375) / 2;
+            pagebackground.y = (canvas.height - ms_animate._frameHeight * proportion * 768 / 375) / 2;
             pagebackground.framerate = 16;
 
             var mask = new createjs.Shape()
@@ -525,8 +525,8 @@ function main() {
         var lizi_animate = new createjs.SpriteSheet({
             "images": lizi_img,
             "frames": {
-                width: 768,
-                height: 1024,
+                width: 375,
+                height: 500,
                 spacing: 0,
                 count: 251
             },
@@ -537,10 +537,10 @@ function main() {
             "framerate": 250
         });
         var lizi = new createjs.Sprite(lizi_animate, "run");
-        lizi.scaleX = proportion / 1.5;
-        lizi.scaleY = proportion / 1.5;
-        lizi.x = (canvas.width - lizi_animate._frameWidth * proportion + 255 * proportion) / 2;
-        lizi.y = (canvas.height - lizi_animate._frameHeight * proportion + 575 * proportion) / 2;
+        lizi.scaleX = proportion * 768 / 375 / 1.5;
+        lizi.scaleY = proportion * 768 / 375 / 1.5;
+        lizi.x = (canvas.width - lizi_animate._frameWidth * proportion * 768 / 375 + 255 * proportion) / 2;
+        lizi.y = (canvas.height - lizi_animate._frameHeight * proportion * 768 / 375 + 575 * proportion) / 2;
         lizi.framerate = 251;
 
         var ms_img = new Array();
@@ -634,8 +634,8 @@ function main() {
         var lizi2 = new createjs.Sprite(lizi_animate, "run");
         lizi2.scaleX = proportion / 1.3;
         lizi2.scaleY = proportion / 1.3;
-        lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion + 170 * proportion) / 2;
-        lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion + 335 * proportion) / 2;
+        lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion * 768 / 375 + 170 * proportion) / 2;
+        lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion * 768 / 375 + 335 * proportion) / 2;
         lizi2.framerate = 251;
 
         var close3Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
@@ -887,10 +887,10 @@ function main() {
             if (Math.sign(counts) === 1) {
                 if (counts > 0 && counts < fps_count) {
                     page2background = new createjs.Bitmap(preload.getResult("bg" + counts));
-                    page2background.x = (canvas.width - 765 * proportion) / 2;
+                    page2background.x = (canvas.width - 768 * proportion) / 2;
                     page2background.y = (canvas.height - 1024 * proportion) / 2;
-                    page2background.scaleX = proportion;
-                    page2background.scaleY = proportion;
+                    page2background.scaleX = proportion * 768 / 375;
+                    page2background.scaleY = proportion * 768 / 375;
                     if (counts > 160 && counts < 168) {
                         container.addChild(page2background, btnContainer);
                         if (index === 0) {
@@ -910,7 +910,7 @@ function main() {
                             canvas.removeEventListener("touchend", handleTouchend)
                             index += 1
                         }
-                    } else if (counts > 182 && counts < 187) {
+                    } else if (counts > 184 && counts < 187) {
                         container.addChild(page2background, btn3Container);
                         if (index === 2) {
                             handleTouchend()
@@ -947,10 +947,10 @@ function main() {
                 }
             } else {
                 page2background = new createjs.Bitmap(preload.getResult("bg1"));
-                page2background.x = (canvas.width - 765 * proportion) / 2;
+                page2background.x = (canvas.width - 768 * proportion) / 2;
                 page2background.y = (canvas.height - 1024 * proportion) / 2;
-                page2background.scaleX = proportion;
-                page2background.scaleY = proportion;
+                page2background.scaleX = proportion * 768 / 375;
+                page2background.scaleY = proportion * 768 / 375;
                 container.addChild(page2background);
             }
 
