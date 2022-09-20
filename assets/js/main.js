@@ -99,10 +99,10 @@ function main() {
         loadingsp = new createjs.Shape();
 
     //加载loading 
-    loadingbox.graphics.beginFill('#73033d').rr((canvas.width - 460 * proportion) / 2, (canvas.height - 44 *
-        proportion) / 2, 460 * proportion, 44 * proportion, 22 * proportion);
-    loadingbg.graphics.beginFill('#000').rr((canvas.width - 450 * proportion) / 2, (canvas.height - 34 *
-        proportion) / 2, 450 * proportion, 34 * proportion, 17 * proportion);
+    loadingbox.graphics.beginFill('#73033d').rr((canvas.width - 310 * proportion) / 2, (canvas.height - 22 *
+        proportion) / 2, 310 * proportion, 22 * proportion, 11 * proportion);
+    loadingbg.graphics.beginFill('#000').rr((canvas.width - 300 * proportion) / 2, (canvas.height - 17 *
+        proportion) / 2, 300 * proportion, 17 * proportion, 8.5 * proportion);
 
     var progressText = new createjs.Text("", "40px Arial", "#fff");
     progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
@@ -116,10 +116,23 @@ function main() {
             src: ossURL + "close.png",
             id: "closeBtn"
         }, {
-            // src: "./assets/music/GoWest.mp3",
-            // id: "GoWest"
             src: ossURL + "music/music1.mp3",
             id: "music1"
+        }, {
+            src: ossURL + "play.png",
+            id: "play"
+        }, {
+            src: ossURL + "stop.png",
+            id: "stop"
+        }, {
+            src: ossURL + "down.png",
+            id: "down"
+        }, {
+            src: ossURL + "logo.png",
+            id: "logo"
+        }, {
+            src: "./assets/images/down.png",
+            id: "down_up"
         }];
         for (var i = 1; i < fps_count; i++) {
             manifest.push({
@@ -127,10 +140,6 @@ function main() {
                 id: 'bg' + i
             })
         };
-        manifest.push({
-            src: ossURL + "music/music2.mp3",
-            id: "music2"
-        })
         for (var i = 1; i < 3; i++) {
             manifest.push({
                 src: ossURL + "click_" + i + ".png",
@@ -143,7 +152,12 @@ function main() {
                 id: 'alert' + i
             })
         };
-        for (var i = 1; i < 26; i++) {
+
+        manifest.push({
+            src: ossURL + "music/music2.mp3",
+            id: "music2"
+        })
+        for (var i = 0; i < 251; i++) {
             manifest.push({
                 src: ossURL + "lizi/" + i + ".png",
                 id: 'lizi' + i
@@ -152,12 +166,6 @@ function main() {
         manifest.push({
             src: ossURL + "music/music3.mp3",
             id: "music3"
-        }, {
-            src: ossURL + "play.png",
-            id: "play"
-        }, {
-            src: ossURL + "stop.png",
-            id: "stop"
         })
         for (var i = 0; i < 9; i++) {
             manifest.push({
@@ -184,33 +192,64 @@ function main() {
         preload.on("complete", loadComplete);
         preload.on("error", loadError);
         preload.loadManifest(manifest);
-
     }
-    var mymusic;
+
+    var mymusic, page2background;
+    var down_up_animate
     //处理单个文件加载
     function handleFileLoad(event) {
-        // var mymusic;
-        // if (event.item.id == "GoWest") {
-        //     if (is_weixn()) {
-        //         if (typeof window.WeixinJSBridge ==
-        //             "object" &&
-        //             typeof window.WeixinJSBridge
-        //                 .invoke ==
-        //             "function"
-        //         ) {
-        //             window.
-        //                 WeixinJSBridge
-        //                 .invoke(
-        //                     'getNetworkType', {}, () => {
-        //                         mymusic = createjs.Sound.play("GoWest");
-        //                         mymusic.loop = -1;
-        //                     })
-        //         }
-        //     } else {
-        //         mymusic = createjs.Sound.play("GoWest");
-        //         mymusic.loop = -1;
-        //     }
-        // }
+        if (event.item.id === "bg1") {
+            page2background = new createjs.Bitmap(preload.getResult("bg1"));
+            page2background.x = (canvas.width - 765 * proportion) / 2;
+            page2background.y = (canvas.height - 1024 * proportion) / 2;
+            page2background.scaleX = proportion;
+            page2background.scaleY = proportion;
+
+            stage.addChild(page2background);
+        }
+
+        if (event.item.id === "bg16") {
+            var ms_img = new Array();
+            for (var i = 1; i < 17; i++) {
+                ms_img[i - 1] = preload.getResult("bg" + i);
+            }
+
+            var ms_animate = new createjs.SpriteSheet({
+                "images": ms_img,
+                "frames": {
+                    width: 768,
+                    height: 1024,
+                    spacing: 0,
+                    count: 16
+                },
+                "animations": {
+                    run: [0, 15, "end", 0.05],
+                    end: [15],
+                },
+                "framerate": 16
+            });
+
+            pagebackground = new createjs.Sprite(ms_animate, "run");
+            pagebackground.scaleX = proportion;
+            pagebackground.scaleY = proportion;
+            pagebackground.x = (canvas.width - ms_animate._frameWidth * proportion) / 2;
+            pagebackground.y = (canvas.height - ms_animate._frameHeight * proportion) / 2;
+            pagebackground.framerate = 16;
+
+            var mask = new createjs.Shape()
+            mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
+                proportion) / 2, 768 * proportion, 1024 * proportion, 22 * proportion);
+            mask.alpha = .3
+
+            var logo = new createjs.Bitmap(preload.getResult("logo"))
+            logo.x = (canvas.width - 379 * proportion) / 2 + 20 * proportion;
+            logo.y = (canvas.height - 148 * proportion) / 2 - 120 * proportion;
+            logo.scaleX = proportion;
+            logo.scaleY = proportion;
+
+            stage.addChild(pagebackground, mask, logo);
+        }
+        createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
     //处理加载错误：大家可以修改成错误的文件地址，可在控制台看到此方法调用
@@ -224,12 +263,12 @@ function main() {
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         // console.log(ratio*canvas.width / 100 * (preload.progress * 100 | 0));
         if ((preload.progress * 100 | 0) > 10) {
-            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 450 * proportion) / 2, (canvas.height -
-                34 * proportion) / 2, 450 * proportion / 100 * (preload.progress * 100 | 0), 34 *
-            proportion, 17 * proportion);
+            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 300 * proportion) / 2, (canvas.height -
+                17 * proportion) / 2, 300 * proportion / 100 * (preload.progress * 100 | 0), 17 *
+            proportion, 8.5 * proportion);
         } else {
-            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 450 * proportion) / 2, (canvas.height -
-                34 * proportion) / 2, 450 * proportion / 100 * 10, 34 * proportion, 17 * proportion);
+            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 300 * proportion) / 2, (canvas.height -
+                17 * proportion) / 2, 300 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
         }
         container.addChild(loadingbox, loadingbg, loadingsp, progressText);
         stage.addChild(container);
@@ -241,6 +280,25 @@ function main() {
         console.log("已加载完毕全部资源");
         Animate_Conter_page2();
         container.removeAllChildren();
+
+        var down_up = new createjs.Bitmap(preload.getResult("down"))
+        down_up.x = (canvas.width - 50 * proportion + 20) / 2;
+        down_up.y = (canvas.height - 65 * proportion + 30) / 2;
+        down_up.scaleX = proportion / 2;
+        down_up.scaleY = proportion / 2;
+        createjs.Tween.get(down_up, { loop: true })
+            .wait(500)
+            .to({
+                y: (canvas.height - 65 * proportion + 60) / 2,
+                alpha: 0
+            }, 1000);
+
+        progressText = new createjs.Text("", "30px Arial", "#dadada");
+        progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
+            1.5;
+        progressText.text = "向下滑动";
+        progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
+        stage.addChild(progressText, down_up);
         stage.update();
     }
 
@@ -249,15 +307,6 @@ function main() {
 
 
     function Animate_Conter_page2() {
-
-        var page2background = new createjs.Bitmap(preload.getResult("bg1"));
-        page2background.x = (canvas.width - 765 * proportion) / 2;
-        page2background.y = (canvas.height - 1024 * proportion) / 2;
-        page2background.scaleX = proportion;
-        page2background.scaleY = proportion;
-
-        stage.addChild(page2background);
-
         /**
          * 第一个按钮
          */
@@ -469,8 +518,8 @@ function main() {
         alert2Img.scaleY = proportion;
 
         var lizi_img = new Array();
-        for (var i = 1; i < 26; i++) {
-            lizi_img[i - 1] = preload.getResult("lizi" + i);
+        for (var i = 0; i < 251; i++) {
+            lizi_img[i] = preload.getResult("lizi" + i);
         }
 
         var lizi_animate = new createjs.SpriteSheet({
@@ -479,20 +528,20 @@ function main() {
                 width: 768,
                 height: 1024,
                 spacing: 0,
-                count: 25
+                count: 251
             },
             "animations": {
-                run: [0, 24, 'end'],
-                end: [24]
+                run: [0, 250, "run", 0.3],
+                end: [250]
             },
-            "framerate": 25
+            "framerate": 250
         });
         var lizi = new createjs.Sprite(lizi_animate, "run");
-        lizi.scaleX = proportion / 2;
-        lizi.scaleY = proportion / 2;
-        lizi.x = (canvas.width - lizi_animate._frameWidth * proportion + 320 * proportion) / 2;
-        lizi.y = (canvas.height - lizi_animate._frameHeight * proportion + 820 * proportion) / 2;
-        lizi.framerate = 24;
+        lizi.scaleX = proportion / 1.5;
+        lizi.scaleY = proportion / 1.5;
+        lizi.x = (canvas.width - lizi_animate._frameWidth * proportion + 255 * proportion) / 2;
+        lizi.y = (canvas.height - lizi_animate._frameHeight * proportion + 575 * proportion) / 2;
+        lizi.framerate = 251;
 
         var ms_img = new Array();
         for (var i = 1; i < 75; i++) {
@@ -569,7 +618,8 @@ function main() {
             },
             "animations": {
                 run: [0, 8, 'end'],
-                end: [8]
+                end: [8],
+                speed: 0.3
             },
             "framerate": 9
         });
@@ -582,11 +632,11 @@ function main() {
         alert2num.framerate = 9;
 
         var lizi2 = new createjs.Sprite(lizi_animate, "run");
-        lizi2.scaleX = proportion / 2;
-        lizi2.scaleY = proportion / 2;
-        lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion + 360 * proportion) / 2;
-        lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion + 720 * proportion) / 2;
-        lizi2.framerate = 24;
+        lizi2.scaleX = proportion / 1.3;
+        lizi2.scaleY = proportion / 1.3;
+        lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion + 170 * proportion) / 2;
+        lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion + 335 * proportion) / 2;
+        lizi2.framerate = 251;
 
         var close3Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
         close3Btn.x = (canvas.width - 57 * proportion + 530 * proportion) / 2;
@@ -768,11 +818,11 @@ function main() {
 
         btn2Container.addEventListener("click", function () {
             mymusic = createjs.Sound.play("music1");
+            mymusic.loop = -1;
             mymusic.paused = false;
             alert2playBtn.alpha = 0;
             alert2stopBtn.alpha = 1;
             alert2ms.gotoAndPlay("run")
-            lizi.gotoAndPlay("run")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
@@ -781,7 +831,6 @@ function main() {
 
         btn3Container.addEventListener("click", function () {
             alert2num.gotoAndPlay("run")
-            lizi2.gotoAndPlay("run")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
@@ -790,6 +839,7 @@ function main() {
 
         btn4Container.addEventListener("click", function () {
             mymusic = createjs.Sound.play("music2");
+            mymusic.loop = -1;
             mymusic.paused = false;
             alert4playBtn.alpha = 0;
             alert4stopBtn.alpha = 1;
@@ -802,6 +852,7 @@ function main() {
 
         btn5Container.addEventListener("click", function () {
             mymusic = createjs.Sound.play("music3");
+            mymusic.loop = -1;
             mymusic.paused = false;
             alert5playBtn.alpha = 0;
             alert5stopBtn.alpha = 1;
@@ -812,7 +863,7 @@ function main() {
             container.addChild(page2background, btn5Container, alert5Container);
         })
 
-        var startY, moveEndY, Y, img_count = 1, speed = 70, counts = 0;
+        var startY, moveEndY, Y, img_count = 16, speed = 70, counts = 16, index = 0;
 
         function handleTouchstart(e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
@@ -842,14 +893,50 @@ function main() {
                     page2background.scaleY = proportion;
                     if (counts > 160 && counts < 168) {
                         container.addChild(page2background, btnContainer);
-                    } else if (counts > 179 && counts < 182) {
+                        if (index === 0) {
+                            handleTouchend()
+                            canvas.removeEventListener("touchstart", handleTouchstart)
+                            canvas.removeEventListener("touchmove", handleTouchmove)
+                            canvas.removeEventListener("touchend", handleTouchend)
+                            index += 1
+                        }
+
+                    } else if (counts > 180 && counts < 182) {
                         container.addChild(page2background, btn2Container);
+                        if (index === 1) {
+                            handleTouchend()
+                            canvas.removeEventListener("touchstart", handleTouchstart)
+                            canvas.removeEventListener("touchmove", handleTouchmove)
+                            canvas.removeEventListener("touchend", handleTouchend)
+                            index += 1
+                        }
                     } else if (counts > 182 && counts < 187) {
                         container.addChild(page2background, btn3Container);
+                        if (index === 2) {
+                            handleTouchend()
+                            canvas.removeEventListener("touchstart", handleTouchstart)
+                            canvas.removeEventListener("touchmove", handleTouchmove)
+                            canvas.removeEventListener("touchend", handleTouchend)
+                            index += 1
+                        }
                     } else if (counts > 219 && counts < 224) {
                         container.addChild(page2background, btn4Container);
+                        if (index === 3) {
+                            handleTouchend()
+                            canvas.removeEventListener("touchstart", handleTouchstart)
+                            canvas.removeEventListener("touchmove", handleTouchmove)
+                            canvas.removeEventListener("touchend", handleTouchend)
+                            index += 1
+                        }
                     } else if (counts > 318 && counts < 323) {
                         container.addChild(page2background, btn5Container);
+                        if (index === 4) {
+                            handleTouchend()
+                            canvas.removeEventListener("touchstart", handleTouchstart)
+                            canvas.removeEventListener("touchmove", handleTouchmove)
+                            canvas.removeEventListener("touchend", handleTouchend)
+                            index += 1
+                        }
                     } else {
                         container.addChild(page2background);
                     }
@@ -858,6 +945,13 @@ function main() {
                     container.addChild(page2background);
                     // console.log(parseInt(img_count + Y / speed))
                 }
+            } else {
+                page2background = new createjs.Bitmap(preload.getResult("bg1"));
+                page2background.x = (canvas.width - 765 * proportion) / 2;
+                page2background.y = (canvas.height - 1024 * proportion) / 2;
+                page2background.scaleX = proportion;
+                page2background.scaleY = proportion;
+                container.addChild(page2background);
             }
 
             stage.addChild(container);
@@ -887,7 +981,7 @@ function main() {
     }
 
     //监听事件，30fps更新stage
-    createjs.Ticker.setFPS(15);
+    createjs.Ticker.setFPS(30);
     createjs.Ticker.addEventListener("tick", tickhandle);
 
     function tickhandle() {
