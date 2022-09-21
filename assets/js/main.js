@@ -109,6 +109,7 @@ function main() {
         1.5;
 
     var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
+    // var ossURL = "./assets/images/";
 
     //定义相关JSON格式文件列表
     function setupManifest() {
@@ -157,29 +158,29 @@ function main() {
             src: ossURL + "music/music2.mp3",
             id: "music2"
         })
-        for (var i = 0; i < 251; i++) {
-            manifest.push({
-                src: ossURL + "lizi2/" + i + ".png",
-                id: 'lizi' + i
-            })
-        };
-        manifest.push({
-            src: ossURL + "music/music3.mp3",
-            id: "music3"
-        })
-        for (var i = 0; i < 9; i++) {
-            manifest.push({
-                // src: ossURL + "num/" + i + ".png",
-                src: ossURL + "num/" + i + ".png",
-                id: 'num' + i
-            })
-        };
-        for (var i = 1; i < 75; i++) {
-            manifest.push({
-                src: ossURL + "ms/" + i + ".png",
-                id: 'ms' + i
-            })
-        };
+        // for (var i = 0; i < 251; i++) {
+        //     manifest.push({
+        //         src: ossURL + "lizi2/" + i + ".png",
+        //         id: 'lizi' + i
+        //     })
+        // };
+        // manifest.push({
+        //     src: ossURL + "music/music3.mp3",
+        //     id: "music3"
+        // })
+        // for (var i = 0; i < 9; i++) {
+        //     manifest.push({
+        //         // src: ossURL + "num/" + i + ".png",
+        //         src: ossURL + "num/" + i + ".png",
+        //         id: 'num' + i
+        //     })
+        // };
+        // for (var i = 1; i < 75; i++) {
+        //     manifest.push({
+        //         src: ossURL + "ms/" + i + ".png",
+        //         id: 'ms' + i
+        //     })
+        // };
     }
 
     //开始预加载
@@ -209,13 +210,13 @@ function main() {
         }
 
         if (event.item.id === "bg20") {
-            var ms_img = new Array();
+            var bg_img = new Array();
             for (var i = 1; i < 17; i++) {
-                ms_img[i - 1] = preload.getResult("bg" + i);
+                bg_img[i - 1] = preload.getResult("bg" + i);
             }
 
-            var ms_animate = new createjs.SpriteSheet({
-                "images": ms_img,
+            var bg_animate = new createjs.SpriteSheet({
+                "images": bg_img,
                 "frames": {
                     width: 375,
                     height: 500,
@@ -229,11 +230,11 @@ function main() {
                 "framerate": 16
             });
 
-            pagebackground = new createjs.Sprite(ms_animate, "run");
+            pagebackground = new createjs.Sprite(bg_animate, "run");
             pagebackground.scaleX = proportion * 768 / 375;
             pagebackground.scaleY = proportion * 768 / 375;
-            pagebackground.x = (canvas.width - ms_animate._frameWidth * proportion * 768 / 375) / 2;
-            pagebackground.y = (canvas.height - ms_animate._frameHeight * proportion * 768 / 375) / 2;
+            pagebackground.x = (canvas.width - bg_animate._frameWidth * proportion * 768 / 375) / 2;
+            pagebackground.y = (canvas.height - bg_animate._frameHeight * proportion * 768 / 375) / 2;
             pagebackground.framerate = 16;
 
             var mask = new createjs.Shape()
@@ -519,7 +520,7 @@ function main() {
 
         var lizi_img = new Array();
         for (var i = 0; i < 251; i++) {
-            lizi_img[i] = preload.getResult("lizi" + i);
+            lizi_img[i] = ossURL + "lizi2/" + i + ".png";
         }
 
         var lizi_animate = new createjs.SpriteSheet({
@@ -545,7 +546,7 @@ function main() {
 
         var ms_img = new Array();
         for (var i = 1; i < 75; i++) {
-            ms_img[i - 1] = preload.getResult("ms" + i);
+            ms_img[i - 1] = ossURL + "ms/" + i + ".png";
         }
 
         var ms_animate = new createjs.SpriteSheet({
@@ -605,7 +606,7 @@ function main() {
 
         var num_img = new Array();
         for (var i = 0; i < 9; i++) {
-            num_img[i] = preload.getResult("num" + i);
+            num_img[i] = ossURL + "num/" + i + ".png";
         }
 
         var num_animate = new createjs.SpriteSheet({
@@ -632,8 +633,8 @@ function main() {
         alert2num.framerate = 9;
 
         var lizi2 = new createjs.Sprite(lizi_animate, "run");
-        lizi2.scaleX = proportion / 1.3;
-        lizi2.scaleY = proportion / 1.3;
+        lizi2.scaleX = proportion * 768 / 375 / 1.3;
+        lizi2.scaleY = proportion * 768 / 375 / 1.3;
         lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion * 768 / 375 + 170 * proportion) / 2;
         lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion * 768 / 375 + 335 * proportion) / 2;
         lizi2.framerate = 251;
@@ -851,7 +852,7 @@ function main() {
         })
 
         btn5Container.addEventListener("click", function () {
-            mymusic = createjs.Sound.play("music3");
+            mymusic = createjs.Sound.play(ossURL + "music/music3.mp3");
             mymusic.loop = -1;
             mymusic.paused = false;
             alert5playBtn.alpha = 0;
