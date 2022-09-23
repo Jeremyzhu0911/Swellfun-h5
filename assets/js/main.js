@@ -6,8 +6,6 @@ document.body.addEventListener('touchmove', function (evt) {
     passive: false
 })
 
-
-
 /**
  *
  * 识别移动设备
