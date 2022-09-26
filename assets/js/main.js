@@ -13,7 +13,7 @@ document.body.addEventListener('touchmove', function (evt) {
  * */
 var canvas = document.getElementById('Canvas');
 
-var fps_count = 236;
+var fps_count = 237;
 
 var ua = navigator.userAgent;
 
