@@ -6,37 +6,9 @@ document.body.addEventListener('touchmove', function (evt) {
     passive: false
 })
 
-/**
- *
- * 识别移动设备
- * 检测相应的设备。
- * */
 var canvas = document.getElementById('Canvas');
 
 var fps_count = 237;
-
-var ua = navigator.userAgent;
-
-var system = {
-    win: false,
-    mac: false,
-    x11: false,
-    //mobile
-    iphone: false,
-    ipad: false,
-    ios: false,
-    android: false,
-    winMobile: false
-};
-
-var p = navigator.platform;
-system.win = p.indexOf('Win') == 0;
-system.mac = p.indexOf('Mac') == 0;
-system.x11 = (p == 'x11') || (p.indexOf('Linux') == 0);
-
-system.iphone = ua.indexOf('iPhone') > -1;
-system.ipad = ua.indexOf('iPad') > -1;
-system.android = ua.indexOf('Android') > -1;
 
 var viewHeight, viewWidth, proportion;
 
@@ -47,23 +19,12 @@ function getViewPort() {
     proportion = (viewWidth / 750);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
-
-}
-
-function is_weixn() {
-    var ua = navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == "micromessenger") {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function init() {
     getViewPort();
     main();
 }
-
 
 $(window).resize(getViewPort);
 
@@ -99,11 +60,23 @@ function main() {
         loadingbg = new createjs.Shape(),
         loadingsp = new createjs.Shape();
 
-    var pageTop = new createjs.Bitmap(ossURL + "page_top.png");
-    pageTop.x = (canvas.width - 636 * proportion) / 2;
-    pageTop.y = (canvas.height - 188 * proportion) / 2;
-    pageTop.scaleX = proportion;
-    pageTop.scaleY = proportion;
+    // var pageTop = new createjs.Bitmap(ossURL + "page_top.png");
+    // pageTop.x = (canvas.width - 750 * proportion) / 2;
+    // pageTop.y = canvas.height >= 1024 ? 0 : -222 * proportion;
+    // pageTop.scaleX = canvas.width / 750;
+    // pageTop.scaleY = canvas.width / 750;
+
+    // var pageBottom = new createjs.Bitmap(ossURL + "page_bottom.png");
+    // pageBottom.x = (canvas.width - 750 * proportion) / 2;
+    // pageBottom.y = canvas.height > 1024 ? (canvas.height - 204 * proportion) : canvas.height;
+    // pageBottom.scaleX = canvas.width / 750;
+    // pageBottom.scaleY = canvas.width / 750;
+
+    // var background = new createjs.Bitmap("./assets/images/background.jpg");
+    // background.x = (canvas.width - 750 * proportion) / 2;
+    // background.y = (canvas.height - 1624 * proportion) / 2;
+    // background.scaleX = canvas.width / 750;
+    // background.scaleY = canvas.width / 750;
 
     var pagebackground = new createjs.Bitmap(ossURL + "bg/6.jpg");
     pagebackground.x = (canvas.width - 768 * proportion) / 2;
@@ -128,8 +101,8 @@ function main() {
         1.5;
 
     var mask = new createjs.Shape()
-    mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
-        proportion) / 2, 768 * proportion, 1024 * proportion, 0 * proportion);
+    mask.graphics.beginFill("#000").rr((canvas.width - 750 * proportion) / 2, (canvas.height - 1624 *
+        proportion) / 2, 750 * proportion, 1624 * proportion, 0 * proportion);
     mask.alpha = .3
 
     var logo = new createjs.Bitmap(ossURL + "logo.png")
@@ -272,6 +245,7 @@ function main() {
             loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
                 .progress * 100 | 0);
         }
+        // stage.addChild(background, pagebackground, pageTop, pageBottom)
         stage.addChild(pagebackground)
         container.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
         container2.addChild(mask, logo)
@@ -293,7 +267,6 @@ function main() {
         down_up.scaleX = proportion;
         down_up.scaleY = proportion;
         createjs.Tween.get(down_up, { loop: true })
-            .wait(500)
             .to({
                 y: (canvas.height - 65 * proportion + 60) / 2,
                 alpha: 0
@@ -975,6 +948,7 @@ function main() {
                 container.addChild(pagebackground);
             }
 
+            // stage.addChild(container, pageTop, pageBottom);
             stage.addChild(container);
         }
         function handleTouchend(e) {
