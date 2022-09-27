@@ -44,7 +44,7 @@ function getViewPort() {
     viewHeight = window.innerHeight || document.documentElement.clientHeight;
     viewWidth = window.innerWidth || document.documentElement.clientWidth;
     document.body.style.width = viewWidth;
-    proportion = (viewWidth / 765);
+    proportion = (viewWidth / 750);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
 
@@ -133,8 +133,8 @@ function main() {
     mask.alpha = .3
 
     var logo = new createjs.Bitmap(ossURL + "logo.png")
-    logo.x = (canvas.width - 487 * proportion) / 2 + 30 * proportion;
-    logo.y = (canvas.height - 190 * proportion) / 2 - 160 * proportion;
+    logo.x = (canvas.width - 445 * proportion) / 2;
+    logo.y = (canvas.height - 190 * proportion) / 2 - 200 * proportion;
     logo.scaleX = proportion;
     logo.scaleY = proportion;
 
