@@ -79,7 +79,8 @@ function main() {
 
     //构建显示对象的容器
     var container = new createjs.Container(),
-        container2 = new createjs.Container();
+        container2 = new createjs.Container(),
+        container3 = new createjs.Container();
 
     var btnContainer = new createjs.Container(),
         btn2Container = new createjs.Container(),
@@ -98,6 +99,12 @@ function main() {
         loadingbg = new createjs.Shape(),
         loadingsp = new createjs.Shape();
 
+    var page2background = new createjs.Bitmap(ossURL + "bg/6.jpg");
+    page2background.x = (canvas.width - 768 * proportion) / 2;
+    page2background.y = (canvas.height - 1024 * proportion) / 2;
+    page2background.scaleX = proportion * 768 / 375;
+    page2background.scaleY = proportion * 768 / 375;
+
     //加载loading 
     loadingbox.graphics.beginFill('#000').rr((canvas.width - 510 * proportion) / 2, (canvas.height - 922 *
         proportion) / 2, 510 * proportion, 22 * proportion, 11 * proportion);
@@ -113,6 +120,29 @@ function main() {
     var progressText = new createjs.Text("", "40px Arial", "#fff");
     progressText.y = (canvas.height - (progressText.getMeasuredHeight() + 900) * proportion) / 2 + 44 * proportion *
         1.5;
+
+    var mask = new createjs.Shape()
+    mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
+        proportion) / 2, 768 * proportion, 1024 * proportion, 22 * proportion);
+    mask.alpha = .3
+
+    var logo = new createjs.Bitmap(ossURL + "logo.png")
+    logo.x = (canvas.width - 379 * proportion) / 2 + 20 * proportion;
+    logo.y = (canvas.height - 148 * proportion) / 2 - 120 * proportion;
+    logo.scaleX = proportion;
+    logo.scaleY = proportion;
+
+    var loading_shuoming = new createjs.Bitmap(ossURL + "loading_shuoming.png");
+    loading_shuoming.x = (canvas.width - 603 * proportion) / 2;
+    loading_shuoming.y = (canvas.height - 0 * proportion) / 2; //503
+    loading_shuoming.scaleX = proportion;
+    loading_shuoming.scaleY = proportion;
+    loading_shuoming.alpha = 0
+    createjs.Tween.get(loading_shuoming)
+        .wait(200)
+        .to({
+            alpha: 1
+        }, 500);
 
     //定义相关JSON格式文件列表
     function setupManifest() {
@@ -195,7 +225,7 @@ function main() {
         preload.loadManifest(manifest);
     }
 
-    var mymusic, Sound_name, Sound_time = 0, Sound_position = 0, page2background;
+    var mymusic, Sound_name, Sound_time = 0, Sound_position = 0;
 
     function StartTime(e) {
         if (Sound_name != e) {
@@ -210,39 +240,8 @@ function main() {
     }
     //处理单个文件加载
     function handleFileLoad(event) {
-        if (event.item.id === "bg0") {
-            page2background = new createjs.Bitmap(ossURL + "bg/6.jpg");
-            page2background.x = (canvas.width - 768 * proportion) / 2;
-            page2background.y = (canvas.height - 1024 * proportion) / 2;
-            page2background.scaleX = proportion * 768 / 375;
-            page2background.scaleY = proportion * 768 / 375;
-
-            stage.addChild(page2background);
-        }
-
-        if (event.item.id === "bg20") {
-
-            var mask = new createjs.Shape()
-            mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
-                proportion) / 2, 768 * proportion, 1024 * proportion, 22 * proportion);
-            mask.alpha = .3
-
-            var logo = new createjs.Bitmap(ossURL + "logo.png")
-            logo.x = (canvas.width - 379 * proportion) / 2 + 20 * proportion;
-            logo.y = (canvas.height - 148 * proportion) / 2 - 120 * proportion;
-            logo.scaleX = proportion;
-            logo.scaleY = proportion;
-
-            var loading_shuoming = new createjs.Bitmap(preload.getResult("loading_shuoming"));
-            loading_shuoming.x = (canvas.width - 603 * proportion) / 2;
-            loading_shuoming.y = (canvas.height - 0 * proportion) / 2; //503
-            loading_shuoming.scaleX = proportion;
-            loading_shuoming.scaleY = proportion;
-
-            stage.addChild(mask, logo);
-            container2.addChild(loading_shuoming)
-        }
-        createjs.Ticker.addEventListener("tick", tickhandle);
+        console.log("正在加载")
+        console.log(event.item.id)
     }
 
     //处理加载错误：大家可以修改成错误的文件地址，可在控制台看到此方法调用
@@ -267,17 +266,20 @@ function main() {
             loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
                 .progress * 100 | 0);
         }
+        stage.addChild(page2background)
         container.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
-        stage.addChild(container, container2);
-        stage.update();
+        container2.addChild(mask, logo)
+        container3.addChild(loading_shuoming)
+        stage.addChild(container, container2, container3);
+        // createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
     //全度资源加载完毕
     function loadComplete(event) {
-        container2.removeAllChildren()
         console.log("已加载完毕全部资源");
         Animate_Conter_page2();
         container.removeAllChildren();
+        container3.removeAllChildren();
 
         var down_up = new createjs.Bitmap(ossURL + "down.png")
         down_up.x = (canvas.width - 50 * proportion + 20) / 2;
@@ -297,7 +299,7 @@ function main() {
         progressText.text = "向下滑动";
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         stage.addChild(progressText, down_up);
-        stage.update();
+        createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
     setupManifest();
