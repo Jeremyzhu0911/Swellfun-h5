@@ -211,7 +211,7 @@ function main() {
     //处理单个文件加载
     function handleFileLoad(event) {
         if (event.item.id === "bg0") {
-            page2background = new createjs.Bitmap(preload.getResult("bg0"));
+            page2background = new createjs.Bitmap(ossURL + "bg/6.jpg");
             page2background.x = (canvas.width - 768 * proportion) / 2;
             page2background.y = (canvas.height - 1024 * proportion) / 2;
             page2background.scaleX = proportion * 768 / 375;
@@ -221,32 +221,6 @@ function main() {
         }
 
         if (event.item.id === "bg20") {
-            var bg_img = new Array();
-            for (var i = 0; i < 8; i++) {
-                bg_img[i] = preload.getResult("bg" + i);
-            }
-
-            var bg_animate = new createjs.SpriteSheet({
-                "images": bg_img,
-                "frames": {
-                    width: 375,
-                    height: 500,
-                    spacing: 0,
-                    count: 8
-                },
-                "animations": {
-                    run: [0, 7, "end", 0.05],
-                    end: [7],
-                },
-                "framerate": 8
-            });
-
-            pagebackground = new createjs.Sprite(bg_animate, "run");
-            pagebackground.scaleX = proportion * 768 / 375;
-            pagebackground.scaleY = proportion * 768 / 375;
-            pagebackground.x = (canvas.width - bg_animate._frameWidth * proportion * 768 / 375) / 2;
-            pagebackground.y = (canvas.height - bg_animate._frameHeight * proportion * 768 / 375) / 2;
-            pagebackground.framerate = 16;
 
             var mask = new createjs.Shape()
             mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
@@ -265,7 +239,7 @@ function main() {
             loading_shuoming.scaleX = proportion;
             loading_shuoming.scaleY = proportion;
 
-            stage.addChild(pagebackground, mask, logo);
+            stage.addChild(mask, logo);
             container2.addChild(loading_shuoming)
         }
         createjs.Ticker.addEventListener("tick", tickhandle);
@@ -901,7 +875,7 @@ function main() {
             container.addChild(page2background, btn5Container, alert5Container);
         })
 
-        var startY, moveEndY, Y, img_count = 16, speed = 100, counts = 16, index = 0;
+        var startY, moveEndY, Y, img_count = 6, speed = 100, counts = 6, index = 0;
 
         function handleTouchstart(e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
