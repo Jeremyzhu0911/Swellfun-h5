@@ -75,9 +75,11 @@ function main() {
 
     var manifest;
     var preload;
+    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
 
     //构建显示对象的容器
-    var container = new createjs.Container();
+    var container = new createjs.Container(),
+        container2 = new createjs.Container();
 
     var btnContainer = new createjs.Container(),
         btn2Container = new createjs.Container(),
@@ -97,16 +99,20 @@ function main() {
         loadingsp = new createjs.Shape();
 
     //加载loading 
-    loadingbox.graphics.beginFill('#73033d').rr((canvas.width - 310 * proportion) / 2, (canvas.height - 22 *
-        proportion) / 2, 310 * proportion, 22 * proportion, 11 * proportion);
-    loadingbg.graphics.beginFill('#000').rr((canvas.width - 300 * proportion) / 2, (canvas.height - 17 *
-        proportion) / 2, 300 * proportion, 17 * proportion, 8.5 * proportion);
+    loadingbox.graphics.beginFill('#000').rr((canvas.width - 510 * proportion) / 2, (canvas.height - 922 *
+        proportion) / 2, 510 * proportion, 22 * proportion, 11 * proportion);
+    loadingbg.graphics.beginFill('#fff').rr((canvas.width - 500 * proportion) / 2, (canvas.height - 917 *
+        proportion) / 2, 500 * proportion, 17 * proportion, 8.5 * proportion);
+
+    var loading_logo = new createjs.Bitmap(ossURL + "loading_logo.png");
+    loading_logo.x = (canvas.width - 446 * proportion) / 2;
+    loading_logo.y = (canvas.height - 963 * proportion) / 2;
+    loading_logo.scaleX = proportion;
+    loading_logo.scaleY = proportion;
 
     var progressText = new createjs.Text("", "40px Arial", "#fff");
-    progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
+    progressText.y = (canvas.height - (progressText.getMeasuredHeight() + 900) * proportion) / 2 + 44 * proportion *
         1.5;
-
-    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
 
     //定义相关JSON格式文件列表
     function setupManifest() {
@@ -125,6 +131,9 @@ function main() {
         }, {
             src: ossURL + "down.png",
             id: "down"
+        }, {
+            src: ossURL + "loading_shuoming.png",
+            id: "loading_shuoming"
         }];
         for (var i = 0; i < fps_count; i++) {
             manifest.push({
@@ -186,7 +195,19 @@ function main() {
         preload.loadManifest(manifest);
     }
 
-    var mymusic, page2background;
+    var mymusic, Sound_name, Sound_time = 0, Sound_position = 0, page2background;
+
+    function StartTime(e) {
+        if (Sound_name != e) {
+            Sound_name = e;
+            Sound_position = 0
+        }
+    }
+    function PausedTime() {
+        Sound_position = parseInt(mymusic.position);
+        console.log(Sound_position)
+        // clearInterval(Sound_time)
+    }
     //处理单个文件加载
     function handleFileLoad(event) {
         if (event.item.id === "bg0") {
@@ -238,7 +259,14 @@ function main() {
             logo.scaleX = proportion;
             logo.scaleY = proportion;
 
+            var loading_shuoming = new createjs.Bitmap(preload.getResult("loading_shuoming"));
+            loading_shuoming.x = (canvas.width - 603 * proportion) / 2;
+            loading_shuoming.y = (canvas.height - 0 * proportion) / 2; //503
+            loading_shuoming.scaleX = proportion;
+            loading_shuoming.scaleY = proportion;
+
             stage.addChild(pagebackground, mask, logo);
+            container2.addChild(loading_shuoming)
         }
         createjs.Ticker.addEventListener("tick", tickhandle);
     }
@@ -254,20 +282,25 @@ function main() {
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         // console.log(ratio*canvas.width / 100 * (preload.progress * 100 | 0));
         if ((preload.progress * 100 | 0) > 10) {
-            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 300 * proportion) / 2, (canvas.height -
-                17 * proportion) / 2, 300 * proportion / 100 * (preload.progress * 100 | 0), 17 *
+            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 500 * proportion) / 2, (canvas.height -
+                917 * proportion) / 2, 500 * proportion / 100 * (preload.progress * 100 | 0), 17 *
             proportion, 8.5 * proportion);
         } else {
-            loadingsp.graphics.beginFill('#8d0657').rr((canvas.width - 300 * proportion) / 2, (canvas.height -
-                17 * proportion) / 2, 300 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
+            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 500 * proportion) / 2, (canvas.height -
+                917 * proportion) / 2, 500 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
         }
-        container.addChild(loadingbox, loadingbg, loadingsp, progressText);
-        stage.addChild(container);
+        if ((preload.progress * 100 | 0) > 15 && (preload.progress * 100 | 0) < 100) {
+            loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
+                .progress * 100 | 0);
+        }
+        container.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
+        stage.addChild(container, container2);
         stage.update();
     }
 
     //全度资源加载完毕
     function loadComplete(event) {
+        container2.removeAllChildren()
         console.log("已加载完毕全部资源");
         Animate_Conter_page2();
         container.removeAllChildren();
@@ -717,16 +750,19 @@ function main() {
 
         alert2playBtn.addEventListener("click", function () {
             mymusic.paused = false;
+            mymusic.position = Sound_position;
             alert2playBtn.alpha = 0;
             alert2stopBtn.alpha = 1;
             alert2ms.gotoAndPlay("run")
+
         })
 
         alert2stopBtn.addEventListener("click", function () {
             mymusic.paused = true;
             alert2playBtn.alpha = 1;
             alert2stopBtn.alpha = 0;
-            alert2ms.gotoAndPlay("end")
+            alert2ms.gotoAndPlay("end");
+            PausedTime()
         })
 
         alert4playBtn.addEventListener("click", function () {
@@ -741,6 +777,7 @@ function main() {
             alert4playBtn.alpha = 1;
             alert4stopBtn.alpha = 0;
             alert4ms.gotoAndPlay("end")
+            PausedTime()
         })
 
         alert5playBtn.addEventListener("click", function () {
@@ -755,6 +792,7 @@ function main() {
             alert5playBtn.alpha = 1;
             alert5stopBtn.alpha = 0;
             alert5ms.gotoAndPlay("end")
+            PausedTime()
         })
 
         closeBtn.addEventListener("click", function () {
@@ -766,7 +804,8 @@ function main() {
         })
 
         close2Btn.addEventListener("click", function () {
-            createjs.Sound.stop();
+            mymusic.paused = true;
+            PausedTime()
             container.removeAllChildren();
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
@@ -783,7 +822,8 @@ function main() {
         })
 
         close4Btn.addEventListener("click", function () {
-            createjs.Sound.stop();
+            mymusic.paused = true;
+            PausedTime()
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
@@ -792,7 +832,8 @@ function main() {
         })
 
         close5Btn.addEventListener("click", function () {
-            createjs.Sound.stop();
+            mymusic.paused = true;
+            PausedTime()
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
@@ -808,9 +849,11 @@ function main() {
         })
 
         btn2Container.addEventListener("click", function () {
+            StartTime('music1')
             mymusic = createjs.Sound.play("music1");
             mymusic.loop = -1;
             mymusic.paused = false;
+            mymusic.position = Sound_position;
             alert2playBtn.alpha = 0;
             alert2stopBtn.alpha = 1;
             alert2ms.gotoAndPlay("run")
@@ -829,9 +872,11 @@ function main() {
         })
 
         btn4Container.addEventListener("click", function () {
+            StartTime('music2')
             mymusic = createjs.Sound.play("music2");
             mymusic.loop = -1;
             mymusic.paused = false;
+            mymusic.position = Sound_position;
             alert4playBtn.alpha = 0;
             alert4stopBtn.alpha = 1;
             alert4ms.gotoAndPlay("run")
@@ -842,9 +887,11 @@ function main() {
         })
 
         btn5Container.addEventListener("click", function () {
+            StartTime('music3')
             mymusic = createjs.Sound.play("music3");
             mymusic.loop = -1;
             mymusic.paused = false;
+            mymusic.position = Sound_position;
             alert5playBtn.alpha = 0;
             alert5stopBtn.alpha = 1;
             alert5ms.gotoAndPlay("run")
