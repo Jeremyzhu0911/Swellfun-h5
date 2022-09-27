@@ -852,11 +852,11 @@ function main() {
             StartTime('music1')
             mymusic = createjs.Sound.play("music1");
             mymusic.loop = -1;
-            mymusic.paused = false;
+            mymusic.paused = true;
             mymusic.position = Sound_position;
-            alert2playBtn.alpha = 0;
-            alert2stopBtn.alpha = 1;
-            alert2ms.gotoAndPlay("run")
+            alert2playBtn.alpha = 1;
+            alert2stopBtn.alpha = 0;
+            alert2ms.gotoAndPlay("end")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
@@ -875,11 +875,11 @@ function main() {
             StartTime('music2')
             mymusic = createjs.Sound.play("music2");
             mymusic.loop = -1;
-            mymusic.paused = false;
+            mymusic.paused = true;
             mymusic.position = Sound_position;
-            alert4playBtn.alpha = 0;
-            alert4stopBtn.alpha = 1;
-            alert4ms.gotoAndPlay("run")
+            alert4playBtn.alpha = 1;
+            alert4stopBtn.alpha = 0;
+            alert4ms.gotoAndPlay("end")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
@@ -890,11 +890,11 @@ function main() {
             StartTime('music3')
             mymusic = createjs.Sound.play("music3");
             mymusic.loop = -1;
-            mymusic.paused = false;
+            mymusic.paused = true;
             mymusic.position = Sound_position;
-            alert5playBtn.alpha = 0;
-            alert5stopBtn.alpha = 1;
-            alert5ms.gotoAndPlay("run")
+            alert5playBtn.alpha = 1;
+            alert5stopBtn.alpha = 0;
+            alert5ms.gotoAndPlay("end")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
