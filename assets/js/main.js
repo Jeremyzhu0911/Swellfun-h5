@@ -44,7 +44,7 @@ function getViewPort() {
     viewHeight = window.innerHeight || document.documentElement.clientHeight;
     viewWidth = window.innerWidth || document.documentElement.clientWidth;
     document.body.style.width = viewWidth;
-    proportion = (viewWidth / 750);
+    proportion = (viewWidth / 765);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
 
@@ -99,11 +99,17 @@ function main() {
         loadingbg = new createjs.Shape(),
         loadingsp = new createjs.Shape();
 
-    var page2background = new createjs.Bitmap(ossURL + "bg/6.jpg");
-    page2background.x = (canvas.width - 768 * proportion) / 2;
-    page2background.y = (canvas.height - 1024 * proportion) / 2;
-    page2background.scaleX = proportion * 768 / 375;
-    page2background.scaleY = proportion * 768 / 375;
+    var pageTop = new createjs.Bitmap(ossURL + "page_top.png");
+    pageTop.x = (canvas.width - 636 * proportion) / 2;
+    pageTop.y = (canvas.height - 188 * proportion) / 2;
+    pageTop.scaleX = proportion;
+    pageTop.scaleY = proportion;
+
+    var pagebackground = new createjs.Bitmap(ossURL + "bg/6.jpg");
+    pagebackground.x = (canvas.width - 768 * proportion) / 2;
+    pagebackground.y = (canvas.height - 1024 * proportion) / 2;
+    pagebackground.scaleX = proportion * 768 / 375;
+    pagebackground.scaleY = proportion * 768 / 375;
 
     //加载loading 
     loadingbox.graphics.beginFill('#000').rr((canvas.width - 510 * proportion) / 2, (canvas.height - 922 *
@@ -123,12 +129,12 @@ function main() {
 
     var mask = new createjs.Shape()
     mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
-        proportion) / 2, 768 * proportion, 1024 * proportion, 22 * proportion);
+        proportion) / 2, 768 * proportion, 1024 * proportion, 0 * proportion);
     mask.alpha = .3
 
     var logo = new createjs.Bitmap(ossURL + "logo.png")
-    logo.x = (canvas.width - 379 * proportion) / 2 + 20 * proportion;
-    logo.y = (canvas.height - 148 * proportion) / 2 - 120 * proportion;
+    logo.x = (canvas.width - 487 * proportion) / 2 + 30 * proportion;
+    logo.y = (canvas.height - 190 * proportion) / 2 - 160 * proportion;
     logo.scaleX = proportion;
     logo.scaleY = proportion;
 
@@ -139,10 +145,10 @@ function main() {
     loading_shuoming.scaleY = proportion;
     loading_shuoming.alpha = 0
     createjs.Tween.get(loading_shuoming)
-        .wait(200)
+        .wait(500)
         .to({
             alpha: 1
-        }, 500);
+        }, 800);
 
     //定义相关JSON格式文件列表
     function setupManifest() {
@@ -266,11 +272,11 @@ function main() {
             loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
                 .progress * 100 | 0);
         }
-        stage.addChild(page2background)
+        stage.addChild(pagebackground)
         container.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
         container2.addChild(mask, logo)
         container3.addChild(loading_shuoming)
-        stage.addChild(container, container2, container3);
+        stage.addChild(container2, container, container3);
         // createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
@@ -282,10 +288,10 @@ function main() {
         container3.removeAllChildren();
 
         var down_up = new createjs.Bitmap(ossURL + "down.png")
-        down_up.x = (canvas.width - 50 * proportion + 20) / 2;
-        down_up.y = (canvas.height - 65 * proportion + 30) / 2;
-        down_up.scaleX = proportion / 2;
-        down_up.scaleY = proportion / 2;
+        down_up.x = (canvas.width - 50 * proportion) / 2;
+        down_up.y = (canvas.height - 65 * proportion) / 2;
+        down_up.scaleX = proportion;
+        down_up.scaleY = proportion;
         createjs.Tween.get(down_up, { loop: true })
             .wait(500)
             .to({
@@ -293,10 +299,11 @@ function main() {
                 alpha: 0
             }, 1000);
 
-        progressText = new createjs.Text("", "30px Arial", "#dadada");
-        progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 44 * proportion *
+        progressText = new createjs.Text("", "40px Arial", "#dadada");
+        progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 66 * proportion *
             1.5;
         progressText.text = "向下滑动";
+        progressText.shadow = new createjs.Shadow("#000000", 50, 50, 100)
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         stage.addChild(progressText, down_up);
         createjs.Ticker.addEventListener("tick", tickhandle);
@@ -776,7 +783,7 @@ function main() {
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
             container.removeAllChildren();
-            container.addChild(page2background, btnContainer);
+            container.addChild(pagebackground, btnContainer);
         })
 
         close2Btn.addEventListener("click", function () {
@@ -786,7 +793,7 @@ function main() {
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btn2Container);
+            container.addChild(pagebackground, btn2Container);
         })
 
         close3Btn.addEventListener("click", function () {
@@ -794,7 +801,7 @@ function main() {
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
             container.removeAllChildren();
-            container.addChild(page2background, btn3Container);
+            container.addChild(pagebackground, btn3Container);
         })
 
         close4Btn.addEventListener("click", function () {
@@ -804,7 +811,7 @@ function main() {
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
             container.removeAllChildren();
-            container.addChild(page2background, btn4Container);
+            container.addChild(pagebackground, btn4Container);
         })
 
         close5Btn.addEventListener("click", function () {
@@ -814,14 +821,14 @@ function main() {
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
             container.removeAllChildren();
-            container.addChild(page2background, btn5Container);
+            container.addChild(pagebackground, btn5Container);
         })
 
         btnContainer.addEventListener("click", function () {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btnContainer, alertContainer);
+            container.addChild(pagebackground, btnContainer, alertContainer);
         })
 
         btn2Container.addEventListener("click", function () {
@@ -836,7 +843,7 @@ function main() {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btn2Container, alert2Container);
+            container.addChild(pagebackground, btn2Container, alert2Container);
         })
 
         btn3Container.addEventListener("click", function () {
@@ -844,7 +851,7 @@ function main() {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btn3Container, alert3Container);
+            container.addChild(pagebackground, btn3Container, alert3Container);
         })
 
         btn4Container.addEventListener("click", function () {
@@ -859,7 +866,7 @@ function main() {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btn4Container, alert4Container);
+            container.addChild(pagebackground, btn4Container, alert4Container);
         })
 
         btn5Container.addEventListener("click", function () {
@@ -874,7 +881,7 @@ function main() {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(page2background, btn5Container, alert5Container);
+            container.addChild(pagebackground, btn5Container, alert5Container);
         })
 
         var startY, moveEndY, Y, img_count = 6, speed = 100, counts = 6, index = 0;
@@ -900,13 +907,13 @@ function main() {
             console.log(counts)
             if (Math.sign(counts) === 1) {
                 if (counts > 0 && counts < fps_count) {
-                    page2background = new createjs.Bitmap(preload.getResult("bg" + counts));
-                    page2background.x = (canvas.width - 768 * proportion) / 2;
-                    page2background.y = (canvas.height - 1024 * proportion) / 2;
-                    page2background.scaleX = proportion * 768 / 375;
-                    page2background.scaleY = proportion * 768 / 375;
+                    pagebackground = new createjs.Bitmap(preload.getResult("bg" + counts));
+                    pagebackground.x = (canvas.width - 768 * proportion) / 2;
+                    pagebackground.y = (canvas.height - 1024 * proportion) / 2;
+                    pagebackground.scaleX = proportion * 768 / 375;
+                    pagebackground.scaleY = proportion * 768 / 375;
                     if (counts > 87 && counts < 91) {
-                        container.addChild(page2background, btnContainer);
+                        container.addChild(pagebackground, btnContainer);
                         if (index === 0) {
                             handleTouchend()
                             canvas.removeEventListener("touchstart", handleTouchstart)
@@ -916,7 +923,7 @@ function main() {
                         }
 
                     } else if (counts > 100 && counts < 102) {
-                        container.addChild(page2background, btn2Container);
+                        container.addChild(pagebackground, btn2Container);
                         if (index === 1) {
                             handleTouchend()
                             canvas.removeEventListener("touchstart", handleTouchstart)
@@ -925,7 +932,7 @@ function main() {
                             index += 1
                         }
                     } else if (counts > 102 && counts < 105) {
-                        container.addChild(page2background, btn3Container);
+                        container.addChild(pagebackground, btn3Container);
                         if (index === 2) {
                             handleTouchend()
                             canvas.removeEventListener("touchstart", handleTouchstart)
@@ -934,7 +941,7 @@ function main() {
                             index += 1
                         }
                     } else if (counts > 124 && counts < 127) {
-                        container.addChild(page2background, btn4Container);
+                        container.addChild(pagebackground, btn4Container);
                         if (index === 3) {
                             handleTouchend()
                             canvas.removeEventListener("touchstart", handleTouchstart)
@@ -943,7 +950,7 @@ function main() {
                             index += 1
                         }
                     } else if (counts > 194 && counts < 196) {
-                        container.addChild(page2background, btn5Container);
+                        container.addChild(pagebackground, btn5Container);
                         if (index === 4) {
                             handleTouchend()
                             canvas.removeEventListener("touchstart", handleTouchstart)
@@ -952,20 +959,20 @@ function main() {
                             index += 1
                         }
                     } else {
-                        container.addChild(page2background);
+                        container.addChild(pagebackground);
                     }
                 } else {
                     counts = fps_count
-                    container.addChild(page2background);
+                    container.addChild(pagebackground);
                     // console.log(parseInt(img_count + Y / speed))
                 }
             } else {
-                page2background = new createjs.Bitmap(preload.getResult("bg1"));
-                page2background.x = (canvas.width - 768 * proportion) / 2;
-                page2background.y = (canvas.height - 1024 * proportion) / 2;
-                page2background.scaleX = proportion * 768 / 375;
-                page2background.scaleY = proportion * 768 / 375;
-                container.addChild(page2background);
+                pagebackground = new createjs.Bitmap(preload.getResult("bg1"));
+                pagebackground.x = (canvas.width - 768 * proportion) / 2;
+                pagebackground.y = (canvas.height - 1024 * proportion) / 2;
+                pagebackground.scaleX = proportion * 768 / 375;
+                pagebackground.scaleY = proportion * 768 / 375;
+                container.addChild(pagebackground);
             }
 
             stage.addChild(container);
