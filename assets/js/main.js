@@ -101,9 +101,8 @@ function main() {
         1.5;
 
     var mask = new createjs.Shape()
-    mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
-        proportion) / 2, 768 * proportion, 1024 * proportion, 0 * proportion);
-    mask.alpha = .3
+    mask.graphics.beginFill("#000").rr(0, 0, canvas.width, canvas.height, 0);
+    mask.alpha = .5
 
     var logo = new createjs.Bitmap(ossURL + "logo.png")
     logo.x = (canvas.width - 445 * proportion) / 2;
@@ -236,7 +235,7 @@ function main() {
         container.removeAllChildren();
         container3.removeAllChildren();
 
-        var down_up = new createjs.Bitmap(ossURL + "down.png")
+        var down_up = new createjs.Bitmap(preload.getResult("down"))
         down_up.x = (canvas.width - 50 * proportion) / 2;
         down_up.y = (canvas.height - 65 * proportion) / 2;
         down_up.scaleX = proportion;
@@ -245,7 +244,7 @@ function main() {
             .to({
                 y: (canvas.height - 65 * proportion + 60) / 2,
                 alpha: 0
-            }, 1000);
+            }, 800);
 
         progressText = new createjs.Text("", "40px Arial", "#dadada");
         progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 66 * proportion *
@@ -254,6 +253,28 @@ function main() {
         progressText.shadow = new createjs.Shadow("#000000", 50, 50, 100)
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         stage.addChild(progressText, down_up);
+
+        // var spriteSheet = new createjs.SpriteSheet({
+        //     framerate: 30,
+        //     "images": ["./assets/images/tip_icon_down_up.png"],
+        //     "frames": { "regX": 0, "height": 300, "count": 25, "regY": 0, "width": 160 },
+        //     // define two animations, run (loops, 1.5x speed) and jump (returns to run):
+        //     "animations": {
+        //         "run": [0, 24, "run", 0.7],
+        //         "jump": [26, 63, "run"]
+        //     }
+        // });
+        // var grant = new createjs.Sprite(spriteSheet, "run");
+        // grant.x = (canvas.width - 160 * proportion) / 2;
+        // grant.y = (canvas.height - 150 * proportion) / 2;
+        // grant.scaleX = proportion;
+        // grant.scaleY = proportion;
+
+        // progressText = new createjs.Text("", "36px Arial", "#fff");
+        // progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 10 * proportion;
+        // progressText.text = "上\n滑\n解\n锁\n剧\n情";
+        // progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2 + 30 * proportion;
+        // stage.addChild(progressText, grant);
         createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
@@ -839,6 +860,8 @@ function main() {
         }
 
         function handleTouchmove(e) {
+
+            container2.removeAllChildren();
             container.removeAllChildren();
             console.log("滑动距离")
             moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
