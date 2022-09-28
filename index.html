@@ -20,12 +20,16 @@
     <div class="conter">
         <canvas id="Canvas" width="765" height="1024"></canvas>
     </div>
-
-    <div class="alert">
-
-    </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/createjs.min.js"></script>
-    <script type="text/javascript" src="assets/js/main.js?ver=123123"></script>
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/createjs.min.js"></script>
+    <script type="text/javascript" src="assets/js/main.js"></script>
+    <script>
+        var scripts = document.getElementsByTagName("script");
+        for (var i = 0; i < scripts.length; i++) {
+            if (scripts[i].src) {
+                scripts[i].src = scripts[i].src + "?v=" + new Date().getTime();
+            }
+        }
+    </script>
 </body>
 </html>

@@ -78,7 +78,7 @@ function main() {
     // background.scaleX = canvas.width / 750;
     // background.scaleY = canvas.width / 750;
 
-    var pagebackground = new createjs.Bitmap(ossURL + "bg/9.jpg");
+    var pagebackground = new createjs.Bitmap(ossURL + "bg/6.jpg");
     pagebackground.x = (canvas.width - 768 * proportion) / 2;
     pagebackground.y = (canvas.height - 1024 * proportion) / 2;
     pagebackground.scaleX = proportion * 768 / 375;
@@ -156,40 +156,15 @@ function main() {
                 id: 'btn' + i
             })
         };
-        // for (var i = 1; i < 6; i++) {
-        //     manifest.push({
-        //         src: ossURL + "alert" + i + ".png",
-        //         id: 'alert' + i
-        //     })
-        // };
 
         manifest.push({
             src: ossURL + "music/music2.mp3",
             id: "music2"
         })
-        // for (var i = 0; i < 251; i++) {
-        //     manifest.push({
-        //         src: ossURL + "lizi2/" + i + ".png",
-        //         id: 'lizi' + i
-        //     })
-        // };
         manifest.push({
             src: ossURL + "music/music3.mp3",
             id: "music3"
         })
-        // for (var i = 0; i < 9; i++) {
-        //     manifest.push({
-        //         // src: ossURL + "num/" + i + ".png",
-        //         src: ossURL + "num/" + i + ".png",
-        //         id: 'num' + i
-        //     })
-        // };
-        // for (var i = 1; i < 75; i++) {
-        //     manifest.push({
-        //         src: ossURL + "ms/" + i + ".png",
-        //         id: 'ms' + i
-        //     })
-        // };
     }
 
     //开始预加载
@@ -857,7 +832,7 @@ function main() {
             container.addChild(pagebackground, btn5Container, alert5Container);
         })
 
-        var startY, moveEndY, Y, img_count = 0, speed = 100, counts = 0, index = 0;
+        var startY, moveEndY, Y, img_count = 6, speed = 100, counts = 6, index = 0;
 
         function handleTouchstart(e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
