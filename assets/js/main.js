@@ -16,7 +16,7 @@ function getViewPort() {
     viewHeight = window.innerHeight || document.documentElement.clientHeight;
     viewWidth = window.innerWidth || document.documentElement.clientWidth;
     document.body.style.width = viewWidth;
-    proportion = (viewWidth / 750);
+    proportion = (viewWidth / 765);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
 }
@@ -78,42 +78,42 @@ function main() {
     // background.scaleX = canvas.width / 750;
     // background.scaleY = canvas.width / 750;
 
-    var pagebackground = new createjs.Bitmap(ossURL + "bg/6.jpg");
+    var pagebackground = new createjs.Bitmap(ossURL + "bg/9.jpg");
     pagebackground.x = (canvas.width - 768 * proportion) / 2;
     pagebackground.y = (canvas.height - 1024 * proportion) / 2;
     pagebackground.scaleX = proportion * 768 / 375;
     pagebackground.scaleY = proportion * 768 / 375;
 
     //加载loading 
-    loadingbox.graphics.beginFill('#000').rr((canvas.width - 510 * proportion) / 2, (canvas.height - 922 *
-        proportion) / 2, 510 * proportion, 22 * proportion, 11 * proportion);
-    loadingbg.graphics.beginFill('#fff').rr((canvas.width - 500 * proportion) / 2, (canvas.height - 917 *
-        proportion) / 2, 500 * proportion, 17 * proportion, 8.5 * proportion);
+    loadingbox.graphics.beginFill('#000').rr((canvas.width - 445 * proportion) / 2, (canvas.height - 712 *
+        proportion) / 2, 445 * proportion, 22 * proportion, 11 * proportion);
+    loadingbg.graphics.beginFill('#fff').rr((canvas.width - 435 * proportion) / 2, (canvas.height - 707 *
+        proportion) / 2, 435 * proportion, 17 * proportion, 8.5 * proportion);
 
     var loading_logo = new createjs.Bitmap(ossURL + "loading_logo.png");
     loading_logo.x = (canvas.width - 446 * proportion) / 2;
-    loading_logo.y = (canvas.height - 963 * proportion) / 2;
+    loading_logo.y = (canvas.height - 753 * proportion) / 2;
     loading_logo.scaleX = proportion;
     loading_logo.scaleY = proportion;
 
     var progressText = new createjs.Text("", "40px Arial", "#fff");
-    progressText.y = (canvas.height - (progressText.getMeasuredHeight() + 900) * proportion) / 2 + 44 * proportion *
+    progressText.y = (canvas.height - (progressText.getMeasuredHeight() + 730) * proportion) / 2 + 44 * proportion *
         1.5;
 
     var mask = new createjs.Shape()
-    mask.graphics.beginFill("#000").rr((canvas.width - 750 * proportion) / 2, (canvas.height - 1624 *
-        proportion) / 2, 750 * proportion, 1624 * proportion, 0 * proportion);
+    mask.graphics.beginFill("#000").rr((canvas.width - 768 * proportion) / 2, (canvas.height - 1024 *
+        proportion) / 2, 768 * proportion, 1024 * proportion, 0 * proportion);
     mask.alpha = .3
 
     var logo = new createjs.Bitmap(ossURL + "logo.png")
     logo.x = (canvas.width - 445 * proportion) / 2;
-    logo.y = (canvas.height - 190 * proportion) / 2 - 200 * proportion;
+    logo.y = (canvas.height - 500 * proportion) / 2; //190
     logo.scaleX = proportion;
     logo.scaleY = proportion;
 
     var loading_shuoming = new createjs.Bitmap(ossURL + "loading_shuoming.png");
-    loading_shuoming.x = (canvas.width - 603 * proportion) / 2;
-    loading_shuoming.y = (canvas.height - 0 * proportion) / 2; //503
+    loading_shuoming.x = (canvas.width - 460 * proportion) / 2;
+    loading_shuoming.y = (canvas.height - 33 * proportion) / 2; //383
     loading_shuoming.scaleX = proportion;
     loading_shuoming.scaleY = proportion;
     loading_shuoming.alpha = 0
@@ -234,14 +234,14 @@ function main() {
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
         // console.log(ratio*canvas.width / 100 * (preload.progress * 100 | 0));
         if ((preload.progress * 100 | 0) > 10) {
-            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 500 * proportion) / 2, (canvas.height -
-                917 * proportion) / 2, 500 * proportion / 100 * (preload.progress * 100 | 0), 17 *
+            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion) / 2, (canvas.height -
+                707 * proportion) / 2, 435 * proportion / 100 * (preload.progress * 100 | 0), 17 *
             proportion, 8.5 * proportion);
         } else {
-            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 500 * proportion) / 2, (canvas.height -
-                917 * proportion) / 2, 500 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
+            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion) / 2, (canvas.height -
+                707 * proportion) / 2, 435 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
         }
-        if ((preload.progress * 100 | 0) > 15 && (preload.progress * 100 | 0) < 100) {
+        if ((preload.progress * 100 | 0) > 10 && (preload.progress * 100 | 0) < 95) {
             loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
                 .progress * 100 | 0);
         }
@@ -857,7 +857,7 @@ function main() {
             container.addChild(pagebackground, btn5Container, alert5Container);
         })
 
-        var startY, moveEndY, Y, img_count = 6, speed = 100, counts = 6, index = 0;
+        var startY, moveEndY, Y, img_count = 0, speed = 100, counts = 0, index = 0;
 
         function handleTouchstart(e) {
             startY = e.changedTouches[0].clientY - canvas.offsetTop;
