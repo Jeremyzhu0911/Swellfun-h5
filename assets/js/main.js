@@ -16,7 +16,7 @@ function getViewPort() {
     viewHeight = window.innerHeight || document.documentElement.clientHeight;
     viewWidth = window.innerWidth || document.documentElement.clientWidth;
     document.body.style.width = viewWidth;
-    proportion = (viewWidth / 765);
+    proportion = (viewWidth / 375);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
 }
@@ -39,6 +39,8 @@ function main() {
     var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
 
     //构建显示对象的容器
+    var loadingContainer = new createjs.Container();
+
     var container = new createjs.Container(),
         container2 = new createjs.Container(),
         container3 = new createjs.Container();
@@ -55,36 +57,29 @@ function main() {
         alert4Container = new createjs.Container(),
         alert5Container = new createjs.Container();
 
+    /**
+     * 基础动画 - 定位
+     * 粮食槽
+     * 磨盘
+     */
 
+    var liangshicao = new createjs.Bitmap("./assets/images/liangshicao.png");
+    liangshicao.x = (canvas.width - 426 * proportion) / 2;
+    liangshicao.y = 500;
+    liangshicao.scaleX = proportion;
+    liangshicao.scaleY = proportion;
+
+    var mopan = new createjs.Bitmap("./assets/images/mopan.png");
+    mopan.x = (canvas.width - 237 * proportion) / 2;
+    mopan.y = 3000;
+    mopan.scaleX = proportion;
+    mopan.scaleY = proportion;
+
+    //加载loading 
     var loadingbox = new createjs.Shape(),
         loadingbg = new createjs.Shape(),
         loadingsp = new createjs.Shape();
 
-    // var pageTop = new createjs.Bitmap(ossURL + "page_top.png");
-    // pageTop.x = (canvas.width - 750 * proportion) / 2;
-    // pageTop.y = canvas.height >= 1024 ? 0 : -222 * proportion;
-    // pageTop.scaleX = canvas.width / 750;
-    // pageTop.scaleY = canvas.width / 750;
-
-    // var pageBottom = new createjs.Bitmap(ossURL + "page_bottom.png");
-    // pageBottom.x = (canvas.width - 750 * proportion) / 2;
-    // pageBottom.y = canvas.height > 1024 ? (canvas.height - 204 * proportion) : canvas.height;
-    // pageBottom.scaleX = canvas.width / 750;
-    // pageBottom.scaleY = canvas.width / 750;
-
-    // var background = new createjs.Bitmap("./assets/images/background.jpg");
-    // background.x = (canvas.width - 750 * proportion) / 2;
-    // background.y = (canvas.height - 1624 * proportion) / 2;
-    // background.scaleX = canvas.width / 750;
-    // background.scaleY = canvas.width / 750;
-
-    var pagebackground = new createjs.Bitmap(ossURL + "bg/6.jpg");
-    pagebackground.x = (canvas.width - 768 * proportion) / 2;
-    pagebackground.y = (canvas.height - 1024 * proportion) / 2;
-    pagebackground.scaleX = proportion * 768 / 375;
-    pagebackground.scaleY = proportion * 768 / 375;
-
-    //加载loading 
     loadingbox.graphics.beginFill('#000').rr((canvas.width - 445 * proportion) / 2, (canvas.height - 712 *
         proportion) / 2, 445 * proportion, 22 * proportion, 11 * proportion);
     loadingbg.graphics.beginFill('#fff').rr((canvas.width - 435 * proportion) / 2, (canvas.height - 707 *
@@ -104,66 +99,19 @@ function main() {
     mask.graphics.beginFill("#000").rr(0, 0, canvas.width, canvas.height, 0);
     mask.alpha = .5
 
-    var logo = new createjs.Bitmap(ossURL + "logo.png")
-    logo.x = (canvas.width - 445 * proportion) / 2;
-    logo.y = (canvas.height - 500 * proportion) / 2; //190
-    logo.scaleX = proportion;
-    logo.scaleY = proportion;
-
-    var loading_shuoming = new createjs.Bitmap(ossURL + "loading_shuoming.png");
-    loading_shuoming.x = (canvas.width - 460 * proportion) / 2;
-    loading_shuoming.y = (canvas.height - 33 * proportion) / 2; //383
-    loading_shuoming.scaleX = proportion;
-    loading_shuoming.scaleY = proportion;
-    loading_shuoming.alpha = 0
-    createjs.Tween.get(loading_shuoming)
-        .wait(500)
-        .to({
-            alpha: 1
-        }, 800);
-
     //定义相关JSON格式文件列表
     function setupManifest() {
         manifest = [{
             src: ossURL + "close.png",
             id: "closeBtn"
-        }, {
-            src: ossURL + "music/music1.mp3",
-            id: "music1"
-        }, {
-            src: ossURL + "play.png",
-            id: "play"
-        }, {
-            src: ossURL + "stop.png",
-            id: "stop"
-        }, {
-            src: ossURL + "down.png",
-            id: "down"
-        }, {
-            src: ossURL + "loading_shuoming.png",
-            id: "loading_shuoming"
         }];
-        for (var i = 0; i < fps_count; i++) {
-            manifest.push({
-                src: ossURL + "bg/" + i + ".jpg",
-                id: 'bg' + i
-            })
-        };
+
         for (var i = 1; i < 3; i++) {
             manifest.push({
                 src: ossURL + "click_" + i + ".png",
                 id: 'btn' + i
             })
         };
-
-        manifest.push({
-            src: ossURL + "music/music2.mp3",
-            id: "music2"
-        })
-        manifest.push({
-            src: ossURL + "music/music3.mp3",
-            id: "music3"
-        })
     }
 
     //开始预加载
@@ -220,534 +168,612 @@ function main() {
                 .progress * 100 | 0);
         }
         // stage.addChild(background, pagebackground, pageTop, pageBottom)
-        stage.addChild(pagebackground)
-        container.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
-        container2.addChild(mask, logo)
-        container3.addChild(loading_shuoming)
-        stage.addChild(container2, container, container3);
+        container.addChild(liangshicao)
+        loadingContainer.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
+        stage.addChild(container, loadingContainer);
         // createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
     //全度资源加载完毕
     function loadComplete(event) {
         console.log("已加载完毕全部资源");
-        Animate_Conter_page2();
-        container.removeAllChildren();
-        container3.removeAllChildren();
 
-        var down_up = new createjs.Bitmap(preload.getResult("down"))
-        down_up.x = (canvas.width - 50 * proportion) / 2;
-        down_up.y = (canvas.height - 65 * proportion) / 2;
-        down_up.scaleX = proportion;
-        down_up.scaleY = proportion;
-        createjs.Tween.get(down_up, { loop: true })
-            .to({
-                y: (canvas.height - 65 * proportion + 60) / 2,
-                alpha: 0
-            }, 800);
+        loadingContainer.removeAllChildren();
 
-        progressText = new createjs.Text("", "40px Arial", "#dadada");
-        progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 66 * proportion *
-            1.5;
-        progressText.text = "向下滑动";
-        progressText.shadow = new createjs.Shadow("#000000", 50, 50, 100)
-        progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
-        stage.addChild(progressText, down_up);
-
-        // var spriteSheet = new createjs.SpriteSheet({
-        //     framerate: 30,
-        //     "images": ["./assets/images/tip_icon_down_up.png"],
-        //     "frames": { "regX": 0, "height": 300, "count": 25, "regY": 0, "width": 160 },
-        //     // define two animations, run (loops, 1.5x speed) and jump (returns to run):
-        //     "animations": {
-        //         "run": [0, 24, "run", 0.7],
-        //         "jump": [26, 63, "run"]
-        //     }
-        // });
-        // var grant = new createjs.Sprite(spriteSheet, "run");
-        // grant.x = (canvas.width - 160 * proportion) / 2;
-        // grant.y = (canvas.height - 150 * proportion) / 2;
-        // grant.scaleX = proportion;
-        // grant.scaleY = proportion;
-
-        // progressText = new createjs.Text("", "36px Arial", "#fff");
-        // progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 10 * proportion;
-        // progressText.text = "上\n滑\n解\n锁\n剧\n情";
-        // progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2 + 30 * proportion;
-        // stage.addChild(progressText, grant);
         createjs.Ticker.addEventListener("tick", tickhandle);
+
+        Animate_Conter();
     }
 
     setupManifest();
     startPreload();
 
 
-    function Animate_Conter_page2() {
-        /**
-         * 第一个按钮
-         */
-
-        var btn = new createjs.Bitmap(preload.getResult("btn1"))
-        btn.x = (canvas.width - 169 * proportion - 200 * proportion) / 2;
-        btn.y = (canvas.height - 169 * proportion + 230 * proportion) / 2;
-        btn.scaleX = proportion / 3;
-        btn.scaleY = proportion / 3;
-
-        var btn_shou = new createjs.Bitmap(preload.getResult("btn2"))
-        btn_shou.x = (canvas.width - 175 * proportion - 90 * proportion) / 2;
-        btn_shou.y = (canvas.height - 230 * proportion + 400 * proportion) / 2;
-        btn_shou.scaleX = proportion / 3;
-        btn_shou.scaleY = proportion / 3;
-        createjs.Tween.get(btn_shou, { loop: true })
-            .wait(500)
-            .to({
-                x: (canvas.width - 175 * proportion - 140 * proportion) / 2,
-                y: (canvas.height - 230 * proportion + 350 * proportion) / 2
-            }, 1000);
-
-        var btnText = new createjs.Text("点击查看知识点", "25px Arial", "#000");
-        btnText.y = (canvas.height - btnText.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-            1.5 + 150 * proportion;
-        btnText.x = canvas.width / 2 - btnText.getMeasuredWidth() / 2 - 90 * proportion;
-        createjs.Tween.get(btnText, { loop: true })
-            .wait(500)
-            .to({
-                x: canvas.width / 2 - btnText.getMeasuredWidth() / 2 - 120 * proportion,
-                y: (canvas.height - btnText.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-                    1.5 + 120 * proportion
-            }, 1000);
-
-        btnContainer.addChild(btn, btn_shou, btnText);
+    function Animate_Conter() {
 
         /**
-         * 第二个按钮
+         * 粮食粒子
          */
-
-        var btn2 = new createjs.Bitmap(preload.getResult("btn1"))
-        btn2.x = (canvas.width - 169 * proportion + 450 * proportion) / 2;
-        btn2.y = (canvas.height - 169 * proportion + 230 * proportion) / 2;
-        btn2.scaleX = proportion / 3;
-        btn2.scaleY = proportion / 3;
-
-        var btn_shou2 = new createjs.Bitmap(preload.getResult("btn2"))
-        btn_shou2.x = (canvas.width - 175 * proportion + 550 * proportion) / 2;
-        btn_shou2.y = (canvas.height - 230 * proportion + 400 * proportion) / 2;
-        btn_shou2.scaleX = proportion / 3;
-        btn_shou2.scaleY = proportion / 3;
-        createjs.Tween.get(btn_shou2, { loop: true })
-            .wait(500)
-            .to({
-                x: (canvas.width - 175 * proportion + 500 * proportion) / 2,
-                y: (canvas.height - 230 * proportion + 350 * proportion) / 2
-            }, 1000);
-
-        var btnText2 = new createjs.Text("点击查看知识点", "25px Arial", "#000");
-        btnText2.y = (canvas.height - btnText2.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-            1.5 + 150 * proportion;
-        btnText2.x = canvas.width / 2 - btnText2.getMeasuredWidth() / 2 + 220 * proportion;
-        createjs.Tween.get(btnText2, { loop: true })
-            .wait(500)
-            .to({
-                x: canvas.width / 2 - btnText2.getMeasuredWidth() / 2 + 190 * proportion,
-                y: (canvas.height - btnText2.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-                    1.5 + 120 * proportion
-            }, 1000);
-
-        btn2Container.addChild(btn2, btn_shou2, btnText2);
-
-        /**
-         * 第三个按钮
-         */
-
-        var btn3 = new createjs.Bitmap(preload.getResult("btn1"))
-        btn3.x = (canvas.width - 169 * proportion + 450 * proportion) / 2;
-        btn3.y = (canvas.height - 169 * proportion + 230 * proportion) / 2;
-        btn3.scaleX = proportion / 3;
-        btn3.scaleY = proportion / 3;
-
-        var btn_shou3 = new createjs.Bitmap(preload.getResult("btn2"))
-        btn_shou3.x = (canvas.width - 175 * proportion + 550 * proportion) / 2;
-        btn_shou3.y = (canvas.height - 230 * proportion + 400 * proportion) / 2;
-        btn_shou3.scaleX = proportion / 3;
-        btn_shou3.scaleY = proportion / 3;
-        createjs.Tween.get(btn_shou3, { loop: true })
-            .wait(500)
-            .to({
-                x: (canvas.width - 175 * proportion + 500 * proportion) / 2,
-                y: (canvas.height - 230 * proportion + 350 * proportion) / 2
-            }, 1000);
-
-        var btnText3 = new createjs.Text("点击查看知识点", "25px Arial", "#000");
-        btnText3.y = (canvas.height - btnText3.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-            1.5 + 150 * proportion;
-        btnText3.x = canvas.width / 2 - btnText3.getMeasuredWidth() / 2 + 220 * proportion;
-        createjs.Tween.get(btnText3, { loop: true })
-            .wait(500)
-            .to({
-                x: canvas.width / 2 - btnText3.getMeasuredWidth() / 2 + 190 * proportion,
-                y: (canvas.height - btnText3.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-                    1.5 + 120 * proportion
-            }, 1000);
-
-        btn3Container.addChild(btn3, btn_shou3, btnText3);
-
-        /**
-         * 第四个按钮
-         */
-
-        var btn4 = new createjs.Bitmap(preload.getResult("btn1"))
-        btn4.x = (canvas.width - 169 * proportion + 450 * proportion) / 2;
-        btn4.y = (canvas.height - 169 * proportion + 230 * proportion) / 2;
-        btn4.scaleX = proportion / 3;
-        btn4.scaleY = proportion / 3;
-
-        var btn_shou4 = new createjs.Bitmap(preload.getResult("btn2"))
-        btn_shou4.x = (canvas.width - 175 * proportion + 550 * proportion) / 2;
-        btn_shou4.y = (canvas.height - 230 * proportion + 400 * proportion) / 2;
-        btn_shou4.scaleX = proportion / 3;
-        btn_shou4.scaleY = proportion / 3;
-        createjs.Tween.get(btn_shou4, { loop: true })
-            .wait(500)
-            .to({
-                x: (canvas.width - 175 * proportion + 500 * proportion) / 2,
-                y: (canvas.height - 230 * proportion + 350 * proportion) / 2
-            }, 1000);
-
-        var btnText4 = new createjs.Text("点击查看知识点", "25px Arial", "#000");
-        btnText4.y = (canvas.height - btnText4.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-            1.5 + 150 * proportion;
-        btnText4.x = canvas.width / 2 - btnText4.getMeasuredWidth() / 2 + 220 * proportion;
-        createjs.Tween.get(btnText4, { loop: true })
-            .wait(500)
-            .to({
-                x: canvas.width / 2 - btnText4.getMeasuredWidth() / 2 + 190 * proportion,
-                y: (canvas.height - btnText4.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-                    1.5 + 120 * proportion
-            }, 1000);
-
-        btn4Container.addChild(btn4, btn_shou4, btnText4);
-
-        /**
-         * 第五个按钮
-         */
-
-        var btn5 = new createjs.Bitmap(preload.getResult("btn1"))
-        btn5.x = (canvas.width - 169 * proportion + 130 * proportion) / 2;
-        btn5.y = (canvas.height - 169 * proportion + 200 * proportion) / 2;
-        btn5.scaleX = proportion / 3;
-        btn5.scaleY = proportion / 3;
-
-        var btn_shou5 = new createjs.Bitmap(preload.getResult("btn2"))
-        btn_shou5.x = (canvas.width - 175 * proportion + 230 * proportion) / 2;
-        btn_shou5.y = (canvas.height - 230 * proportion + 360 * proportion) / 2;
-        btn_shou5.scaleX = proportion / 3;
-        btn_shou5.scaleY = proportion / 3;
-        createjs.Tween.get(btn_shou5, { loop: true })
-            .wait(500)
-            .to({
-                x: (canvas.width - 175 * proportion + 190 * proportion) / 2,
-                y: (canvas.height - 230 * proportion + 320 * proportion) / 2
-            }, 1000);
-
-        var btnText5 = new createjs.Text("点击查看知识点", "25px Arial", "#000");
-        btnText5.y = (canvas.height - btnText5.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-            1.5 + 130 * proportion;
-        btnText5.x = canvas.width / 2 - btnText5.getMeasuredWidth() / 2 + 80 * proportion;
-        createjs.Tween.get(btnText5, { loop: true })
-            .wait(500)
-            .to({
-                x: canvas.width / 2 - btnText5.getMeasuredWidth() / 2 + 60 * proportion,
-                y: (canvas.height - btnText5.getMeasuredHeight() * proportion) / 2 + 25 * proportion *
-                    1.5 + 110 * proportion
-            }, 1000);
-
-        btn5Container.addChild(btn5, btn_shou5, btnText5);
-
-        /**
-         * 第一个按钮
-         * 弹窗
-         */
-
-        var alertImg = new createjs.Bitmap(ossURL + "alert1.png");
-        alertImg.x = (canvas.width - 768 * proportion) / 2;
-        alertImg.y = (canvas.height - 1024 * proportion) / 2;
-        alertImg.scaleX = proportion;
-        alertImg.scaleY = proportion;
-
-        var closeBtn = new createjs.Bitmap(preload.getResult("closeBtn"));
-        closeBtn.x = (canvas.width - 57 * proportion + 380 * proportion) / 2;
-        closeBtn.y = (canvas.height - 56 * proportion - 560 * proportion) / 2;
-        closeBtn.scaleX = proportion;
-        closeBtn.scaleY = proportion;
-
-        alertContainer.addChild(alertImg, closeBtn)
-
-        /**
-         * 第二个按钮
-         * 弹窗
-         */
-
-        var alert2Img = new createjs.Bitmap(ossURL + "alert2.png");
-        alert2Img.x = (canvas.width - 768 * proportion) / 2;
-        alert2Img.y = (canvas.height - 1024 * proportion) / 2;
-        alert2Img.scaleX = proportion;
-        alert2Img.scaleY = proportion;
-
-        var lizi_img = new Array();
-        for (var i = 0; i < 251; i++) {
-            lizi_img[i] = ossURL + "lizi/" + i + ".png";
+        var liangshi_lizi_img = new Array();
+        for (var i = 0; i < 30; i++) {
+            liangshi_lizi_img[i] = "./assets/images/liangshilizi/" + i + ".png";
         }
 
-        var lizi_animate = new createjs.SpriteSheet({
-            "images": lizi_img,
+        var liangshi_lizi_animate = new createjs.SpriteSheet({
+            "images": liangshi_lizi_img,
             "frames": {
-                width: 375,
+                width: 325,
                 height: 500,
                 spacing: 0,
-                count: 251
+                count: 30
             },
             "animations": {
-                run: [0, 250, "run", 0.3],
-                end: [250]
+                start: [0],
+                run: [0, 29, 'end', 0.4],
+                end: [29]
             },
-            "framerate": 250
-        });
-        var lizi = new createjs.Sprite(lizi_animate, "run");
-        lizi.scaleX = proportion * 768 / 375 / 1.5;
-        lizi.scaleY = proportion * 768 / 375 / 1.5;
-        lizi.x = (canvas.width - lizi_animate._frameWidth * proportion * 768 / 375 + 255 * proportion) / 2;
-        lizi.y = (canvas.height - lizi_animate._frameHeight * proportion * 768 / 375 + 575 * proportion) / 2;
-        lizi.framerate = 251;
+            "framerate": 30
+        })
+        var liangshi_lizi = new createjs.Sprite(liangshi_lizi_animate, "start");
+        liangshi_lizi.scaleX = proportion;
+        liangshi_lizi.scaleY = proportion;
+        liangshi_lizi.x = (canvas.width - liangshi_lizi_animate._frameWidth * proportion) / 2;
+        liangshi_lizi.y = 700;
+        liangshi_lizi.framerate = 30;
 
-        var ms_img = new Array();
-        for (var i = 1; i < 75; i++) {
-            ms_img[i - 1] = ossURL + "ms/" + i + ".png";
+        createjs.Tween.get(liangshi_lizi)
+            .wait(750)
+            .call(() => {
+                liangshi_lizi.gotoAndPlay("run");
+            })
+            .to({
+                y: 450 * proportion
+            }, 3400);
+
+        createjs.Tween.get(container)
+            .wait(500)
+            .to({
+                y: -830 * proportion
+            }, 3000);
+
+        /**
+         * 运粮车
+         */
+        var A_Car_img = new Array();
+        for (var i = 0; i < 28; i++) {
+            A_Car_img[i] = "./assets/images/yunliangche/A_Car" + i + ".png";
         }
 
-        var ms_animate = new createjs.SpriteSheet({
-            "images": ms_img,
+        var A_Car_animate = new createjs.SpriteSheet({
+            "images": A_Car_img,
             "frames": {
-                width: 200,
-                height: 100,
+                width: 74,
+                height: 190,
                 spacing: 0,
-                count: 74
+                count: 28
             },
             "animations": {
-                run: [0, 73, "run", 0.3],
-                end: [73]
+                start: [0],
+                run: [0, 27, 'end', 0.4],
+                end: [27]
             },
-            "framerate": 74
+            "framerate": 28
         });
+        var A_Car = new createjs.Sprite(A_Car_animate, "start");
+        A_Car.scaleX = proportion;
+        A_Car.scaleY = proportion;
+        A_Car.regX = A_Car_animate._frameWidth / 2;
+        A_Car.x = (canvas.width - 64 * proportion) / 2;
+        A_Car.y = 380;
+        A_Car.framerate = 28;
 
-        var alert2ms = new createjs.Sprite(ms_animate, "run");
-        alert2ms.scaleX = proportion / 2;
-        alert2ms.scaleY = proportion / 2;
-        alert2ms.x = (canvas.width - ms_animate._frameWidth * proportion - 80 * proportion) / 2;
-        alert2ms.y = (canvas.height - ms_animate._frameHeight * proportion - 130 * proportion) / 2;
-        alert2ms.framerate = 74;
+        var B_Car = new createjs.Bitmap("./assets/images/yunliangche/B_Car0.png")
+        B_Car.scaleX = proportion;
+        B_Car.scaleY = proportion;
+        B_Car.regX = 74 / 2;
+        B_Car.x = (canvas.width - 74 * proportion + 160 * proportion) / 2;
+        B_Car.y = 380;
 
-        var alert2playBtn = new createjs.Bitmap(preload.getResult("play"));
-        alert2playBtn.x = (canvas.width - 57 * proportion - 300 * proportion) / 2;
-        alert2playBtn.y = (canvas.height - 57 * proportion - 160 * proportion) / 2;
-        alert2playBtn.scaleX = proportion / 1.5;
-        alert2playBtn.scaleY = proportion / 1.5;
-        alert2playBtn.alpha = 0;
-
-        var alert2stopBtn = new createjs.Bitmap(preload.getResult("stop"));
-        alert2stopBtn.x = (canvas.width - 57 * proportion - 300 * proportion) / 2;
-        alert2stopBtn.y = (canvas.height - 57 * proportion - 160 * proportion) / 2;
-        alert2stopBtn.scaleX = proportion / 1.5;
-        alert2stopBtn.scaleY = proportion / 1.5;
-
-
-        var close2Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
-        close2Btn.x = (canvas.width - 57 * proportion + 530 * proportion) / 2;
-        close2Btn.y = (canvas.height - 56 * proportion - 760 * proportion) / 2;
-        close2Btn.scaleX = proportion;
-        close2Btn.scaleY = proportion;
-
-        alert2Container.addChild(alert2Img, close2Btn, lizi, alert2ms, alert2playBtn, alert2stopBtn)
+        createjs.Tween.get(A_Car)
+            .wait(500)
+            .to({
+                y: 700 * proportion
+            }, 2000)
+            .call(() => {
+                createjs.Tween.get(A_Car)
+                    .to({
+                        x: (canvas.width - A_Car_animate._frameWidth * proportion + 30 * proportion) / 2,
+                        y: 850 * proportion,
+                        rotation: -7
+                    }, 1000)
+                    .call(() => {
+                        createjs.Tween.get(A_Car)
+                            .to({
+                                x: (canvas.width - A_Car_animate._frameWidth * proportion + 80 * proportion) / 2,
+                                y: 1025 * proportion,
+                                rotation: 0
+                            }, 1000)
+                            .call(() => {
+                                A_Car.gotoAndPlay("run");
+                            })
+                    })
+                // A_Car.gotoAndPlay("run");
+            });
+        createjs.Tween.get(B_Car)
+            .wait(500)
+            .to({
+                y: 700 * proportion
+            }, 2000);
 
         /**
-         * 第三个按钮
-         * 弹窗
+         * 旋转的磨盘
          */
 
-        var alert3Img = new createjs.Bitmap(ossURL + "alert3.png");
-        alert3Img.x = (canvas.width - 768 * proportion) / 2;
-        alert3Img.y = (canvas.height - 1024 * proportion) / 2;
-        alert3Img.scaleX = proportion;
-        alert3Img.scaleY = proportion;
-
-        var num_img = new Array();
-        for (var i = 0; i < 9; i++) {
-            num_img[i] = ossURL + "num/" + i + ".png";
+        var mopans_img = new Array();
+        for (var i = 0; i < 27; i++) {
+            mopans_img[i] = "./assets/images/mopan/" + i + ".png";
         }
 
-        var num_animate = new createjs.SpriteSheet({
-            "images": num_img,
+        var mopans_animate = new createjs.SpriteSheet({
+            "images": mopans_img,
             "frames": {
-                width: 768,
-                height: 1024,
+                width: 175,
+                height: 175,
                 spacing: 0,
-                count: 9
+                count: 27
             },
             "animations": {
-                run: [0, 8, 'end'],
-                end: [8],
-                speed: 0.3
+                start: [0],
+                run: [0, 26, 'end', 0.5],
+                end: [26]
             },
-            "framerate": 9
+            "framerate": 27
         });
-
-        var alert2num = new createjs.Sprite(num_animate, "run");
-        alert2num.scaleX = proportion / 1.15;
-        alert2num.scaleY = proportion / 1.15;
-        alert2num.x = (canvas.width - num_animate._frameWidth * proportion / 1.15) / 2;
-        alert2num.y = (canvas.height - num_animate._frameHeight * proportion / 1.15 - 8 * proportion / 1.15) / 2;
-        alert2num.framerate = 9;
-
-        var lizi2 = new createjs.Sprite(lizi_animate, "run");
-        lizi2.scaleX = proportion * 768 / 375 / 1.3;
-        lizi2.scaleY = proportion * 768 / 375 / 1.3;
-        lizi2.x = (canvas.width - lizi_animate._frameWidth * proportion * 768 / 375 + 170 * proportion) / 2;
-        lizi2.y = (canvas.height - lizi_animate._frameHeight * proportion * 768 / 375 + 335 * proportion) / 2;
-        lizi2.framerate = 251;
-
-        var close3Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
-        close3Btn.x = (canvas.width - 57 * proportion + 530 * proportion) / 2;
-        close3Btn.y = (canvas.height - 56 * proportion - 760 * proportion) / 2;
-        close3Btn.scaleX = proportion;
-        close3Btn.scaleY = proportion;
-
-        alert3Container.addChild(alert3Img, close3Btn, alert2num, lizi2)
+        var mopans = new createjs.Sprite(mopans_animate, "start");
+        mopans.scaleX = proportion;
+        mopans.scaleY = proportion;
+        mopans.x = (canvas.width - mopans_animate._frameWidth * proportion - 12.5 * proportion);
+        mopans.y = 3300;
+        mopans.regX = mopans_animate._frameWidth / 2;
+        mopans.regY = mopans_animate._frameHeight / 2;
+        mopans.framerate = 27;
 
         /**
-         * 第四个按钮
-         * 弹窗
+         * 磨盘流粮
          */
-
-        var alert4Img = new createjs.Bitmap(ossURL + "alert4.png");
-        alert4Img.x = (canvas.width - 768 * proportion) / 2;
-        alert4Img.y = (canvas.height - 1024 * proportion) / 2;
-        alert4Img.scaleX = proportion;
-        alert4Img.scaleY = proportion;
-
-        var alert4ms = new createjs.Sprite(ms_animate, "run");
-        alert4ms.scaleX = proportion / 2;
-        alert4ms.scaleY = proportion / 2;
-        alert4ms.x = (canvas.width - ms_animate._frameWidth * proportion - 110 * proportion) / 2;
-        alert4ms.y = (canvas.height - ms_animate._frameHeight * proportion + 90 * proportion) / 2;
-        alert4ms.framerate = 74;
-
-        var alert4playBtn = new createjs.Bitmap(preload.getResult("play"));
-        alert4playBtn.x = (canvas.width - 57 * proportion - 330 * proportion) / 2;
-        alert4playBtn.y = (canvas.height - 57 * proportion + 60 * proportion) / 2;
-        alert4playBtn.scaleX = proportion / 1.5;
-        alert4playBtn.scaleY = proportion / 1.5;
-        alert4playBtn.alpha = 0;
-
-        var alert4stopBtn = new createjs.Bitmap(preload.getResult("stop"));
-        alert4stopBtn.x = (canvas.width - 57 * proportion - 330 * proportion) / 2;
-        alert4stopBtn.y = (canvas.height - 57 * proportion + 60 * proportion) / 2;
-        alert4stopBtn.scaleX = proportion / 1.5;
-        alert4stopBtn.scaleY = proportion / 1.5;
-
-        var close4Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
-        close4Btn.x = (canvas.width - 57 * proportion + 450 * proportion) / 2;
-        close4Btn.y = (canvas.height - 56 * proportion - 640 * proportion) / 2;
-        close4Btn.scaleX = proportion;
-        close4Btn.scaleY = proportion;
-
-        alert4Container.addChild(alert4Img, close4Btn, alert4ms, alert4playBtn, alert4stopBtn)
+        var liuliang_img = new Array();
+        for (var i = 0; i < 35; i++) {
+            liuliang_img[i] = "./assets/images/mopanliuliang/" + i + ".png";
+        }
+        var liuliang_animate = new createjs.SpriteSheet({
+            "images": liuliang_img,
+            "frames": {
+                width: 175,
+                height: 525,
+                spacing: 0,
+                count: 35
+            },
+            "animations": {
+                start: [0],
+                run: [0, 34, 'end', 0.4],
+                end: [34]
+            },
+            "framerate": 35
+        });
+        var liuliang = new createjs.Sprite(liuliang_animate, "start");
+        liuliang.scaleX = proportion;
+        liuliang.scaleY = proportion;
+        liuliang.x = (canvas.width - liuliang_animate._frameWidth * proportion + 12.5 * proportion) / 2;
+        liuliang.y = 3250;
+        liuliang.framerate = 35;
+        liuliang.alpha = 0;
 
         /**
-         * 第五个按钮
-         * 弹窗
+         * 搅拌分粮层
          */
+        var jiaoban_down = new createjs.Bitmap("./assets/images/jiaobanceng/down_liang0.png")
+        jiaoban_down.scaleX = proportion;
+        jiaoban_down.scaleY = proportion;
+        jiaoban_down.x = (canvas.width - 426 * proportion) / 2;
+        jiaoban_down.y = 3400;
 
-        var alert5Img = new createjs.Bitmap(ossURL + "alert5.png");
-        alert5Img.x = (canvas.width - 768 * proportion) / 2;
-        alert5Img.y = (canvas.height - 1024 * proportion) / 2;
-        alert5Img.scaleX = proportion;
-        alert5Img.scaleY = proportion;
+        var jiaoban_up_img = new Array();
+        for (var i = 0; i < 5; i++) {
+            jiaoban_up_img[i] = "./assets/images/jiaobanceng/top_liang" + i + ".png";
+        }
+        var jiaoban_up_animate = new createjs.SpriteSheet({
+            "images": jiaoban_up_img,
+            "frames": {
+                width: 375,
+                height: 400,
+                spacing: 0,
+                count: 5
+            },
+            "animations": {
+                end: [0],
+                run: {
+                    frames: [0, 1, 2, 3, 4],
+                    speed: 0.4
+                }
+            },
+            "framerate": 5
+        });
+        var jiaoban_up = new createjs.Sprite(jiaoban_up_animate, "end");
+        jiaoban_up.scaleX = proportion;
+        jiaoban_up.scaleY = proportion;
+        jiaoban_up.x = (canvas.width - jiaoban_up_animate._frameWidth * proportion) / 2;
+        jiaoban_up.y = 4450;
+        jiaoban_up.framerate = 5;
 
-        var alert5ms = new createjs.Sprite(ms_animate, "run");
-        alert5ms.scaleX = proportion / 2;
-        alert5ms.scaleY = proportion / 2;
-        alert5ms.x = (canvas.width - ms_animate._frameWidth * proportion - 90 * proportion) / 2;
-        alert5ms.y = (canvas.height - ms_animate._frameHeight * proportion + 50 * proportion) / 2;
-        alert5ms.framerate = 74;
+        /**
+         *  水桶
+         */
+        var shuitong = new createjs.Bitmap("./assets/images/jiaobanceng/shuitong.png");
+        shuitong.scaleX = proportion;
+        shuitong.scaleY = proportion;
+        shuitong.x = 0;
+        shuitong.y = 4208;
+        shuitong.rotation = -120;
+        shuitong.alpha = 0;
 
-        var alert5playBtn = new createjs.Bitmap(preload.getResult("play"));
-        alert5playBtn.x = (canvas.width - 57 * proportion - 290 * proportion) / 2;
-        alert5playBtn.y = (canvas.height - 57 * proportion + 20 * proportion) / 2;
-        alert5playBtn.scaleX = proportion / 1.5;
-        alert5playBtn.scaleY = proportion / 1.5;
-        alert5playBtn.alpha = 0;
+        /**
+         * 水花
+         */
+        var shuihua = new createjs.Bitmap("./assets/images/jiaobanceng/shuihua.png");
+        shuihua.scaleX = proportion;
+        shuihua.scaleY = proportion;
+        shuihua.x = (canvas.width - 166 * proportion) / 2;
+        shuihua.y = 4350;
+        shuihua.alpha = 0;
 
-        var alert5stopBtn = new createjs.Bitmap(preload.getResult("stop"));
-        alert5stopBtn.x = (canvas.width - 57 * proportion - 290 * proportion) / 2;
-        alert5stopBtn.y = (canvas.height - 57 * proportion + 20 * proportion) / 2;
-        alert5stopBtn.scaleX = proportion / 1.5;
-        alert5stopBtn.scaleY = proportion / 1.5;
+        /**
+         * 铲子
+         */
+        var chanziA = new createjs.Bitmap("./assets/images/jiaobanceng/chanzi0.png");
+        chanziA.scaleX = proportion;
+        chanziA.scaleY = proportion;
+        chanziA.x = - 111 * proportion / 2;
+        chanziA.y = 3400;
+        chanziA.alpha = 0;
 
-        var close5Btn = new createjs.Bitmap(preload.getResult("closeBtn"));
-        close5Btn.x = (canvas.width - 57 * proportion + 450 * proportion) / 2;
-        close5Btn.y = (canvas.height - 56 * proportion - 600 * proportion) / 2;
-        close5Btn.scaleX = proportion;
-        close5Btn.scaleY = proportion;
+        var chanziB = new createjs.Bitmap("./assets/images/jiaobanceng/chanzi1.png");
+        chanziB.scaleX = proportion;
+        chanziB.scaleY = proportion;
+        chanziB.x = canvas.width - 111 * proportion / 2;
+        chanziB.y = 3400;
+        chanziB.alpha = 0;
 
-        alert5Container.addChild(alert5Img, close5Btn, alert5ms, alert5playBtn, alert5stopBtn)
+        /**
+         * 搅拌流粮层
+         */
+        var jiaoban_liuliang_img = new Array();
+        for (var i = 0; i < 12; i++) {
+            jiaoban_liuliang_img[i] = "./assets/images/jiaobanliuliang/down_liuliang" + i + ".png";
+        }
+        var jiaoban_liuliang_animate = new createjs.SpriteSheet({
+            "images": jiaoban_liuliang_img,
+            "frames": {
+                width: 426,
+                height: 812,
+                spacing: 0,
+                count: 12
+            },
+            "animations": {
+                start: [0],
+                run: [0, 11, 'end', 0.3],
+                end: [11]
+            },
+            "framerate": 12
+        });
+        var jiaoban_liuliang = new createjs.Sprite(jiaoban_liuliang_animate, "start");
+        jiaoban_liuliang.scaleX = proportion;
+        jiaoban_liuliang.scaleY = proportion;
+        jiaoban_liuliang.x = (canvas.width - jiaoban_liuliang_animate._frameWidth * proportion) / 2;
+        jiaoban_liuliang.y = 4850;
+        jiaoban_liuliang.framerate = 12;
 
-        alert2playBtn.addEventListener("click", function () {
-            mymusic.paused = false;
-            mymusic.position = Sound_position;
-            alert2playBtn.alpha = 0;
-            alert2stopBtn.alpha = 1;
-            alert2ms.gotoAndPlay("run")
+        /**
+         * 发孝桶
+         */
+        var faxiaotong_img = new Array();
+        for (var i = 0; i < 12; i++) {
+            faxiaotong_img[i] = "./assets/images/faxiaotong/faxiaopen" + i + ".png";
+        }
+        var faxiaotong_animate = new createjs.SpriteSheet({
+            "images": faxiaotong_img,
+            "frames": {
+                width: 301,
+                height: 251,
+                spacing: 0,
+                count: 12
+            },
+            "animations": {
+                start: [0],
+                run: [0, 11, 'end', 0.3],
+                end: [11]
+            },
+            "framerate": 12
+        });
+        var faxiaotong = new createjs.Sprite(faxiaotong_animate, "start");
+        faxiaotong.scaleX = proportion;
+        faxiaotong.scaleY = proportion;
+        faxiaotong.x = (canvas.width - faxiaotong_animate._frameWidth * proportion) / 2;
+        faxiaotong.y = 6490;
+        faxiaotong.framerate = 12;
 
-        })
+        /**
+         * 发孝桶盖子
+         */
+        var gaizi = new createjs.Bitmap("./assets/images/faxiaotong/gaizi.png");
+        gaizi.scaleX = proportion;
+        gaizi.scaleY = proportion;
+        gaizi.x = -301 * proportion / 2;
+        gaizi.y = 6090;
+        gaizi.alpha = 0;
 
-        alert2stopBtn.addEventListener("click", function () {
-            mymusic.paused = true;
-            alert2playBtn.alpha = 1;
-            alert2stopBtn.alpha = 0;
-            alert2ms.gotoAndPlay("end");
-            PausedTime()
-        })
+        /**
+         * 发孝桶管道
+         */
+        var guandao = new createjs.Bitmap("./assets/images/faxiaotong/guandao.png");
+        guandao.scaleX = proportion;
+        guandao.scaleY = proportion;
+        guandao.x = canvas.width - 301 * proportion / 6;
+        guandao.y = 6090;
+        guandao.alpha = 0;
 
-        alert4playBtn.addEventListener("click", function () {
-            mymusic.paused = false;
-            alert4playBtn.alpha = 0;
-            alert4stopBtn.alpha = 1;
-            alert4ms.gotoAndPlay("run")
-        })
+        /**
+         * 晾晒
+         */
+        var liangshai = new createjs.Bitmap("./assets/images/liangshaihefeng/newliangshai.png");
+        liangshai.scaleX = proportion;
+        liangshai.scaleY = proportion;
+        liangshai.x = (canvas.width - 651 * proportion) / 2;
+        liangshai.y = 7500;
 
-        alert4stopBtn.addEventListener("click", function () {
-            mymusic.paused = true;
-            alert4playBtn.alpha = 1;
-            alert4stopBtn.alpha = 0;
-            alert4ms.gotoAndPlay("end")
-            PausedTime()
-        })
+        /**
+         * 吹风
+         */
+        var chuifeng_img = new Array();
+        for (var i = 0; i < 28; i++) {
+            chuifeng_img[i] = "./assets/images/liangshaihefeng/feng" + i + ".png";
+        }
+        var chuifeng_animate = new createjs.SpriteSheet({
+            "images": chuifeng_img,
+            "frames": {
+                width: 384,
+                height: 240,
+                spacing: 0,
+                count: 28
+            },
+            "animations": {
+                start: [0],
+                run: [0, 27, 'end', 0.4],
+                end: [27]
+            },
+            "framerate": 28
+        });
+        var chuifeng = new createjs.Sprite(chuifeng_animate, "start");
+        chuifeng.scaleX = proportion;
+        chuifeng.scaleY = proportion;
+        chuifeng.x = (canvas.width - chuifeng_animate._frameWidth * proportion) / 2;
+        chuifeng.y = 7400;
+        chuifeng.framerate = 28;
 
-        alert5playBtn.addEventListener("click", function () {
-            mymusic.paused = false;
-            alert5playBtn.alpha = 0;
-            alert5stopBtn.alpha = 1;
-            alert5ms.gotoAndPlay("run")
-        })
+        /**
+         * 投料
+         */
+        var touliao_img = new Array();
+        for (var i = 0; i < 16; i++) {
+            touliao_img[i] = "./assets/images/touliao/touliao" + i + ".png";
+        }
+        var touliao_animate = new createjs.SpriteSheet({
+            "images": touliao_img,
+            "frames": {
+                width: 426,
+                height: 812,
+                spacing: 0,
+                count: 17
+            },
+            "animations": {
+                start: [0],
+                run: [0, 16, 'end', 0.4],
+                end: [16]
+            },
+            "framerate": 17
+        });
+        var touliao = new createjs.Sprite(touliao_animate, "start");
+        touliao.scaleX = proportion;
+        touliao.scaleY = proportion;
+        touliao.x = (canvas.width - touliao_animate._frameWidth * proportion) / 2;
+        touliao.y = 7000;
+        touliao.framerate = 17;
 
-        alert5stopBtn.addEventListener("click", function () {
-            mymusic.paused = true;
-            alert5playBtn.alpha = 1;
-            alert5stopBtn.alpha = 0;
-            alert5ms.gotoAndPlay("end")
-            PausedTime()
-        })
+        /**
+         * tween动画执行
+         */
+        createjs.Tween.get(mopans)
+            .wait(4700)
+            .call(() => {
+                /**
+                 * 磨盘动画
+                 */
+                mopans.gotoAndPlay("run");
+                createjs.Tween.get(mopans).to({
+                    rotation: -390,
+                }, 4500).call(() => {
+                    createjs.Tween.get(liuliang).to({
+                        alpha: 1
+                    }, 1000).call(() => {
+                        liuliang.gotoAndPlay("run");
+                        /**
+                         * 执行流粮动画后推动幕布
+                         */
+                        createjs.Tween.get(container)
+                            .wait(500)
+                            .to({
+                                y: -1450 * proportion
+                            }, 3000)
+                            .call(() => {
+                                createjs.Tween.get(jiaoban_up)
+                                    .call(() => {
+                                        /**
+                                         * 水桶水花动画
+                                         */
+                                        createjs.Tween.get(shuitong)
+                                            .to({
+                                                alpha: 1
+                                            }, 1000)
+                                            .call(() => {
+                                                createjs.Tween.get(shuitong)
+                                                    .to({
+                                                        x: 85,
+                                                        rotation: 0
+                                                    }, 1500)
+                                                    .call(() => {
+                                                        createjs.Tween.get(shuihua)
+                                                            .to({
+                                                                alpha: 1
+                                                            }, 1000)
+                                                            .call(() => {
+                                                                createjs.Tween.get(shuitong)
+                                                                    .wait(500)
+                                                                    .to({
+                                                                        alpha: 0
+                                                                    }, 1000)
+                                                                createjs.Tween.get(shuihua)
+                                                                    .wait(500)
+                                                                    .to({
+                                                                        alpha: 0
+                                                                    }, 1000)
 
-        closeBtn.addEventListener("click", function () {
+                                                                /**
+                                                                 * 铲子动画
+                                                                 */
+                                                                var sineInOutEase = createjs.Ease.sineInOut;
+                                                                createjs.Tween.get(chanziA)
+                                                                    .wait(750)
+                                                                    .to({
+                                                                        alpha: 1
+                                                                    }, 1000)
+                                                                    .call(() => {
+                                                                        createjs.Tween.get(chanziA)
+                                                                            .to({
+                                                                                x: 100,
+                                                                                y: 4200
+                                                                            }, 1000)
+                                                                            .call(() => {
+                                                                                createjs.Tween.get(chanziA, { loop: 3 })
+                                                                                    .to({
+                                                                                        x: 110,
+                                                                                        rotation: 5
+                                                                                    }, 200, sineInOutEase)
+                                                                                    .to({
+                                                                                        x: 90,
+                                                                                        rotation: -5
+                                                                                    }, 200, sineInOutEase)
+                                                                            })
+                                                                    })
+                                                                createjs.Tween.get(chanziB)
+                                                                    .wait(750)
+                                                                    .to({
+                                                                        alpha: 1
+                                                                    }, 1000)
+                                                                    .call(() => {
+                                                                        createjs.Tween.get(chanziB)
+                                                                            .to({
+                                                                                x: canvas.width - 161 * proportion,
+                                                                                y: 4200
+                                                                            }, 1000)
+                                                                            .call(() => {
+                                                                                createjs.Tween.get(chanziB, { loop: 3 })
+                                                                                    .to({
+                                                                                        x: canvas.width - 151 * proportion,
+                                                                                        rotation: -5
+                                                                                    }, 200, sineInOutEase)
+                                                                                    .to({
+                                                                                        x: canvas.width - 171 * proportion,
+                                                                                        rotation: 5
+                                                                                    }, 200, sineInOutEase)
+
+                                                                                /**
+                                                                                 * 搅拌层动画触发
+                                                                                 */
+                                                                                jiaoban_up.gotoAndPlay("run");
+                                                                                createjs.Tween.get(jiaoban_liuliang)
+                                                                                    .wait(2000)
+                                                                                    .call(() => {
+                                                                                        jiaoban_up.gotoAndPlay("end");
+                                                                                        jiaoban_liuliang.gotoAndPlay("run");
+                                                                                        createjs.Tween.get(container)
+                                                                                            .to({
+                                                                                                y: -2200 * proportion
+                                                                                            }, 1300)
+                                                                                        createjs.Tween.get(faxiaotong)
+                                                                                            .wait(500)
+                                                                                            .call(() => {
+                                                                                                faxiaotong.gotoAndPlay("run");
+                                                                                                // gaizi.alpha = 1;
+                                                                                                createjs.Tween.get(gaizi)
+                                                                                                    .wait(1000)
+                                                                                                    .to({
+                                                                                                        alpha: 1
+                                                                                                    }, 500)
+                                                                                                createjs.Tween.get(guandao)
+                                                                                                    .wait(1000)
+                                                                                                    .to({
+                                                                                                        alpha: 1
+                                                                                                    }, 500)
+                                                                                                createjs.Tween.get(gaizi)
+                                                                                                    .wait(2000)
+                                                                                                    .to({
+                                                                                                        x: (canvas.width - 301 * proportion) / 2,
+                                                                                                        y: 6440
+                                                                                                    }, 1000)
+                                                                                                createjs.Tween.get(guandao)
+                                                                                                    .wait(2000)
+                                                                                                    .to({
+                                                                                                        x: (canvas.width - 301 * proportion + 225 * proportion) / 2,
+                                                                                                        y: 6310
+                                                                                                    }, 1000)
+                                                                                                    .call(() => {
+                                                                                                        createjs.Tween.get(container)
+                                                                                                            .to({ y: -2700 * proportion }, 3000)
+                                                                                                            .call(() => {
+                                                                                                                createjs.Tween.get(chuifeng)
+                                                                                                                    .wait(1000)
+                                                                                                                    .call(() => {
+                                                                                                                        chuifeng.gotoAndPlay("run");
+                                                                                                                        createjs.Tween.get(touliao)
+                                                                                                                            .wait(1500)
+                                                                                                                            .call(() => {
+                                                                                                                                touliao.gotoAndPlay("run");
+
+                                                                                                                            })
+                                                                                                                    })
+                                                                                                            })
+                                                                                                    })
+                                                                                            });
+                                                                                    })
+                                                                            })
+                                                                    })
+                                                            })
+                                                    })
+                                            })
+                                    })
+                            })
+                    })
+                });
+            });
+
+        container.addChild(
+            liangshicao, A_Car, B_Car, liangshi_lizi,
+            mopan, liuliang, mopans,
+            jiaoban_down, shuitong, shuihua, chanziA, chanziB, jiaoban_up,
+            faxiaotong, gaizi, guandao, jiaoban_liuliang,
+            liangshai, chuifeng, touliao
+        )
+
+        closeBtn.addEventListener("click", () => {
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
@@ -755,7 +781,7 @@ function main() {
             container.addChild(pagebackground, btnContainer);
         })
 
-        close2Btn.addEventListener("click", function () {
+        close2Btn.addEventListener("click", () => {
             mymusic.paused = true;
             PausedTime()
             container.removeAllChildren();
@@ -765,7 +791,7 @@ function main() {
             container.addChild(pagebackground, btn2Container);
         })
 
-        close3Btn.addEventListener("click", function () {
+        close3Btn.addEventListener("click", () => {
             canvas.addEventListener("touchstart", handleTouchstart)
             canvas.addEventListener("touchmove", handleTouchmove)
             canvas.addEventListener("touchend", handleTouchend)
@@ -773,7 +799,7 @@ function main() {
             container.addChild(pagebackground, btn3Container);
         })
 
-        close4Btn.addEventListener("click", function () {
+        close4Btn.addEventListener("click", () => {
             mymusic.paused = true;
             PausedTime()
             canvas.addEventListener("touchstart", handleTouchstart)
@@ -783,7 +809,7 @@ function main() {
             container.addChild(pagebackground, btn4Container);
         })
 
-        close5Btn.addEventListener("click", function () {
+        close5Btn.addEventListener("click", () => {
             mymusic.paused = true;
             PausedTime()
             canvas.addEventListener("touchstart", handleTouchstart)
@@ -793,14 +819,14 @@ function main() {
             container.addChild(pagebackground, btn5Container);
         })
 
-        btnContainer.addEventListener("click", function () {
+        btnContainer.addEventListener("click", () => {
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
             canvas.removeEventListener("touchend", handleTouchend)
             container.addChild(pagebackground, btnContainer, alertContainer);
         })
 
-        btn2Container.addEventListener("click", function () {
+        btn2Container.addEventListener("click", () => {
             StartTime('music1')
             mymusic = createjs.Sound.play("music1");
             mymusic.loop = -1;
@@ -815,7 +841,7 @@ function main() {
             container.addChild(pagebackground, btn2Container, alert2Container);
         })
 
-        btn3Container.addEventListener("click", function () {
+        btn3Container.addEventListener("click", () => {
             alert2num.gotoAndPlay("run")
             canvas.removeEventListener("touchstart", handleTouchstart)
             canvas.removeEventListener("touchmove", handleTouchmove)
@@ -823,7 +849,7 @@ function main() {
             container.addChild(pagebackground, btn3Container, alert3Container);
         })
 
-        btn4Container.addEventListener("click", function () {
+        btn4Container.addEventListener("click", () => {
             StartTime('music2')
             mymusic = createjs.Sound.play("music2");
             mymusic.loop = -1;
@@ -838,7 +864,7 @@ function main() {
             container.addChild(pagebackground, btn4Container, alert4Container);
         })
 
-        btn5Container.addEventListener("click", function () {
+        btn5Container.addEventListener("click", () => {
             StartTime('music3')
             mymusic = createjs.Sound.play("music3");
             mymusic.loop = -1;
@@ -964,9 +990,9 @@ function main() {
             console.log(img_count)
         }
 
-        canvas.addEventListener("touchstart", handleTouchstart)
-        canvas.addEventListener("touchmove", handleTouchmove)
-        canvas.addEventListener("touchend", handleTouchend)
+        // canvas.addEventListener("touchstart", handleTouchstart)
+        // canvas.addEventListener("touchmove", handleTouchmove)
+        // canvas.addEventListener("touchend", handleTouchend)
 
         // canvas.removeEventListener("touchmove", handleTouchmove)
 
