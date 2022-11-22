@@ -36,7 +36,7 @@ function main() {
 
     var manifest;
     var preload;
-    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjh/";
+    var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjhnew/";
 
     //构建显示对象的容器
     var loadingContainer = new createjs.Container();
@@ -63,55 +63,132 @@ function main() {
      * 磨盘
      */
 
-    var liangshicao = new createjs.Bitmap("./assets/images/liangshicao.png");
+    var liangshicao = new createjs.Bitmap(ossURL + "liangshicao.png");
     liangshicao.x = (canvas.width - 426 * proportion) / 2;
     liangshicao.y = 500;
     liangshicao.scaleX = proportion;
     liangshicao.scaleY = proportion;
 
-    var mopan = new createjs.Bitmap("./assets/images/mopan.png");
+    var mopan = new createjs.Bitmap(ossURL + "mopan.png");
     mopan.x = (canvas.width - 237 * proportion) / 2;
     mopan.y = 3000;
     mopan.scaleX = proportion;
     mopan.scaleY = proportion;
 
-    //加载loading 
-    var loadingbox = new createjs.Shape(),
-        loadingbg = new createjs.Shape(),
-        loadingsp = new createjs.Shape();
+    //加载loading
+    var loadingBeizi = new createjs.Bitmap(ossURL + "loading/loadingBeizi.png");
+    loadingBeizi.scaleX = proportion;
+    loadingBeizi.scaleY = proportion;
+    loadingBeizi.x = (canvas.width - 451 * proportion) / 2 - 9 * proportion;
+    loadingBeizi.y = (canvas.height - 812 * proportion) / 2;
 
-    loadingbox.graphics.beginFill('#000').rr((canvas.width - 445 * proportion) / 2, (canvas.height - 712 *
-        proportion) / 2, 445 * proportion, 22 * proportion, 11 * proportion);
-    loadingbg.graphics.beginFill('#fff').rr((canvas.width - 435 * proportion) / 2, (canvas.height - 707 *
-        proportion) / 2, 435 * proportion, 17 * proportion, 8.5 * proportion);
 
-    var loading_logo = new createjs.Bitmap(ossURL + "loading_logo.png");
-    loading_logo.x = (canvas.width - 446 * proportion) / 2;
-    loading_logo.y = (canvas.height - 753 * proportion) / 2;
-    loading_logo.scaleX = proportion;
-    loading_logo.scaleY = proportion;
+    var loadingH_img = new Array();
+    for (var i = 0; i < 11; i++) {
+        loadingH_img[i] = ossURL + "loading/loadingH" + i + ".png";
+    }
 
-    var progressText = new createjs.Text("", "40px Arial", "#fff");
-    progressText.y = (canvas.height - (progressText.getMeasuredHeight() + 730) * proportion) / 2 + 44 * proportion *
+    var loadingH_animate = new createjs.SpriteSheet({
+        "images": loadingH_img,
+        "frames": {
+            width: 183,
+            height: 183,
+            spacing: 0,
+            count: 11
+        },
+        "animations": {
+            run0: [0],
+            run1: [1],
+            run2: [2],
+            run3: [3],
+            run4: [4],
+            run5: [5],
+            run6: [6],
+            run7: [7],
+            run8: [8],
+            run9: [9],
+            run10: [10]
+        },
+        "framerate": 11
+    })
+    var loadingH = new createjs.Sprite(loadingH_animate, "run0");
+    loadingH.scaleX = proportion;
+    loadingH.scaleY = proportion;
+    loadingH.x = (canvas.width - loadingH_animate._frameWidth * proportion) / 2;
+    loadingH.y = (canvas.height - loadingH_animate._frameHeight * proportion) / 2 + 100 * proportion;
+    loadingH.framerate = 11;
+
+    var loadingS_img = new Array();
+    for (var i = 0; i < 18; i++) {
+        loadingS_img[i] = ossURL + "loading/loadingS" + i + ".png";
+    }
+
+    var loadingS_animate = new createjs.SpriteSheet({
+        "images": loadingS_img,
+        "frames": {
+            width: 150,
+            height: 50,
+            spacing: 0,
+            count: 18
+        },
+        "animations": {
+            start: [0],
+            run: [0, 17, 'run', 0.4],
+            end: [17]
+        },
+        "framerate": 18
+    })
+    var loadingS = new createjs.Sprite(loadingS_animate, "run");
+    loadingS.scaleX = proportion;
+    loadingS.scaleY = proportion;
+    loadingS.x = (canvas.width - loadingS_animate._frameWidth * proportion) / 2;
+    loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + 130 * proportion; //50
+    loadingS.framerate = 18;
+
+    var loadingX_img = new Array();
+    for (var i = 0; i < 18; i++) {
+        loadingX_img[i] = ossURL + "loading/loadingX" + i + ".png";
+    }
+
+    var loadingX_animate = new createjs.SpriteSheet({
+        "images": loadingX_img,
+        "frames": {
+            width: 451,
+            height: 812,
+            spacing: 0,
+            count: 18
+        },
+        "animations": {
+            start: [0],
+            run: [0, 17, 'run', 0.3],
+            end: [17]
+        },
+        "framerate": 18
+    })
+    var loadingX = new createjs.Sprite(loadingX_animate, "run");
+    loadingX.scaleX = proportion;
+    loadingX.scaleY = proportion;
+    loadingX.x = (canvas.width - loadingX_animate._frameWidth * proportion) / 2;
+    loadingX.y = (canvas.height - loadingX_animate._frameHeight * proportion) / 2 - 30 * proportion; //50
+    loadingX.framerate = 18;
+
+    var progressText = new createjs.Text("", "40px Arial", "#000");
+    progressText.y = (canvas.height - progressText.getMeasuredHeight() * proportion) / 2 + 70 * proportion *
         1.5;
-
-    var mask = new createjs.Shape()
-    mask.graphics.beginFill("#000").rr(0, 0, canvas.width, canvas.height, 0);
-    mask.alpha = .5
 
     //定义相关JSON格式文件列表
     function setupManifest() {
         manifest = [{
-            src: ossURL + "close.png",
-            id: "closeBtn"
+            src: ossURL + "tanceng0.png",
+            id: "tanceng0"
         }];
 
-        for (var i = 1; i < 3; i++) {
+        for (var i = 0; i < 19; i++) {
             manifest.push({
-                src: ossURL + "click_" + i + ".png",
-                id: 'btn' + i
+                src: ossURL + "jiaochixuanze/xuanze" + i + ".png",
+                id: 'jiaochixuanze' + i
             })
-        };
+        }
     }
 
     //开始预加载
@@ -154,22 +231,13 @@ function main() {
     function handleFileProgress(event) {
         progressText.text = (preload.progress * 100 | 0) + " %";
         progressText.x = canvas.width / 2 - progressText.getMeasuredWidth() / 2;
-        // console.log(ratio*canvas.width / 100 * (preload.progress * 100 | 0));
-        if ((preload.progress * 100 | 0) > 10) {
-            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion) / 2, (canvas.height -
-                707 * proportion) / 2, 435 * proportion / 100 * (preload.progress * 100 | 0), 17 *
-            proportion, 8.5 * proportion);
-        } else {
-            loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion) / 2, (canvas.height -
-                707 * proportion) / 2, 435 * proportion / 100 * 10, 17 * proportion, 8.5 * proportion);
-        }
-        if ((preload.progress * 100 | 0) > 10 && (preload.progress * 100 | 0) < 95) {
-            loading_logo.x = (canvas.width - 500 * proportion) / 2 + 460 * proportion / 100 * (preload
-                .progress * 100 | 0);
-        }
+
+        loadingH.gotoAndPlay("run" + parseInt((preload.progress * 100 | 0) / 10))
+
+        loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + (130 - (preload.progress * 80 | 0)) * proportion;
+
         // stage.addChild(background, pagebackground, pageTop, pageBottom)
-        container.addChild(liangshicao)
-        loadingContainer.addChild(loadingbox, loadingbg, loadingsp, loading_logo, progressText);
+        loadingContainer.addChild(loadingBeizi, loadingH, loadingS, loadingX, progressText);
         stage.addChild(container, loadingContainer);
         // createjs.Ticker.addEventListener("tick", tickhandle);
     }
@@ -192,11 +260,16 @@ function main() {
     function Animate_Conter() {
 
         /**
+         * 选粮
+         */
+
+
+        /**
          * 粮食粒子
          */
         var liangshi_lizi_img = new Array();
         for (var i = 0; i < 30; i++) {
-            liangshi_lizi_img[i] = "./assets/images/liangshilizi/" + i + ".png";
+            liangshi_lizi_img[i] = ossURL + "liangshilizi/" + i + ".png";
         }
 
         var liangshi_lizi_animate = new createjs.SpriteSheet({
@@ -241,7 +314,7 @@ function main() {
          */
         var A_Car_img = new Array();
         for (var i = 0; i < 28; i++) {
-            A_Car_img[i] = "./assets/images/yunliangche/A_Car" + i + ".png";
+            A_Car_img[i] = ossURL + "yunliangche/A_Car" + i + ".png";
         }
 
         var A_Car_animate = new createjs.SpriteSheet({
@@ -267,7 +340,7 @@ function main() {
         A_Car.y = 380;
         A_Car.framerate = 28;
 
-        var B_Car = new createjs.Bitmap("./assets/images/yunliangche/B_Car0.png")
+        var B_Car = new createjs.Bitmap(ossURL + "yunliangche/B_Car0.png")
         B_Car.scaleX = proportion;
         B_Car.scaleY = proportion;
         B_Car.regX = 74 / 2;
@@ -311,7 +384,7 @@ function main() {
 
         var mopans_img = new Array();
         for (var i = 0; i < 27; i++) {
-            mopans_img[i] = "./assets/images/mopan/" + i + ".png";
+            mopans_img[i] = ossURL + "mopan/" + i + ".png";
         }
 
         var mopans_animate = new createjs.SpriteSheet({
@@ -343,7 +416,7 @@ function main() {
          */
         var liuliang_img = new Array();
         for (var i = 0; i < 35; i++) {
-            liuliang_img[i] = "./assets/images/mopanliuliang/" + i + ".png";
+            liuliang_img[i] = ossURL + "mopanliuliang/" + i + ".png";
         }
         var liuliang_animate = new createjs.SpriteSheet({
             "images": liuliang_img,
@@ -371,7 +444,7 @@ function main() {
         /**
          * 搅拌分粮层
          */
-        var jiaoban_down = new createjs.Bitmap("./assets/images/jiaobanceng/down_liang0.png")
+        var jiaoban_down = new createjs.Bitmap(ossURL + "jiaobanceng/down_liang0.png")
         jiaoban_down.scaleX = proportion;
         jiaoban_down.scaleY = proportion;
         jiaoban_down.x = (canvas.width - 426 * proportion) / 2;
@@ -379,7 +452,7 @@ function main() {
 
         var jiaoban_up_img = new Array();
         for (var i = 0; i < 5; i++) {
-            jiaoban_up_img[i] = "./assets/images/jiaobanceng/top_liang" + i + ".png";
+            jiaoban_up_img[i] = ossURL + "jiaobanceng/top_liang" + i + ".png";
         }
         var jiaoban_up_animate = new createjs.SpriteSheet({
             "images": jiaoban_up_img,
@@ -408,7 +481,7 @@ function main() {
         /**
          *  水桶
          */
-        var shuitong = new createjs.Bitmap("./assets/images/jiaobanceng/shuitong.png");
+        var shuitong = new createjs.Bitmap(ossURL + "jiaobanceng/shuitong.png");
         shuitong.scaleX = proportion;
         shuitong.scaleY = proportion;
         shuitong.x = 0;
@@ -419,7 +492,7 @@ function main() {
         /**
          * 水花
          */
-        var shuihua = new createjs.Bitmap("./assets/images/jiaobanceng/shuihua.png");
+        var shuihua = new createjs.Bitmap(ossURL + "jiaobanceng/shuihua.png");
         shuihua.scaleX = proportion;
         shuihua.scaleY = proportion;
         shuihua.x = (canvas.width - 166 * proportion) / 2;
@@ -429,14 +502,14 @@ function main() {
         /**
          * 铲子
          */
-        var chanziA = new createjs.Bitmap("./assets/images/jiaobanceng/chanzi0.png");
+        var chanziA = new createjs.Bitmap(ossURL + "jiaobanceng/chanzi0.png");
         chanziA.scaleX = proportion;
         chanziA.scaleY = proportion;
         chanziA.x = - 111 * proportion / 2;
         chanziA.y = 3400;
         chanziA.alpha = 0;
 
-        var chanziB = new createjs.Bitmap("./assets/images/jiaobanceng/chanzi1.png");
+        var chanziB = new createjs.Bitmap(ossURL + "jiaobanceng/chanzi1.png");
         chanziB.scaleX = proportion;
         chanziB.scaleY = proportion;
         chanziB.x = canvas.width - 111 * proportion / 2;
@@ -448,7 +521,7 @@ function main() {
          */
         var jiaoban_liuliang_img = new Array();
         for (var i = 0; i < 12; i++) {
-            jiaoban_liuliang_img[i] = "./assets/images/jiaobanliuliang/down_liuliang" + i + ".png";
+            jiaoban_liuliang_img[i] = ossURL + "jiaobanliuliang/down_liuliang" + i + ".png";
         }
         var jiaoban_liuliang_animate = new createjs.SpriteSheet({
             "images": jiaoban_liuliang_img,
@@ -473,11 +546,11 @@ function main() {
         jiaoban_liuliang.framerate = 12;
 
         /**
-         * 发孝桶
+         * 发酵桶
          */
         var faxiaotong_img = new Array();
         for (var i = 0; i < 12; i++) {
-            faxiaotong_img[i] = "./assets/images/faxiaotong/faxiaopen" + i + ".png";
+            faxiaotong_img[i] = ossURL + "faxiaotong/faxiaopen" + i + ".png";
         }
         var faxiaotong_animate = new createjs.SpriteSheet({
             "images": faxiaotong_img,
@@ -502,9 +575,9 @@ function main() {
         faxiaotong.framerate = 12;
 
         /**
-         * 发孝桶盖子
+         * 发酵桶盖子
          */
-        var gaizi = new createjs.Bitmap("./assets/images/faxiaotong/gaizi.png");
+        var gaizi = new createjs.Bitmap(ossURL + "faxiaotong/gaizi.png");
         gaizi.scaleX = proportion;
         gaizi.scaleY = proportion;
         gaizi.x = -301 * proportion / 2;
@@ -512,9 +585,9 @@ function main() {
         gaizi.alpha = 0;
 
         /**
-         * 发孝桶管道
+         * 发酵桶管道
          */
-        var guandao = new createjs.Bitmap("./assets/images/faxiaotong/guandao.png");
+        var guandao = new createjs.Bitmap(ossURL + "faxiaotong/guandao.png");
         guandao.scaleX = proportion;
         guandao.scaleY = proportion;
         guandao.x = canvas.width - 301 * proportion / 6;
@@ -524,7 +597,7 @@ function main() {
         /**
          * 晾晒
          */
-        var liangshai = new createjs.Bitmap("./assets/images/liangshaihefeng/newliangshai.png");
+        var liangshai = new createjs.Bitmap(ossURL + "liangshaihefeng/newliangshai.png");
         liangshai.scaleX = proportion;
         liangshai.scaleY = proportion;
         liangshai.x = (canvas.width - 651 * proportion) / 2;
@@ -535,7 +608,7 @@ function main() {
          */
         var chuifeng_img = new Array();
         for (var i = 0; i < 28; i++) {
-            chuifeng_img[i] = "./assets/images/liangshaihefeng/feng" + i + ".png";
+            chuifeng_img[i] = ossURL + "liangshaihefeng/feng" + i + ".png";
         }
         var chuifeng_animate = new createjs.SpriteSheet({
             "images": chuifeng_img,
@@ -564,7 +637,7 @@ function main() {
          */
         var touliao_img = new Array();
         for (var i = 0; i < 16; i++) {
-            touliao_img[i] = "./assets/images/touliao/touliao" + i + ".png";
+            touliao_img[i] = ossURL + "touliao/touliao" + i + ".png";
         }
         var touliao_animate = new createjs.SpriteSheet({
             "images": touliao_img,
@@ -587,6 +660,92 @@ function main() {
         touliao.x = (canvas.width - touliao_animate._frameWidth * proportion) / 2;
         touliao.y = 7000;
         touliao.framerate = 17;
+
+        /**
+         * 浓酱池 答题1
+         */
+        var nongjiangchi_img = new Array();
+        for (var i = 0; i < 21; i++) {
+            nongjiangchi_img[i] = ossURL + "nongjiangchi/nongjiangchi" + i + ".png";
+        }
+        var nongjiangchi_animate = new createjs.SpriteSheet({
+            "images": nongjiangchi_img,
+            "frames": {
+                width: 375,
+                height: 812,
+                spacing: 0,
+                count: 21
+            },
+            "animations": {
+                start: [0],
+                start1: {
+                    frames: [18, 19, 20],
+                    next: "start1end",
+                    speed: 0.3
+                },
+                start1end: [20],
+                start2: {
+                    frames: [20, 19, 18],
+                    next: "start2end",
+                    speed: 0.3
+                },
+                start2end: [18],
+                run: [0, 17, 'end', 0.4],
+                end: [17]
+            },
+            "framerate": 21
+        });
+        var nongjiangchi = new createjs.Sprite(nongjiangchi_animate, "start");
+        nongjiangchi.scaleX = proportion;
+        nongjiangchi.scaleY = proportion;
+        nongjiangchi.x = (canvas.width - nongjiangchi_animate._frameWidth * proportion) / 2;
+        nongjiangchi.y = 8000;
+        nongjiangchi.framerate = 19;
+
+        var wentiText = new createjs.Text("点击选择正确的浓香窖池", "48px Arial", "#000");
+        wentiText.x = (canvas.width - wentiText.getMeasuredWidth()) / 2;
+        wentiText.y = 9000;
+        wentiText.shadow = new createjs.Shadow("#fff", 0, 0, 5);
+        wentiText.alpha = 0;
+
+        var jiaochixuanze_img = new Array();
+        for (var i = 0; i < 19; i++) {
+            jiaochixuanze_img[i] = preload.getResult("jiaochixuanze" + i);
+        }
+        var nijiaoBtn_animate = new createjs.SpriteSheet({
+            "images": jiaochixuanze_img,
+            "frames": {
+                width: 76,
+                height: 53,
+                spacing: 0,
+                count: 19
+            },
+            "animations": {
+                start: [1],
+                run: [1, 18, 'end', 0.3],
+                end: [18]
+            },
+            "framerate": 19
+        });
+        var nijiaoBtn = new createjs.Sprite(nijiaoBtn_animate, "start");
+        nijiaoBtn.scaleX = proportion;
+        nijiaoBtn.scaleY = proportion;
+        nijiaoBtn.x = (canvas.width - nijiaoBtn_animate._frameWidth * proportion) / 2 - 60 * proportion;
+        nijiaoBtn.y = 9400;
+        nijiaoBtn.framerate = 19;
+
+        var shijiaoBtn = new createjs.Bitmap(jiaochixuanze_img[0]);
+        shijiaoBtn.scaleX = proportion;
+        shijiaoBtn.scaleY = proportion;
+        shijiaoBtn.x = (canvas.width - 76 * proportion) / 2 + 60 * proportion;
+        shijiaoBtn.y = 9400;
+
+        var tanceng0 = new createjs.Bitmap(ossURL + "tanceng0.png");
+        tanceng0.scaleX = proportion;
+        tanceng0.scaleY = proportion;
+        tanceng0.x = (canvas.width - 250 * proportion) / 2;
+        tanceng0.y = 8450;
+        tanceng0.alpha = 0
 
         /**
          * tween动画执行
@@ -737,7 +896,7 @@ function main() {
                                                                                                     }, 1000)
                                                                                                     .call(() => {
                                                                                                         createjs.Tween.get(container)
-                                                                                                            .to({ y: -2700 * proportion }, 3000)
+                                                                                                            .to({ y: -2700 * proportion }, 2500)
                                                                                                             .call(() => {
                                                                                                                 createjs.Tween.get(chuifeng)
                                                                                                                     .wait(1000)
@@ -747,7 +906,24 @@ function main() {
                                                                                                                             .wait(1500)
                                                                                                                             .call(() => {
                                                                                                                                 touliao.gotoAndPlay("run");
-
+                                                                                                                                createjs.Tween.get(container)
+                                                                                                                                    .wait(1500)
+                                                                                                                                    .to({ y: -3200 * proportion }, 2000)
+                                                                                                                                    .call(() => {
+                                                                                                                                        createjs.Tween.get(wentiText)
+                                                                                                                                            .to({ alpha: 1 }, 700)
+                                                                                                                                        nongjiangchi.gotoAndPlay("start1");
+                                                                                                                                        nijiaoBtn.gotoAndPlay("run");
+                                                                                                                                        createjs.Tween.get(shijiaoBtn)
+                                                                                                                                            .to({ alpha: .5 }, 700)
+                                                                                                                                        createjs.Tween.get(shijiaoBtn)
+                                                                                                                                            .wait(2000)
+                                                                                                                                            .call(() => {
+                                                                                                                                                createjs.Tween.get(shijiaoBtn)
+                                                                                                                                                    .to({ alpha: 1 }, 700)
+                                                                                                                                                nongjiangchi.gotoAndPlay("start2");
+                                                                                                                                            })
+                                                                                                                                    })
                                                                                                                             })
                                                                                                                     })
                                                                                                             })
@@ -765,230 +941,50 @@ function main() {
                 });
             });
 
+        nijiaoBtnFun = () => {
+            nongjiangEnd("nijiao", "1")
+        }
+        shijiaoBtnFun = () => {
+            nongjiangEnd("nijiao", "0")
+        }
+
+        nijiaoBtn.addEventListener("click", nijiaoBtnFun)
+        shijiaoBtn.addEventListener("click", shijiaoBtnFun)
+
+        nongjiangEnd = (timu, daan) => {
+            switch (timu) {
+                case 'nijiao':
+                    nijiaoBtn.removeEventListener("click", nijiaoBtnFun);
+                    shijiaoBtn.removeEventListener("click", shijiaoBtnFun);
+                    jiaoban_liuliang.y = 7500;
+                    jiaoban_liuliang.gotoAndPlay("run");
+                    nongjiangchi.gotoAndPlay("run");
+                    wentiText.text = "浓香用泥窖发酵";
+                    wentiText.x = (canvas.width - wentiText.getMeasuredWidth()) / 2;
+                    nijiaoBtn.gotoAndPlay("run");
+                    createjs.Tween.get(wentiText)
+                        .wait(800)
+                        .to({
+                            alpha: 0
+                        })
+                        .call(() => {
+                            createjs.Tween.get(tanceng0)
+                                .wait(1000)
+                                .to({ alpha: 1 }, 1000)
+                        });
+                    console.log(daan);
+                    break;
+            }
+        }
+
         container.addChild(
             liangshicao, A_Car, B_Car, liangshi_lizi,
             mopan, liuliang, mopans,
             jiaoban_down, shuitong, shuihua, chanziA, chanziB, jiaoban_up,
             faxiaotong, gaizi, guandao, jiaoban_liuliang,
-            liangshai, chuifeng, touliao
+            liangshai, chuifeng, touliao,
+            nongjiangchi, wentiText, nijiaoBtn, shijiaoBtn, tanceng0
         )
-
-        closeBtn.addEventListener("click", () => {
-            canvas.addEventListener("touchstart", handleTouchstart)
-            canvas.addEventListener("touchmove", handleTouchmove)
-            canvas.addEventListener("touchend", handleTouchend)
-            container.removeAllChildren();
-            container.addChild(pagebackground, btnContainer);
-        })
-
-        close2Btn.addEventListener("click", () => {
-            mymusic.paused = true;
-            PausedTime()
-            container.removeAllChildren();
-            canvas.addEventListener("touchstart", handleTouchstart)
-            canvas.addEventListener("touchmove", handleTouchmove)
-            canvas.addEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btn2Container);
-        })
-
-        close3Btn.addEventListener("click", () => {
-            canvas.addEventListener("touchstart", handleTouchstart)
-            canvas.addEventListener("touchmove", handleTouchmove)
-            canvas.addEventListener("touchend", handleTouchend)
-            container.removeAllChildren();
-            container.addChild(pagebackground, btn3Container);
-        })
-
-        close4Btn.addEventListener("click", () => {
-            mymusic.paused = true;
-            PausedTime()
-            canvas.addEventListener("touchstart", handleTouchstart)
-            canvas.addEventListener("touchmove", handleTouchmove)
-            canvas.addEventListener("touchend", handleTouchend)
-            container.removeAllChildren();
-            container.addChild(pagebackground, btn4Container);
-        })
-
-        close5Btn.addEventListener("click", () => {
-            mymusic.paused = true;
-            PausedTime()
-            canvas.addEventListener("touchstart", handleTouchstart)
-            canvas.addEventListener("touchmove", handleTouchmove)
-            canvas.addEventListener("touchend", handleTouchend)
-            container.removeAllChildren();
-            container.addChild(pagebackground, btn5Container);
-        })
-
-        btnContainer.addEventListener("click", () => {
-            canvas.removeEventListener("touchstart", handleTouchstart)
-            canvas.removeEventListener("touchmove", handleTouchmove)
-            canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btnContainer, alertContainer);
-        })
-
-        btn2Container.addEventListener("click", () => {
-            StartTime('music1')
-            mymusic = createjs.Sound.play("music1");
-            mymusic.loop = -1;
-            mymusic.paused = true;
-            mymusic.position = Sound_position;
-            alert2playBtn.alpha = 1;
-            alert2stopBtn.alpha = 0;
-            alert2ms.gotoAndPlay("end")
-            canvas.removeEventListener("touchstart", handleTouchstart)
-            canvas.removeEventListener("touchmove", handleTouchmove)
-            canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btn2Container, alert2Container);
-        })
-
-        btn3Container.addEventListener("click", () => {
-            alert2num.gotoAndPlay("run")
-            canvas.removeEventListener("touchstart", handleTouchstart)
-            canvas.removeEventListener("touchmove", handleTouchmove)
-            canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btn3Container, alert3Container);
-        })
-
-        btn4Container.addEventListener("click", () => {
-            StartTime('music2')
-            mymusic = createjs.Sound.play("music2");
-            mymusic.loop = -1;
-            mymusic.paused = true;
-            mymusic.position = Sound_position;
-            alert4playBtn.alpha = 1;
-            alert4stopBtn.alpha = 0;
-            alert4ms.gotoAndPlay("end")
-            canvas.removeEventListener("touchstart", handleTouchstart)
-            canvas.removeEventListener("touchmove", handleTouchmove)
-            canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btn4Container, alert4Container);
-        })
-
-        btn5Container.addEventListener("click", () => {
-            StartTime('music3')
-            mymusic = createjs.Sound.play("music3");
-            mymusic.loop = -1;
-            mymusic.paused = true;
-            mymusic.position = Sound_position;
-            alert5playBtn.alpha = 1;
-            alert5stopBtn.alpha = 0;
-            alert5ms.gotoAndPlay("end")
-            canvas.removeEventListener("touchstart", handleTouchstart)
-            canvas.removeEventListener("touchmove", handleTouchmove)
-            canvas.removeEventListener("touchend", handleTouchend)
-            container.addChild(pagebackground, btn5Container, alert5Container);
-        })
-
-        var startY, moveEndY, Y, img_count = 6, speed = 100, counts = 6, index = 0;
-
-        function handleTouchstart(e) {
-            startY = e.changedTouches[0].clientY - canvas.offsetTop;
-        }
-
-        function handleTouchmove(e) {
-
-            container2.removeAllChildren();
-            container.removeAllChildren();
-            console.log("滑动距离")
-            moveEndY = e.changedTouches[0].clientY - canvas.offsetTop
-            Y = parseInt(startY - moveEndY);
-            if (Y > 0 && img_count > 0) {
-                console.log("上滑")
-            } else {
-                console.log("下滑")
-            }
-            console.log("当前img index")
-            console.log(img_count)
-            counts = parseInt(img_count + Y / speed)
-            console.log("NEW img index")
-            console.log(counts)
-            if (Math.sign(counts) === 1) {
-                if (counts > 0 && counts < fps_count) {
-                    pagebackground = new createjs.Bitmap(preload.getResult("bg" + counts));
-                    pagebackground.x = (canvas.width - 768 * proportion) / 2;
-                    pagebackground.y = (canvas.height - 1024 * proportion) / 2;
-                    pagebackground.scaleX = proportion * 768 / 375;
-                    pagebackground.scaleY = proportion * 768 / 375;
-                    if (counts > 87 && counts < 91) {
-                        container.addChild(pagebackground, btnContainer);
-                        if (index === 0) {
-                            handleTouchend()
-                            canvas.removeEventListener("touchstart", handleTouchstart)
-                            canvas.removeEventListener("touchmove", handleTouchmove)
-                            canvas.removeEventListener("touchend", handleTouchend)
-                            index += 1
-                        }
-
-                    } else if (counts > 100 && counts < 102) {
-                        container.addChild(pagebackground, btn2Container);
-                        if (index === 1) {
-                            handleTouchend()
-                            canvas.removeEventListener("touchstart", handleTouchstart)
-                            canvas.removeEventListener("touchmove", handleTouchmove)
-                            canvas.removeEventListener("touchend", handleTouchend)
-                            index += 1
-                        }
-                    } else if (counts > 102 && counts < 105) {
-                        container.addChild(pagebackground, btn3Container);
-                        if (index === 2) {
-                            handleTouchend()
-                            canvas.removeEventListener("touchstart", handleTouchstart)
-                            canvas.removeEventListener("touchmove", handleTouchmove)
-                            canvas.removeEventListener("touchend", handleTouchend)
-                            index += 1
-                        }
-                    } else if (counts > 124 && counts < 127) {
-                        container.addChild(pagebackground, btn4Container);
-                        if (index === 3) {
-                            handleTouchend()
-                            canvas.removeEventListener("touchstart", handleTouchstart)
-                            canvas.removeEventListener("touchmove", handleTouchmove)
-                            canvas.removeEventListener("touchend", handleTouchend)
-                            index += 1
-                        }
-                    } else if (counts > 194 && counts < 196) {
-                        container.addChild(pagebackground, btn5Container);
-                        if (index === 4) {
-                            handleTouchend()
-                            canvas.removeEventListener("touchstart", handleTouchstart)
-                            canvas.removeEventListener("touchmove", handleTouchmove)
-                            canvas.removeEventListener("touchend", handleTouchend)
-                            index += 1
-                        }
-                    } else {
-                        container.addChild(pagebackground);
-                    }
-                } else {
-                    counts = fps_count
-                    container.addChild(pagebackground);
-                    // console.log(parseInt(img_count + Y / speed))
-                }
-            } else {
-                pagebackground = new createjs.Bitmap(preload.getResult("bg1"));
-                pagebackground.x = (canvas.width - 768 * proportion) / 2;
-                pagebackground.y = (canvas.height - 1024 * proportion) / 2;
-                pagebackground.scaleX = proportion * 768 / 375;
-                pagebackground.scaleY = proportion * 768 / 375;
-                container.addChild(pagebackground);
-            }
-
-            // stage.addChild(container, pageTop, pageBottom);
-            stage.addChild(container);
-        }
-        function handleTouchend(e) {
-            if (Math.sign(counts) === 1) {
-                if (counts > 0 && counts < fps_count) {
-                    img_count = parseInt(img_count + Y / speed)
-                } else {
-                    img_count = counts
-                }
-            } else {
-                img_count = 1
-            }
-
-            console.log("END img index")
-            console.log(img_count)
-        }
 
         // canvas.addEventListener("touchstart", handleTouchstart)
         // canvas.addEventListener("touchmove", handleTouchmove)
