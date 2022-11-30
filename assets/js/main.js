@@ -194,6 +194,13 @@ function main() {
                 id: 'jiaochixuanze' + i
             })
         }
+        for (var i = 0; i < 24; i++) {
+            manifest.push({
+                src: ossURL + "wannianzao/wannianzao" + i + ".png",
+                id: 'wannianzao_img' + i
+            })
+        }
+
     }
 
     //开始预加载
@@ -239,7 +246,7 @@ function main() {
 
         loadingH.gotoAndPlay("run" + parseInt((preload.progress * 100 | 0) / 10))
 
-        loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + (130 - (preload.progress * 80 | 0)) * proportion;
+        loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + (130 * proportion - (preload.progress * 80 | 0)) * proportion;
 
         // stage.addChild(background, pagebackground, pageTop, pageBottom)
         loadingContainer.addChild(loadingBeizi, loadingH, loadingS, loadingX, progressText);
@@ -812,7 +819,7 @@ function main() {
 
         var wentiText = new createjs.Text("点击选择正确的浓香窖池", "56px Arial", "#000");
         wentiText.x = (canvas.width - wentiText.getMeasuredWidth()) / 2;
-        wentiText.y = 9100;
+        wentiText.y = 9050;
         wentiText.shadow = new createjs.Shadow("#fff", 0, 0, 5);
         wentiText.alpha = 0;
 
@@ -862,12 +869,110 @@ function main() {
         next.y = 9700
         next.alpha = 0
 
-        var wanniancao = new createjs.Sprite(nongjiangchi_animate, "end");
-        wanniancao.scaleX = proportion;
-        wanniancao.scaleY = proportion;
-        wanniancao.x = (canvas.width - nongjiangchi_animate._frameWidth * proportion) / 2;
-        wanniancao.y = 9200;
-        wanniancao.framerate = 19;
+        /**
+         * 万年槽
+         */
+        var wannianzao_img = new Array();
+        for (var i = 0; i < 24; i++) {
+            wannianzao_img[i] = preload.getResult("wannianzao_img" + i);
+        }
+        var wannianzao_animate = new createjs.SpriteSheet({
+            "images": wannianzao_img,
+            "frames": {
+                width: 375,
+                height: 205,
+                spacing: 0,
+                count: 24
+            },
+            "animations": {
+                start: [0],
+                run: [0, 10, 'end', 0.3],
+                end: [10],
+                run2: [10, 21, 'end2', 0.3],
+                end2: [21],
+                run3: [21, 23, 'end3', 0.3],
+                end3: [23]
+            },
+            "framerate": 24
+        });
+        var wannianzao = new createjs.Sprite(wannianzao_animate, "start");
+        wannianzao.scaleX = proportion;
+        wannianzao.scaleY = proportion;
+        wannianzao.x = (canvas.width - wannianzao_animate._frameWidth * proportion) / 2;
+        wannianzao.y = 10500;
+        wannianzao.framerate = 24;
+
+        /**
+         * 黄泥
+         */
+        var huangni_img = new Array();
+        for (var i = 0; i < 18; i++) {
+            huangni_img[i] = ossURL + "huangni/huangni" + i + ".png";
+        }
+        var huangni_animate = new createjs.SpriteSheet({
+            "images": huangni_img,
+            "frames": {
+                width: 275,
+                height: 60,
+                spacing: 0,
+                count: 18
+            },
+            "animations": {
+                start: [0],
+                run: [0, 17, 'end', 0.4],
+                end: [17]
+            },
+            "framerate": 18
+        });
+        var huangni = new createjs.Sprite(huangni_animate, "start");
+        huangni.scaleX = proportion;
+        huangni.scaleY = proportion;
+        huangni.x = (canvas.width - huangni_animate._frameWidth * proportion + 10 * proportion) / 2;
+        huangni.y = 10470;
+        huangni.framerate = 18;
+
+        var tanceng1 = new createjs.Bitmap(ossURL + "tanceng1.png");
+        tanceng1.scaleX = 0;
+        tanceng1.scaleY = 0;
+        tanceng1.x = canvas.width / 2;
+        tanceng1.y = 9950;
+        tanceng1.alpha = 0;
+
+        /**
+         * 分层糟
+         */
+        var fencengzao_img = new Array();
+        for (var i = 0; i < 76; i++) {
+            fencengzao_img[i] = ossURL + "fencengzao/fencengzao" + i + ".png";
+        }
+        var fencengzao_animate = new createjs.SpriteSheet({
+            "images": fencengzao_img,
+            "frames": {
+                width: 375,
+                height: 205,
+                spacing: 0,
+                count: 76
+            },
+            "animations": {
+                start: [0],
+                run: [0, 18, 'end', 0.3],
+                end: [18],
+                run2: [18, 38, 'end2', 0.3],
+                end2: [38],
+                run3: [38, 57, 'end3', 0.3],
+                end3: [57],
+                run4: [57, 75, 'end4', 0.3],
+                end4: [75]
+            },
+            "framerate": 76
+        });
+        var fencengzao = new createjs.Sprite(fencengzao_animate, "start");
+        fencengzao.scaleX = proportion;
+        fencengzao.scaleY = proportion;
+        fencengzao.x = (canvas.width - fencengzao_animate._frameWidth * proportion) / 2;
+        fencengzao.y = 10500;
+        fencengzao.framerate = 76;
+        fencengzao.alpha = 0;
 
         /**
          * tween动画执行
@@ -1174,6 +1279,65 @@ function main() {
                 });
             });
 
+        wannianzaoFun = () => {
+            wannianzao.removeEventListener("click", wannianzaoFun);
+            wannianzao.gotoAndPlay("run3");
+            next.y = 10950;
+            next.alpha = 0;
+            createjs.Tween.get(tanceng1)
+                .wait(2000)
+                .to({
+                    scaleX: proportion * 0.5,
+                    scaleY: proportion * 0.5,
+                    x: (canvas.width - 500 * proportion * 0.5) / 2,
+                    y: 9800,
+                    alpha: 1
+                }, 2000)
+            createjs.Tween.get(next)
+                .wait(2000)
+                .to({
+                    alpha: 1
+                }, 2000)
+            next.addEventListener("click", nextFun2)
+        }
+
+        nj_animate_next = () => {
+            createjs.Tween.get(container)
+                .to({
+                    y: -9800
+                }, 2000)
+                .call(() => {
+                    huangni.gotoAndPlay("run");
+                    createjs.Tween.get(huangni)
+                        .wait(3000)
+                        .to({
+                            alpha: 0
+                        }, 1500)
+                    createjs.Tween.get(container)
+                        .wait(6000)
+                        .call(() => {
+                            wannianzao.gotoAndPlay("run");
+                        }, sineInOutEase)
+                        .wait(3000)
+                        .call(() => {
+                            wannianzao.gotoAndPlay("run2");
+                            wannianzao.addEventListener("click", wannianzaoFun)
+                        })
+                })
+        }
+        fc_animate_next = () => {
+            createjs.Tween.get(wannianzao)
+                .wait(2000)
+                .to({
+                    alpha: 0
+                }, 2000)
+            createjs.Tween.get(fencengzao)
+                .wait(2000)
+                .to({
+                    alpha: 1
+                }, 2000)
+        }
+
         nijiaoBtnFun = () => {
             nongjiangEnd("nijiao", "1")
         }
@@ -1212,7 +1376,7 @@ function main() {
                                             scaleX: proportion * 0.5,
                                             scaleY: proportion * 0.5,
                                             x: (canvas.width - 500 * proportion * 0.5) / 2,
-                                            y: 8450,
+                                            y: 8500,
                                             alpha: 1
                                         }, 2000)
                                         .call(() => {
@@ -1234,10 +1398,19 @@ function main() {
 
         nextFun = () => {
             next.removeEventListener("click", nextFun);
-            // createjs.Tween.get(container)
-            //     .to({
-            //         y: -9800
-            //     }, 2000)
+            nj_animate_next()
+        }
+        nextFun2 = () => {
+            next.removeEventListener("click", nextFun2);
+            createjs.Tween.get(next)
+                .to({
+                    alpha: 0
+                }, 1000)
+            createjs.Tween.get(tanceng1)
+                .to({
+                    alpha: 0
+                }, 1000)
+            fc_animate_next()
         }
         next.addEventListener("click", nextFun)
 
@@ -1248,7 +1421,7 @@ function main() {
             faxiaotong, gaizi, guandao, jiaoban_liuliang, zhengzhuText, zhengzhu2Text,
             liangshai, chuifeng, touliao, tanliangText, jiaquText, jiaqu2Text,
             nongjiangchi, wentiText, nijiaoBtn, shijiaoBtn, tanceng0, gutaifaxiaoText,
-            wanniancao,
+            wannianzao, huangni, tanceng1, fencengzao,
             next
         )
 
