@@ -6,12 +6,6 @@ document.body.addEventListener('touchmove', function (evt) {
     passive: false
 })
 
-var SHAKE_THRESHOLD = 4000;
-
-var last_update = 0;
-
-var x = 0, y = 0, z = 0;
-
 //判断是否ios
 function is_ios() {
     if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
@@ -19,48 +13,6 @@ function is_ios() {
     } else {
         return false;
     }
-}
-
-//捕捉行为动作
-function start() {
-    var o = new Orienter();
-
-    o.onOrient = function (obj) {
-
-        var a, b;
-
-        a = obj.lon < 180 ? obj.lon : obj.lon - 360;
-        b = obj.lat;
-
-        a = a > 0 ? a > 50 ? 50 : a : a < -50 ? -50 : a;
-        b = b > 0 ? b > 50 ? 50 : b : b < -50 ? -50 : b;
-
-        var curTime = new Date().getTime();
-
-        if ((curTime - last_update) > 10) {
-
-            var diffTime = curTime - last_update;
-
-            var speed = Math.abs(obj.a + obj.b + obj.g - x - y - z) / diffTime * 10000;
-
-            if (speed > SHAKE_THRESHOLD) {
-                alert('alpha[左右]:' + obj.a +
-                    '<br>' + 'beta[前后]:' + obj.b +
-                    '<br>' + 'gamma[扭转]:' + obj.g +
-                    '<br>' + 'longitude[纬度]:' + obj.lon +
-                    '<br>' + 'latitude[精度]:' + obj.lat +
-                    '<br>' + 'direction:' + obj.dir +
-                    '<br>' + 'a:' + a +
-                    '<br>' + 'b:' + b);  // Do something
-            }
-
-            x = obj.a;
-            y = obj.b;
-            z = obj.g;
-        }
-    };
-
-    o.on();
 }
 
 var canvas = document.getElementById('Canvas');
@@ -89,6 +41,11 @@ $(window).resize(getViewPort);
 var stage = new createjs.Stage(canvas);
 createjs.Touch.enable(stage)
 
+//构建显示对象的容器
+var loadingContainer = new createjs.Container();
+
+var container = new createjs.Container();
+
 var sineInOutEase = createjs.Ease.sineInOut;
 
 function main() {
@@ -96,11 +53,6 @@ function main() {
     var manifest;
     var preload;
     var ossURL = "https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjhnew/";
-
-    //构建显示对象的容器
-    var loadingContainer = new createjs.Container();
-
-    var container = new createjs.Container();
 
     /**
      * 基础动画 - 定位
@@ -1074,6 +1026,32 @@ function main() {
         zhengliushui.y = 13255;
         zhengliushui.alpha = 0;
 
+        var zhengqi_img = new Array();
+        for (var i = 0; i < 19; i++) {
+            zhengqi_img[i] = ossURL + "faxiaotong/zhengqi" + i + ".png";
+        }
+        var zhengqi_animate = new createjs.SpriteSheet({
+            "images": zhengqi_img,
+            "frames": {
+                width: 375,
+                height: 210,
+                spacing: 0,
+                count: 19
+            },
+            "animations": {
+                start: [0],
+                run1: [0, 18, 'run1', 0.3],
+                end1: [18]
+            },
+            "framerate": 19
+        });
+        var zhengqi = new createjs.Sprite(zhengqi_animate, "start");
+        zhengqi.scaleX = proportion;
+        zhengqi.scaleY = proportion;
+        zhengqi.x = (canvas.width - zhengqi_animate._frameWidth * proportion) / 2;
+        zhengqi.y = 12550;
+        zhengqi.framerate = 19;
+
         var jiuping1 = new createjs.Bitmap(ossURL + "faxiaotong/pz1.png");
         jiuping1.scaleX = proportion / 2;
         jiuping1.scaleY = proportion / 2;
@@ -1679,6 +1657,7 @@ function main() {
                     alpha: 1
                 }, 2000)
                 .call(() => {
+                    zhengqi.gotoAndPlay("run1")
                     createjs.Tween.get(jiuping1)
                         .wait(500)
                         .to({
@@ -2007,7 +1986,7 @@ function main() {
             jiujiao, jiuping1, jiuping2, jiuping3, jiugai,
             jiuL1, jiuL2, jiuL3, jiuL4, jiuL5, jiuR2, jiuR3, jiuR4, jiuR5,
             nongjiang1Text, nongjiang2Text, nongjiang3Text, nongjiang4Text,
-            faxiaotong, gaizi, guandao, zhengliushui, next
+            faxiaotong, gaizi, guandao, zhengliushui, next, zhengqi
         )
 
         // canvas.addEventListener("touchstart", handleTouchstart)
@@ -2026,4 +2005,31 @@ function main() {
     function tickhandle() {
         stage.update()
     }
+}
+
+//捕捉行为动作
+function start() {
+    var o = new Orienter();
+
+    o.onOrient = function (obj) {
+
+        var a, b;
+
+        a = obj.lon < 180 ? obj.lon : obj.lon - 360;
+        b = obj.lat;
+
+        a = a > 0 ? a > 50 ? 50 : a : a < -50 ? -50 : a;
+        b = b > 0 ? b > 50 ? 50 : b : b < -50 ? -50 : b;
+
+        alert('alpha[左右]:' + obj.a +
+            '<br>' + 'beta[前后]:' + obj.b +
+            '<br>' + 'gamma[扭转]:' + obj.g +
+            '<br>' + 'longitude[纬度]:' + obj.lon +
+            '<br>' + 'latitude[精度]:' + obj.lat +
+            '<br>' + 'direction:' + obj.dir +
+            '<br>' + 'a:' + a +
+            '<br>' + 'b:' + b);  // Do something
+    };
+
+    o.on();
 }
