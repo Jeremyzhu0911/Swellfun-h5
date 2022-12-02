@@ -1838,6 +1838,42 @@ function main() {
                     y: -12500
                 }, 2000)
         }
+        var lastX = 0, lastY = 0, speed = 15, isYao = true
+        //捕捉行为动作
+        function start() {
+            var o = new Orienter();
+
+            o.onOrient = function (obj) {
+
+                var a, b;
+
+                a = obj.lon < 180 ? obj.lon : obj.lon - 360;
+                b = obj.lat;
+                ;
+                a = a > 0 ? a > 50 ? 50 : a : a < -50 ? -50 : a;
+                b = b > 0 ? b > 50 ? 50 : b : b < -50 ? -50 : b;
+                if (isYao)
+                    if (a - lastX > speed || b - lastY > speed) {
+                        alert("摇完了")
+                        isYao = false
+                        return
+                    }
+
+                lastX = a;
+                lastY = b;
+                console.log('alpha[左右]:' + obj.a +
+                    '<br>' + 'beta[前后]:' + obj.b +
+                    '<br>' + 'gamma[扭转]:' + obj.g +
+                    '<br>' + 'longitude[纬度]:' + obj.lon +
+                    '<br>' + 'latitude[精度]:' + obj.lat +
+                    '<br>' + 'direction:' + obj.dir +
+                    '<br>' + 'a:' + a +
+                    '<br>' + 'b:' + b);  // Do something
+            };
+
+            o.on();
+        }
+
 
         datiEnd = (title, obj) => {
             switch (title) {
@@ -1930,8 +1966,6 @@ function main() {
                 default:
                     console.log("输入错误")
             }
-
-
         }
         nongjiangnianxianFun1 = () => {
             datiEnd("nianxian", 0)
@@ -2005,31 +2039,4 @@ function main() {
     function tickhandle() {
         stage.update()
     }
-}
-
-//捕捉行为动作
-function start() {
-    var o = new Orienter();
-
-    o.onOrient = function (obj) {
-
-        var a, b;
-
-        a = obj.lon < 180 ? obj.lon : obj.lon - 360;
-        b = obj.lat;
-
-        a = a > 0 ? a > 50 ? 50 : a : a < -50 ? -50 : a;
-        b = b > 0 ? b > 50 ? 50 : b : b < -50 ? -50 : b;
-
-        alert('alpha[左右]:' + obj.a +
-            '<br>' + 'beta[前后]:' + obj.b +
-            '<br>' + 'gamma[扭转]:' + obj.g +
-            '<br>' + 'longitude[纬度]:' + obj.lon +
-            '<br>' + 'latitude[精度]:' + obj.lat +
-            '<br>' + 'direction:' + obj.dir +
-            '<br>' + 'a:' + a +
-            '<br>' + 'b:' + b);  // Do something
-    };
-
-    o.on();
 }
