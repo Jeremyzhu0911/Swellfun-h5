@@ -6,6 +6,12 @@ document.body.addEventListener('touchmove', function (evt) {
     passive: false
 })
 
+var SHAKE_THRESHOLD = 4000;
+
+var last_update = 0;
+
+var x = 0, y = 0, z = 0;
+
 //判断是否ios
 function is_ios() {
     if (!!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {
@@ -29,15 +35,29 @@ function start() {
         a = a > 0 ? a > 50 ? 50 : a : a < -50 ? -50 : a;
         b = b > 0 ? b > 50 ? 50 : b : b < -50 ? -50 : b;
 
-        // alert('alpha[左右]:' + obj.a +
-        // '<br>' + 'beta[前后]:' + obj.b +
-        // '<br>' + 'gamma[扭转]:' + obj.g +
-        // '<br>' + 'longitude[纬度]:' + obj.lon +
-        // '<br>' + 'latitude[精度]:' + obj.lat +
-        // // '<br>' + 'direction:' + obj.dir +
-        // '<br>' + 'a:' + a +
-        // '<br>' + 'b:' + b);
-        alert("摇了")
+        var curTime = new Date().getTime();
+
+        if ((curTime - last_update) > 10) {
+
+            var diffTime = curTime - last_update;
+
+            var speed = Math.abs(obj.a + obj.b + obj.g - x - y - z) / diffTime * 10000;
+
+            if (speed > SHAKE_THRESHOLD) {
+                alert('alpha[左右]:' + obj.a +
+                    '<br>' + 'beta[前后]:' + obj.b +
+                    '<br>' + 'gamma[扭转]:' + obj.g +
+                    '<br>' + 'longitude[纬度]:' + obj.lon +
+                    '<br>' + 'latitude[精度]:' + obj.lat +
+                    '<br>' + 'direction:' + obj.dir +
+                    '<br>' + 'a:' + a +
+                    '<br>' + 'b:' + b);  // Do something
+            }
+
+            x = obj.a;
+            y = obj.b;
+            z = obj.g;
+        }
     };
 
     o.on();
@@ -943,13 +963,11 @@ function main() {
         xinliangText.x = (canvas.width - xinliangText.getMeasuredWidth()) / 2;
         xinliangText.y = 10550;
         xinliangText.alpha = 0;
-        xinliangText.shadow = new createjs.Shadow("#fff", 0, 1, 5);
 
         var wannianzaoText = new createjs.Text("万年糟", "48px Arial", "#000");
         wannianzaoText.x = (canvas.width - wannianzaoText.getMeasuredWidth()) / 2;
         wannianzaoText.y = 10700;
         wannianzaoText.alpha = 0;
-        wannianzaoText.shadow = new createjs.Shadow("#fff", 0, 1, 5);
 
         /**
          * 黄泥
