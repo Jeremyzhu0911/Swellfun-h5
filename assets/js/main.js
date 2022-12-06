@@ -1015,7 +1015,7 @@ function main() {
         touliao.scaleX = proportion;
         touliao.scaleY = proportion;
         touliao.x = (canvas.width - touliao_animate._frameWidth * proportion) / 2;
-        touliao.y = (canvas.height - touliao_animate._frameHeight * proportion) / 2;
+        touliao.y = (canvas.height - touliao_animate._frameHeight * proportion) / 2 - 50 * proportion;
         touliao.framerate = 17;
 
         createjs.Tween.get(touliao)
@@ -1590,7 +1590,7 @@ function main() {
         fencengguandao.scaleX = proportion * 0.7;
         fencengguandao.scaleY = proportion * 0.7;
         fencengguandao.x = (canvas.width - 301 * proportion * 0.7 + 1000) / 2;
-        fencengguandao.y = 70;
+        fencengguandao.y = canvas.height - 130;
         fencengguandao.alpha = 0;
 
         /**
@@ -1624,7 +1624,7 @@ function main() {
         zhengliushui.scaleX = proportion / 2;
         zhengliushui.scaleY = proportion / 2;
         zhengliushui.x = (canvas.width - 32 * proportion / 2 + 25) / 2;
-        zhengliushui.y = canvas.height + 755;//13255;
+        zhengliushui.y = canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 355;//13255;
         zhengliushui.alpha = 0;
 
         var zhengliuText1 = new createjs.Bitmap(ossURL + "text/zhengliuText1.png")
@@ -1657,26 +1657,26 @@ function main() {
         zhengqi.scaleX = proportion;
         zhengqi.scaleY = proportion;
         zhengqi.x = (canvas.width - zhengqi_animate._frameWidth * proportion) / 2;
-        zhengqi.y = canvas.height + 50;//12550;
+        zhengqi.y = canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 - 350;//12550;
         zhengqi.framerate = 19;
 
         var jiuping1 = new createjs.Bitmap(ossURL + "faxiaotong/pz1.png");
         jiuping1.scaleX = proportion / 2;
         jiuping1.scaleY = proportion / 2;
         jiuping1.x = canvas.width;
-        jiuping1.y = canvas.height + 880;//13380;
+        jiuping1.y = canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 480;//13380;
 
         var jiuping2 = new createjs.Bitmap(ossURL + "faxiaotong/pz2.png");
         jiuping2.scaleX = proportion / 2;
         jiuping2.scaleY = proportion / 2;
         jiuping2.x = canvas.width;
-        jiuping2.y = canvas.height + 880;
+        jiuping2.y = canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 480;
 
         var jiuping3 = new createjs.Bitmap(ossURL + "faxiaotong/pz3.png");
         jiuping3.scaleX = proportion / 2;
         jiuping3.scaleY = proportion / 2;
         jiuping3.x = canvas.width;
-        jiuping3.y = canvas.height + 880;
+        jiuping3.y = canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 480;
 
         /**
          * 酒窖
@@ -1751,7 +1751,7 @@ function main() {
         jiuTitle.scaleX = proportion * 0.5;
         jiuTitle.scaleY = proportion * 0.5;
         jiuTitle.x = (canvas.width - 541 * proportion * 0.5) / 2;;
-        jiuTitle.y = 15400;
+        jiuTitle.y = canvas.height * 2 + (canvas.height - 127 * proportion) / 2;
         jiuTitle.alpha = 0;
 
         var nongjiang1Text = new createjs.Bitmap(preload.getResult("nongjiang1Text"));
@@ -1846,7 +1846,7 @@ function main() {
                     scaleX: proportion * 0.7,
                     scaleY: proportion * 0.7,
                     x: (canvas.width - 301 * proportion * 0.7) / 2,
-                    y: canvas.height + 370,//12870,
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 - 30,//12870,
                     alpha: 1
                 }, 2000, sineInOutEase)
                 .wait(500)
@@ -1856,7 +1856,7 @@ function main() {
             createjs.Tween.get(faxiaotong4)
                 .wait(3000)
                 .to({
-                    y: canvas.height + 400,//12900,
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2,//12900,
                     scaleX: proportion * 0.7,
                     scaleY: proportion * 0.7,
                     x: (canvas.width - faxiaotong_animate._frameWidth * proportion * 0.7) / 2,
@@ -1869,7 +1869,7 @@ function main() {
                 .wait(3000)
                 .to({
                     x: (canvas.width - 160 * proportion) / 2,
-                    y: canvas.height + 700,//13200,
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 300,//13200,
                     alpha: 1
                 }, 2000, sineInOutEase)
                 .wait(500)
@@ -1880,14 +1880,14 @@ function main() {
             createjs.Tween.get(fencengguandao)
                 .wait(5500)
                 .to({
-                    y: canvas.height + 270,//12770,
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 - 130,//12770,
                     x: (canvas.width - 301 * proportion * 0.7) / 2,
                     alpha: 1
                 }, 2000)
             createjs.Tween.get(zhengliutong)
                 .wait(5500)
                 .to({
-                    y: canvas.height + 400,//12900,
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2,//12900,
                     x: (canvas.width - 164 * proportion + 400) / 2,
                     alpha: 1
                 }, 2000)
@@ -1902,7 +1902,7 @@ function main() {
                         .to({
                             x: (canvas.width - 132 * proportion / 2) / 2,
                             alpha: 1
-                        }, 2000)
+                        }, 1000)
                         .call(() => {
                             createjs.Tween.get(zhengliushui)
                                 .to({
@@ -1916,14 +1916,14 @@ function main() {
                         .wait(2000)
                         .to({
                             x: (canvas.width - 132 * proportion / 2 - 650) / 2,
-                        }, 2000)
+                        }, 1000)
                         .call(() => {
                             createjs.Tween.get(jiuping2)
                                 .wait(500)
                                 .to({
                                     x: (canvas.width - 143 * proportion / 2) / 2,
                                     alpha: 1
-                                }, 2000)
+                                }, 1000)
                                 .call(() => {
                                     createjs.Tween.get(zhengliushui)
                                         .to({
@@ -1937,14 +1937,14 @@ function main() {
                                 .wait(2000)
                                 .to({
                                     x: (canvas.width - 143 * proportion / 2 + 650) / 2,
-                                }, 2000)
+                                }, 1000)
                                 .call(() => {
                                     createjs.Tween.get(jiuping3)
                                         .wait(500)
                                         .to({
                                             x: (canvas.width - 120 * proportion / 2) / 2,
                                             alpha: 1
-                                        }, 2000)
+                                        }, 1000)
                                         .call(() => {
                                             createjs.Tween.get(zhengliushui)
                                                 .to({
@@ -1955,6 +1955,11 @@ function main() {
                                                     alpha: 0
                                                 }, 500)
                                                 .call(() => {
+                                                    createjs.Tween.get(fencengContainer)
+                                                        .wait(1000)
+                                                        .to({
+                                                            y: -canvas.height * 0.9 - canvas.height
+                                                        }, 2000)
                                                     createjs.Tween.get(jiuping1)
                                                         .wait(1000)
                                                         .to({
@@ -1970,11 +1975,6 @@ function main() {
                                                         .to({
                                                             y: 16080
                                                         }, 2000)
-                                                    createjs.Tween.get(container)
-                                                        .wait(1000)
-                                                        .to({
-                                                            y: -15000
-                                                        }, 3000)
                                                     createjs.Tween.get(jiuL1)
                                                         .wait(2000)
                                                         .to({
@@ -2068,7 +2068,7 @@ function main() {
                 .wait(5500)
                 .to({
                     x: (canvas.width - 157 * proportion + 425) / 2,
-                    y: canvas.height + 680,//13180
+                    y: canvas.height + (canvas.height - faxiaotong4_animate._frameHeight * proportion * 0.7) / 2 + 280,//13180
                     alpha: 1
                 }, 2000)
 
@@ -2079,8 +2079,17 @@ function main() {
                 }, 2000)
         }
 
-        jiujiaoFun = () => {
-
+        nongjiangnianxianFun1 = () => {
+            datiEnd("nianxian", 0)
+        }
+        nongjiangnianxianFun2 = () => {
+            datiEnd("nianxian", 0)
+        }
+        nongjiangnianxianFun3 = () => {
+            datiEnd("nianxian", 1)
+        }
+        nongjiangnianxianFun4 = () => {
+            datiEnd("nianxian", 0)
         }
 
         datiEnd = (title, obj) => {
@@ -2448,7 +2457,7 @@ function main() {
             fencengzao, fencengzaoText1, fencengzaoText2,
             shizuoL, shizuoR, zhengliutong, faxiaotong1, faxiaotong2, faxiaotong3, faxiaotong4, fencenggaizi, fencengguandao, zhengqi, zhengliuText1,
             jiujiao, jiuping1, jiuping2, jiuping3, jiugai,
-            jiuL1, jiuL2, jiuL3, jiuL4, jiuL5, jiuR2, jiuR3, jiuR4, jiuR5,
+            jiuL1, jiuL2, jiuL3, jiuL4, jiuL5, jiuR2, jiuR3, jiuR4, jiuR5, zhengliushui,
             jiuTitle, nongjiang1Text, nongjiang2Text, nongjiang3Text, nongjiang4Text, mobile, yearNum, tanceng2, jiujiaoText1, jiujiaoText2,
         )
         xuzaoContainer.addChild(wannianzao, wannianzao_cz, faxiaoText1, faxiaoText2, faxiaoText3, faxiaoText4, faxiaoText5, huangni, huangniText, huangni2Text, next2, tanceng1)
