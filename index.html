@@ -18,7 +18,9 @@
 </head>
 <body onload="init()">
     <div class="conter">
-        <canvas id="Canvas" width="765" height="1024"></canvas>
+        <canvas id="Canvas" ref="ctD" width="765" height="1024"></canvas>
+        <div class="btn pre" onclick="pre()">保存至手机</div>
+        <div class="btn share">分享给好友</div>
     </div>
     <script type="text/javascript" src="assets/js/jquery.min.js"></script>
     <script type="text/javascript" src="assets/js/orienter.js"></script>
@@ -31,6 +33,8 @@
                 scripts[i].src = scripts[i].src + "?v=" + new Date().getTime();
             }
         }
+        $(".btn").hide()
+
     </script>
 </body>
 </html>
