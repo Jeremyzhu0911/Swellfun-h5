@@ -138,6 +138,7 @@ body {
   top: 0;
   left: 0;
   z-index: 98;
+  display: none;
 }
 
 .btn {
@@ -152,6 +153,7 @@ body {
   color: #fff;
   position: fixed;
   bottom: 2.13333rem;
+  display: none;
 }
 .btn.pre {
   left: 2.48889rem;
