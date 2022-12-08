@@ -1218,8 +1218,8 @@ function main() {
                 end: [15],
                 run2: [15, 25, 'end2', 0.3],
                 end2: [25],
-                run3: [25, 41, 'run3', 0.3],
-                ebd3: [41]
+                run3: [25, 41, 'end3', 0.3],
+                end3: [41]
             },
             "framerate": 44
         });
@@ -1236,6 +1236,20 @@ function main() {
         wannianzao_cz.x = (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion;
         wannianzao_cz.y = (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion;
         wannianzao_cz.alpha = 0;
+
+        var paoliao1 = new createjs.Bitmap(ossURL + "nijiao/paoliao1.png");
+        paoliao1.scaleX = proportion * 0.5;
+        paoliao1.scaleY = proportion * 0.5;
+        paoliao1.x = (canvas.width - 185 * proportion * 0.5) / 2 - 50 * proportion;
+        paoliao1.y = (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion;
+        paoliao1.alpha = 0;
+
+        var paoliao2 = new createjs.Bitmap(ossURL + "nijiao/paoliao2.png");
+        paoliao2.scaleX = proportion * 0.5;
+        paoliao2.scaleY = proportion * 0.5;
+        paoliao2.x = (canvas.width - 185 * proportion * 0.5) / 2 + 120 * proportion;
+        paoliao2.y = (canvas.height - 70 * proportion * 0.5) / 2 - 170 * proportion;
+        paoliao2.alpha = 0;
 
         var faxiaoText1 = new createjs.Bitmap(ossURL + "text/faxiaoText1.png")
         faxiaoText1.scaleX = 0;
@@ -1337,7 +1351,6 @@ function main() {
         wannianzaoFun = () => {
             wannianzao.removeEventListener("click", wannianzaoFun);
 
-            wannianzao.gotoAndPlay("run");
             createjs.Tween.get(faxiaoText1)
                 .to({
                     alpha: 0
@@ -1370,27 +1383,74 @@ function main() {
                         .to({
                             alpha: 0
                         }, 1000)
-                    wannianzao.gotoAndPlay("run2");
                 })
 
-            createjs.Tween.get(wannianzao_cz)
-                .wait(1000)
-                .to({
-                    x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
-                    y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
-                    alpha: 1
-                }, 1000, sineInOutEase)
-                .wait(500)
-                .to({
-                    alpha: 0
-                }, 1000)
-                .to({
-                    x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
-                    y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
-                })
-                .wait(2300)
+            createjs.Tween.get(wannianzao, { loop: true })
+                .call(() => {
+                    wannianzao.gotoAndPlay("run");
+                    createjs.Tween.get(wannianzao_cz)
+                        .wait(2000)
+                        .to({
+                            x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
+                            y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
+                            alpha: 1
+                        }, 2000, sineInOutEase)
+                        .wait(500)
+                        .to({
+                            alpha: 0
+                        }, 1000, sineInOutEase)
+                        .to({
+                            x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
+                            y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
+                        })
+                    createjs.Tween.get(paoliao1)
+                        .wait(3000)
+                        .to({
+                            x: (canvas.width - 185 * proportion * 0.5) / 2 - 120 * proportion,
+                            y: (canvas.height - 70 * proportion * 0.5) / 2 - 170 * proportion,
+                            alpha: 1
+                        }, 2000, sineInOutEase)
+                        .wait(500)
+                        .to({
+                            alpha: 0
+                        }, 1000, sineInOutEase)
+                        .to({
+                            x: (canvas.width - 185 * proportion * 0.5) / 2 - 50 * proportion,
+                            y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion
+                        })
+
+                }, sineInOutEase)
+                .wait(3000)
+                .call(() => {
+                    wannianzao.gotoAndPlay("run2");
+                    createjs.Tween.get(paoliao2)
+                        .wait(4500)
+                        .to({
+                            x: (canvas.width - 185 * proportion * 0.5) / 2 + 50 * proportion,
+                            y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
+                            alpha: 1
+                        }, 2000, sineInOutEase)
+                        .wait(500)
+                        .to({
+                            alpha: 0
+                        }, 1000, sineInOutEase)
+                        .to({
+                            x: (canvas.width - 185 * proportion * 0.5) / 2 + 120 * proportion,
+                            y: (canvas.height - 70 * proportion * 0.5) / 2 - 170 * proportion
+                        })
+                }, sineInOutEase)
+                .wait(4500)
                 .call(() => {
                     wannianzao.gotoAndPlay("run3");
+                }, sineInOutEase)
+                .wait(1500)
+                .call(() => {
+                    console.log("循环结束")
+                }, sineInOutEase)
+
+            createjs.Tween.get(wannianzao_cz)
+                .wait(5500)
+                .call(() => {
                     createjs.Tween.get(tanceng1)
                         .wait(2000)
                         .to({
@@ -1408,6 +1468,57 @@ function main() {
                         }, 1000)
                     next2.addEventListener("click", nextFun2)
                 })
+
+            // createjs.Tween.get(wannianzao, { loop: true })
+            //     .wait(5000)
+            //     .call(() => {
+            //         wannianzao.gotoAndPlay("run");
+            //     })
+            //     .wait(2000)
+            //     .call(() => {
+            //         wannianzao.gotoAndPlay("run2");
+            //     })
+            //     .wait(2000)
+            //     .call(() => {
+            //         wannianzao.gotoAndPlay("run3");
+            //     })
+
+
+            // createjs.Tween.get(wannianzao_cz)
+            //     .wait(2500)
+            //     .to({
+            //         x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
+            //         y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
+            //         alpha: 1
+            //     }, 1000, sineInOutEase)
+            //     .wait(500)
+            //     .to({
+            //         alpha: 0
+            //     }, 1000)
+            //     .to({
+            //         x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
+            //         y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
+            //     })
+            //     .wait(2300)
+            //     .call(() => {
+            //         wannianzao.gotoAndPlay("run3");
+            //         createjs.Tween.get(tanceng1)
+            //             .wait(2000)
+            //             .to({
+            //                 scaleX: proportion * 0.5,
+            //                 scaleY: proportion * 0.5,
+            //                 x: (canvas.width - 500 * proportion * 0.5) / 2,
+            //                 y: (canvas.height - 600 * proportion * 0.5) / 2 - 300 * proportion,
+            //                 alpha: 1
+            //             }, 1000)
+
+            //         createjs.Tween.get(next2)
+            //             .wait(2000)
+            //             .to({
+            //                 alpha: 1
+            //             }, 1000)
+            //         next2.addEventListener("click", nextFun2)
+            //     })
         }
 
 
@@ -2547,7 +2658,6 @@ function main() {
                         .to({
                             alpha: 0
                         }, 1500)
-                        .wait(2000)
                         .call(() => {
                             createjs.Tween.get(faxiaoText1)
                                 .to({
@@ -2557,6 +2667,7 @@ function main() {
                                     alpha: 1
                                 }, 1000)
                             createjs.Tween.get(faxiaoText2)
+                                .wait(800)
                                 .to({
                                     scaleX: proportion * 0.5,
                                     scaleY: proportion * 0.5,
@@ -2564,11 +2675,14 @@ function main() {
                                     alpha: 1
                                 }, 1000)
                             createjs.Tween.get(faxiaoText5)
-                                .wait(1000)
+                                .wait(1500)
                                 .to({
                                     alpha: 1
                                 }, 1500)
-                            wannianzao.addEventListener("click", wannianzaoFun)
+                                .call(() => {
+                                    wannianzao.addEventListener("click", wannianzaoFun)
+                                })
+
                         })
                 })
         }
@@ -2875,7 +2989,7 @@ function main() {
             jiuL1, jiuL2, jiuL3, jiuL4, jiuL5, jiuR2, jiuR3, jiuR4, jiuR5, zhengliushui,
             jiuTitle, nongjiang1Text, nongjiang2Text, nongjiang3Text, nongjiang4Text, mobile, yearNum, tanceng2, jiujiaoText1, jiujiaoText2, next3
         )
-        xuzaoContainer.addChild(wannianzao, wannianzao_cz, faxiaoText1, faxiaoText2, faxiaoText3, faxiaoText4, faxiaoText5, huangni, huangniText, huangni2Text, next2, tanceng1)
+        xuzaoContainer.addChild(wannianzao, wannianzao_cz, paoliao1, paoliao2, faxiaoText1, faxiaoText2, faxiaoText3, faxiaoText4, faxiaoText5, huangni, huangniText, huangni2Text, next2, tanceng1)
         nongjiangchiContainer.addChild(nongjiangchi, wentiText, nijiaoBtn, shijiaoBtn, tanceng0, next, jiaoban_liuliang, gutaifaxiaoText)
         tanliangContainer.addChild(liangshai, chuifeng, touliao, tanliangText, jiaquText, jiaqu2Text)
         zhengliuContainer.addChild(faxiaotong, gaizi, guandao, zhengzhuText, zhengzhu2Text)
