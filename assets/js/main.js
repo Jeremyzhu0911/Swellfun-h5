@@ -16,6 +16,7 @@ function is_ios() {
 }
 
 var canvas = document.getElementById('Canvas');
+var canvasEnd = document.getElementById('End');
 
 var viewHeight, viewWidth, proportion, proportionH;
 
@@ -27,6 +28,8 @@ function getViewPort() {
     proportionH = (viewHeight / 812);
     canvas.width = viewWidth;
     canvas.height = viewHeight;
+    canvasEnd.width = viewWidth;
+    canvasEnd.height = viewHeight;
 }
 
 function init() {
@@ -39,6 +42,9 @@ $(window).resize(getViewPort);
 //创建一个舞台，得到一个参考的画布
 var stage = new createjs.Stage(canvas);
 createjs.Touch.enable(stage)
+
+var stageEnd = new createjs.Stage(canvasEnd);
+createjs.Touch.enable(stageEnd)
 
 //构建显示对象的容器
 var loadingContainer = new createjs.Container();
@@ -82,7 +88,7 @@ function main() {
     background.y = (canvas.height - 812 * proportion) / 2;
 
     //加载loading
-    var loadingBeizi = new createjs.Bitmap(ossURL + "loading/loadingBeizi.png");
+    var loadingBeizi = new createjs.Bitmap("./assets/images/loading/loadingBeizi.png");
     loadingBeizi.scaleX = proportion;
     loadingBeizi.scaleY = proportion;
     loadingBeizi.x = (canvas.width - 451 * proportion) / 2 - 9 * proportion;
@@ -91,7 +97,7 @@ function main() {
 
     var loadingH_img = new Array();
     for (var i = 0; i < 11; i++) {
-        loadingH_img[i] = ossURL + "loading/loadingH" + i + ".png";
+        loadingH_img[i] = "./assets/images/loading/loadingH" + i + ".png";
     }
 
     var loadingH_animate = new createjs.SpriteSheet({
@@ -126,7 +132,7 @@ function main() {
 
     var loadingS_img = new Array();
     for (var i = 0; i < 18; i++) {
-        loadingS_img[i] = ossURL + "loading/loadingS" + i + ".png";
+        loadingS_img[i] = "./assets/images/loading/loadingS" + i + ".png";
     }
 
     var loadingS_animate = new createjs.SpriteSheet({
@@ -153,7 +159,7 @@ function main() {
 
     var loadingX_img = new Array();
     for (var i = 0; i < 18; i++) {
-        loadingX_img[i] = ossURL + "loading/loadingX" + i + ".png";
+        loadingX_img[i] = "./assets/images/loading/loadingX" + i + ".png";
     }
 
     var loadingX_animate = new createjs.SpriteSheet({
@@ -282,7 +288,8 @@ function main() {
         container3.alpha = 0;
         // stage.addChild(background, pagebackground, pageTop, pageBottom)
         loadingContainer.addChild(loadingBeizi, loadingH, loadingS, loadingX, progressText);
-        stage.addChild(background, container, fencengContainer, xuzaoContainer, nongjiangchiContainer, tanliangContainer, zhengliuContainer, runliangContainer, xuanliangContainer, posuiContainer, tuicheContainer, container2, container3, timeContainer, loadingContainer);
+        stage.addChild(background, container, fencengContainer, xuzaoContainer, nongjiangchiContainer, tanliangContainer, zhengliuContainer, runliangContainer, xuanliangContainer, posuiContainer, tuicheContainer, container2, timeContainer, loadingContainer);
+        stageEnd.addChild(container3)
         // createjs.Ticker.addEventListener("tick", tickhandle);
     }
 
@@ -303,6 +310,7 @@ function main() {
 
     function tickhandle() {
         stage.update()
+        stageEnd.update()
     }
     function time() {
         var currentTime = (new Date()).getTime();
@@ -2912,27 +2920,30 @@ function main() {
          * 报告单
          * img 因有文字所以用2倍图，使用缩放一半即可
          */
+        var graphics = new createjs.Graphics().beginFill('#fff').drawRect(0, 0, canvas.width, canvas.height);
+        var shape = new createjs.Shape(graphics);
+        shape.x = 0;
+        shape.y = 0;
 
-
-        var baogaoBg = new createjs.Bitmap(ossURL + "end/baogao.jpg");
+        var baogaoBg = new createjs.Bitmap("./assets/images/end/baogao.jpg");
         baogaoBg.scaleX = proportion * 0.5;
         baogaoBg.scaleY = proportion * 0.5;
         baogaoBg.x = (canvas.width - 750 * proportion * 0.5) / 2;
         baogaoBg.y = (canvas.height - 1210 * proportion * 0.5) / 2;
 
-        var baogao_text1 = new createjs.Bitmap(ossURL + "end/baogao_text1.png");
+        var baogao_text1 = new createjs.Bitmap("./assets/images/end/baogao_text1.png");
         baogao_text1.scaleX = proportion * 0.5;
         baogao_text1.scaleY = proportion * 0.5;
         baogao_text1.x = (canvas.width - 563 * proportion * 0.5) / 2;
         baogao_text1.y = (canvas.height - 123 * proportion * 0.5) / 2 - 500;
 
-        var baogao_text2 = new createjs.Bitmap(ossURL + "end/baogao_text2.png");
+        var baogao_text2 = new createjs.Bitmap("./assets/images/end/baogao_text2.png");
         baogao_text2.scaleX = proportion * 0.5;
         baogao_text2.scaleY = proportion * 0.5;
         baogao_text2.x = (canvas.width - 170 * proportion * 0.5) / 2 + 250;
         baogao_text2.y = (canvas.height - 51 * proportion * 0.5) / 2 - 200;
 
-        var baogao_text3 = new createjs.Bitmap(ossURL + "end/baogao_text3.png");
+        var baogao_text3 = new createjs.Bitmap("./assets/images/end/baogao_text3.png");
         baogao_text3.scaleX = proportion * 0.5;
         baogao_text3.scaleY = proportion * 0.5;
         baogao_text3.x = (canvas.width - 107 * proportion * 0.5) / 2 + 300;
@@ -2974,10 +2985,10 @@ function main() {
             loadingX.y = (canvas.height - loadingX_animate._frameHeight * proportion) / 2 - 30 * proportion + 200;
             loadingX.alpha = 0.8;
 
-            $("body").css("background", "#fff")
+            $(".btn,#End").show()
 
             container.alpha = 0;
-            background.alpha = 0
+            background.alpha = 0;
 
             loadingH.gotoAndPlay("run4")
 
@@ -2993,7 +3004,12 @@ function main() {
         }
 
         pre = () => {
-            var url = canvas.toDataURL("image/png");
+            var url = canvasEnd.toDataURL("image/jpg");
+            var a = document.createElement("a");
+            var Aevent = new MouseEvent("click"); // 创建一个单击事件
+            a.download = "我的成绩单"; // 设置图片名称，-------------你传递的图片名称
+            a.href = url; // 将生成的URL设置为a.href属性
+            a.dispatchEvent(Aevent); // 触发a的单击事件
             console.log(url)
         }
         // fencengFun()
@@ -3022,6 +3038,7 @@ function main() {
             sijiText1, sijiText2, sijiText3, sijiText4
         )
         container3.addChild(
+            shape,
             baogaoBg,
             loadingBeizi, loadingH, loadingS, loadingX,
             baogao_text1, baogao_text2, baogao_text3, TimeEnd, chaoyue

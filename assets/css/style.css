@@ -133,6 +133,13 @@ body {
   background: url("https://oss-baijiuxuefang.oss-cn-beijing.aliyuncs.com/oss-baijiuxuefang/njjhnew/background.jpg");
 }
 
+#End {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 98;
+}
+
 .btn {
   z-index: 99;
   text-align: center;

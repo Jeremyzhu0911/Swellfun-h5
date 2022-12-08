@@ -18,7 +18,8 @@
 </head>
 <body onload="init()">
     <div class="conter">
-        <canvas id="Canvas" ref="ctD" width="765" height="1024"></canvas>
+        <canvas id="Canvas" width="765" height="1024"></canvas>
+        <canvas id="End"></canvas>
         <div class="btn pre" onclick="pre()">保存至手机</div>
         <div class="btn share">分享给好友</div>
     </div>
@@ -33,7 +34,7 @@
                 scripts[i].src = scripts[i].src + "?v=" + new Date().getTime();
             }
         }
-        $(".btn").hide()
+        $(".btn,#End").hide()
 
     </script>
 </body>
