@@ -521,6 +521,13 @@ function main() {
         liuliang.framerate = 35;
         liuliang.alpha = 0;
 
+        var liuliangText = new createjs.Bitmap(ossURL + "text/liuliangText.png");
+        liuliangText.x = canvas.width / 2;
+        liuliangText.y = (canvas.height - 42 * proportion * 0.5) / 2 + 300 * proportion;
+        liuliangText.scaleX = 0;
+        liuliangText.scaleY = 0;
+        liuliangText.alpha = 0;
+
         /**
          * 磨盘动画
          */
@@ -537,6 +544,18 @@ function main() {
                         alpha: 1
                     }, 1000)
                     .wait(1000)
+                    .to({
+                        alpha: 0
+                    }, 1000)
+                createjs.Tween.get(liuliangText)
+                    .wait(2000)
+                    .to({
+                        scaleX: proportion * 0.5,
+                        scaleY: proportion * 0.5,
+                        x: (canvas.width - 271 * proportion * 0.5) / 2,
+                        alpha: 1
+                    }, 1000)
+                    .wait(500)
                     .to({
                         alpha: 0
                     }, 1000)
@@ -2994,7 +3013,7 @@ function main() {
         tanliangContainer.addChild(liangshai, chuifeng, touliao, tanliangText, jiaquText, jiaqu2Text)
         zhengliuContainer.addChild(faxiaotong, gaizi, guandao, zhengzhuText, zhengzhu2Text)
         runliangContainer.addChild(jiaoban_down, chanziA, chanziB, jiaoban_up, jiaoban_liuliang, shuitong, shuihua, runliangText, runliang2Text, banheText, banhe2Text)
-        posuiContainer.addChild(mopan, liuliang, mopans, posuiText)
+        posuiContainer.addChild(mopan, liuliang, mopans, posuiText, liuliangText)
         xuanliangContainer.addChild(liangshicao, xuanliangText)
         tuicheContainer.addChild(A_Car, B_Car, liangshi_lizi)
 
