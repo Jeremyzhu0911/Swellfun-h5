@@ -143,19 +143,19 @@ body {
 .btn {
   z-index: 99;
   text-align: center;
-  width: 13.24619rem;
-  height: 3.48584rem;
-  border-radius: 0.69717rem;
-  line-height: 3.48584rem;
-  font-size: 1.32462rem;
+  width: 13.51111rem;
+  height: 3.55556rem;
+  border-radius: 0.71111rem;
+  line-height: 3.55556rem;
+  font-size: 1.35111rem;
   background: #6e1217;
   color: #fff;
   position: fixed;
-  bottom: 2.0915rem;
+  bottom: 2.13333rem;
 }
 .btn.pre {
-  left: 2.44009rem;
+  left: 2.48889rem;
 }
 .btn.share {
-  right: 2.44009rem;
+  right: 2.48889rem;
 }

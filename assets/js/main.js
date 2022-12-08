@@ -81,14 +81,14 @@ function main() {
      * 磨盘
      */
 
-    var background = new createjs.Bitmap("./assets/images/background.jpg");
+    var background = new createjs.Bitmap(ossURL + "background.jpg");
     background.scaleX = proportion;
     background.scaleY = proportion;
     background.x = (canvas.width - 375 * proportion) / 2;
     background.y = (canvas.height - 812 * proportion) / 2;
 
     //加载loading
-    var loadingBeizi = new createjs.Bitmap("./assets/images/loading/loadingBeizi.png");
+    var loadingBeizi = new createjs.Bitmap(ossURL + "loading/loadingBeizi.png");
     loadingBeizi.scaleX = proportion;
     loadingBeizi.scaleY = proportion;
     loadingBeizi.x = (canvas.width - 451 * proportion) / 2 - 9 * proportion;
@@ -97,7 +97,7 @@ function main() {
 
     var loadingH_img = new Array();
     for (var i = 0; i < 11; i++) {
-        loadingH_img[i] = "./assets/images/loading/loadingH" + i + ".png";
+        loadingH_img[i] = ossURL + "loading/loadingH" + i + ".png";
     }
 
     var loadingH_animate = new createjs.SpriteSheet({
@@ -132,7 +132,7 @@ function main() {
 
     var loadingS_img = new Array();
     for (var i = 0; i < 18; i++) {
-        loadingS_img[i] = "./assets/images/loading/loadingS" + i + ".png";
+        loadingS_img[i] = ossURL + "loading/loadingS" + i + ".png";
     }
 
     var loadingS_animate = new createjs.SpriteSheet({
@@ -159,7 +159,7 @@ function main() {
 
     var loadingX_img = new Array();
     for (var i = 0; i < 18; i++) {
-        loadingX_img[i] = "./assets/images/loading/loadingX" + i + ".png";
+        loadingX_img[i] = ossURL + "loading/loadingX" + i + ".png";
     }
 
     var loadingX_animate = new createjs.SpriteSheet({
@@ -2931,6 +2931,18 @@ function main() {
         baogaoBg.x = (canvas.width - 750 * proportion * 0.5) / 2;
         baogaoBg.y = (canvas.height - 1210 * proportion * 0.5) / 2;
 
+        var baogao_beizi = new createjs.Bitmap("./assets/images/end/baogaobeizi.png");
+        baogao_beizi.scaleX = proportion;
+        baogao_beizi.scaleY = proportion;
+        baogao_beizi.x = (canvas.width - 260 * proportion * 0.5) / 2 - 25 * proportion;
+        baogao_beizi.y = (canvas.height - 352 * proportion * 0.5) / 2 + 30 * proportion;
+
+        var code = new createjs.Bitmap("./assets/images/end/code.png");
+        code.scaleX = proportion * 0.5;
+        code.scaleY = proportion * 0.5;
+        code.x = (canvas.width - 241 * proportion * 0.5) / 2 - 100 * proportion;
+        code.y = (canvas.height - 289 * proportion * 0.5) / 2 + 200 * proportion
+
         var baogao_text1 = new createjs.Bitmap("./assets/images/end/baogao_text1.png");
         baogao_text1.scaleX = proportion * 0.5;
         baogao_text1.scaleY = proportion * 0.5;
@@ -2972,18 +2984,18 @@ function main() {
             createjs.Ticker.removeEventListener('tick', time);
             timeAll.alpha = 0;
 
-            loadingBeizi.x = (canvas.width - 451 * proportion) / 2 - 9 * proportion + 150;
-            loadingBeizi.y = (canvas.height - 812 * proportion) / 2 + 200;
+            // loadingBeizi.x = (canvas.width - 451 * proportion) / 2 - 9 * proportion + 150;
+            // loadingBeizi.y = (canvas.height - 812 * proportion) / 2 + 200;
 
-            loadingS.x = (canvas.width - loadingS_animate._frameWidth * proportion) / 2 + 150;
-            loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + 130 * proportion + 100;
+            // loadingS.x = (canvas.width - loadingS_animate._frameWidth * proportion) / 2 + 150;
+            // loadingS.y = (canvas.height - loadingS_animate._frameHeight * proportion) / 2 + 130 * proportion + 100;
 
-            loadingH.x = (canvas.width - loadingH_animate._frameWidth * proportion) / 2 + 150;
-            loadingH.y = (canvas.height - loadingH_animate._frameHeight * proportion) / 2 + 100 * proportion + 200;
+            // loadingH.x = (canvas.width - loadingH_animate._frameWidth * proportion) / 2 + 150;
+            // loadingH.y = (canvas.height - loadingH_animate._frameHeight * proportion) / 2 + 100 * proportion + 200;
 
-            loadingX.x = (canvas.width - loadingX_animate._frameWidth * proportion) / 2 + 80;
-            loadingX.y = (canvas.height - loadingX_animate._frameHeight * proportion) / 2 - 30 * proportion + 200;
-            loadingX.alpha = 0.8;
+            // loadingX.x = (canvas.width - loadingX_animate._frameWidth * proportion) / 2 + 80;
+            // loadingX.y = (canvas.height - loadingX_animate._frameHeight * proportion) / 2 - 30 * proportion + 200;
+            // loadingX.alpha = 0.8;
 
             $(".btn,#End").show()
 
@@ -3012,6 +3024,7 @@ function main() {
             a.dispatchEvent(Aevent); // 触发a的单击事件
             console.log(url)
         }
+        // baogao()
         // fencengFun()
 
         /**
@@ -3039,8 +3052,7 @@ function main() {
         )
         container3.addChild(
             shape,
-            baogaoBg,
-            loadingBeizi, loadingH, loadingS, loadingX,
+            baogaoBg, baogao_beizi, code,
             baogao_text1, baogao_text2, baogao_text3, TimeEnd, chaoyue
         )
         timeContainer.addChild(timeAll)
