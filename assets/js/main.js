@@ -2300,11 +2300,11 @@ function main() {
         // sijiyuan.scaleY = proportion * 8;
         // sijiyuan.x = (canvas.width - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2;
         // sijiyuan.y = (canvas.height - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2 + 580 * 7.5;
-        sijiyuan.scaleX = proportion * 0.5,
-            sijiyuan.scaleY = proportion * 0.5,
-            sijiyuan.x = (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4,
-            sijiyuan.y = (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580,
-            sijiyuan.alpha = 0;
+        sijiyuan.scaleX = proportion * 0.5;
+        sijiyuan.scaleY = proportion * 0.5;
+        sijiyuan.x = (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4;
+        sijiyuan.y = (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580;
+        sijiyuan.alpha = 0;
         sijiyuan.rotation = 0;
         sijiyuan.regX = 1750 / 2;
         sijiyuan.regY = 1750 / 2;
@@ -2875,8 +2875,8 @@ function main() {
                     // scaleY: proportion * 0.5,
                     // x: (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4,
                     // y: (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580,
-                }, 100, sineInOutEase)
-                .wait(3900)
+                }, 1900, sineInOutEase)
+                .wait(2100)
                 .to({
                     rotation: -90
                 }, 2000, sineInOutEase)
