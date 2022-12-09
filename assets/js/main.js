@@ -2852,7 +2852,16 @@ function main() {
                 }, 1000)
                 .wait(2000)
                 .call(() => {
-                    wx.miniProgram.navigateTo({ url: '/pages/nongjiang/index?time=' + totalTime + '&score=' + fraction })
+                    var score;
+                    if (fraction === 2) {
+                        score = Math.trunc(totalTime / 60) > 3 ? fraction * 40 + 9 + Math.round(Math.random() * 9) : (fraction * 40 + 19)
+                    } else if (fraction === 1) {
+                        score = Math.trunc(totalTime / 60) > 3 ? fraction * 40 + 30 + Math.round(Math.random() * 9) : (fraction * 40 + 30 + 19)
+                    } else {
+                        score = Math.trunc(totalTime / 60) > 3 ? fraction * 40 + 60 + Math.round(Math.random() * 9) : (fraction * 40 + 60 + 19)
+                    }
+
+                    wx.miniProgram.navigateTo({ url: '/pages/nongjiang/index?time=' + totalTime + '&score=' + score })
                     // baogao()
                 })
 
