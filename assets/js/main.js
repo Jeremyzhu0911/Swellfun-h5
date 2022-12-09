@@ -1442,13 +1442,13 @@ function main() {
                 .call(() => {
                     wannianzao.gotoAndPlay("run2");
                     createjs.Tween.get(paoliao2)
-                        .wait(4500)
+                        .wait(3000)
                         .to({
                             x: (canvas.width - 185 * proportion * 0.5) / 2 + 50 * proportion,
                             y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
                             rotation: -15,
                             alpha: 1
-                        }, 2000, sineInOutEase)
+                        }, 1000, sineInOutEase)
                         .to({
                             alpha: 0
                         }, 500, sineInOutEase)
@@ -1458,7 +1458,7 @@ function main() {
                             rotation: 30
                         })
                 }, sineInOutEase)
-                .wait(4500)
+                .wait(3500)
                 .call(() => {
                     wannianzao.gotoAndPlay("run3");
                 }, sineInOutEase)
@@ -1471,13 +1471,13 @@ function main() {
                 .wait(5500)
                 .call(() => {
                     createjs.Tween.get(tanceng1)
-                        .wait(2000)
+                        .wait(1000)
                         .to({
                             alpha: 1
                         }, 1000)
 
                     createjs.Tween.get(next2)
-                        .wait(2000)
+                        .wait(1000)
                         .to({
                             alpha: 1
                         }, 1000)
@@ -2296,11 +2296,15 @@ function main() {
         fangzi.alpha = 0;
 
         var sijiyuan = new createjs.Bitmap(ossURL + "end/yuan.png");
-        sijiyuan.scaleX = proportion * 8;
-        sijiyuan.scaleY = proportion * 8;
-        sijiyuan.x = (canvas.width - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2;
-        sijiyuan.y = (canvas.height - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2 + 580 * 7.5;
-        sijiyuan.alpha = 0;
+        // sijiyuan.scaleX = proportion * 8;
+        // sijiyuan.scaleY = proportion * 8;
+        // sijiyuan.x = (canvas.width - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2;
+        // sijiyuan.y = (canvas.height - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2 + 580 * 7.5;
+        sijiyuan.scaleX = proportion * 0.5,
+            sijiyuan.scaleY = proportion * 0.5,
+            sijiyuan.x = (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4,
+            sijiyuan.y = (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580,
+            sijiyuan.alpha = 0;
         sijiyuan.rotation = 0;
         sijiyuan.regX = 1750 / 2;
         sijiyuan.regY = 1750 / 2;
@@ -2867,14 +2871,12 @@ function main() {
             createjs.Tween.get(sijiyuan)
                 .to({
                     alpha: 1,
-                    scaleX: proportion * 0.5,
-                    scaleY: proportion * 0.5,
-                    x: (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4,
-                    y: (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580,
-                    regX: 1750 / 2,
-                    regY: 1750 / 2,
-                }, 2000, sineInOutEase)
-                .wait(2000)
+                    // scaleX: proportion * 0.5,
+                    // scaleY: proportion * 0.5,
+                    // x: (canvas.width - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4,
+                    // y: (canvas.height - 1750 * proportion * 0.5 / 2) / 2 + 1750 * proportion * 0.5 / 4 + 580,
+                }, 100, sineInOutEase)
+                .wait(3900)
                 .to({
                     rotation: -90
                 }, 2000, sineInOutEase)
