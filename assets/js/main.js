@@ -1382,7 +1382,7 @@ function main() {
                 }, 1000)
 
             createjs.Tween.get(faxiaoText3)
-                .wait(500)
+                .wait(1000)
                 .to({
                     alpha: 1
                 }, 1000)
@@ -1390,17 +1390,16 @@ function main() {
                 .to({
                     alpha: 0
                 }, 1000)
-                .call(() => {
-                    createjs.Tween.get(faxiaoText4)
-                        .wait(500)
-                        .to({
-                            alpha: 1
-                        }, 1000)
-                        .wait(500)
-                        .to({
-                            alpha: 0
-                        }, 1000)
-                })
+
+            createjs.Tween.get(faxiaoText4)
+                .wait(7500)
+                .to({
+                    alpha: 1
+                }, 1000)
+                .wait(500)
+                .to({
+                    alpha: 0
+                }, 1000)
 
             createjs.Tween.get(wannianzao, { loop: true })
                 .call(() => {
@@ -2300,7 +2299,7 @@ function main() {
         sijiyuan.scaleX = proportion * 8;
         sijiyuan.scaleY = proportion * 8;
         sijiyuan.x = (canvas.width - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2;
-        sijiyuan.y = (canvas.height - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2 + 580;
+        sijiyuan.y = (canvas.height - 1750 * proportion * 8) / 2 + 1750 * proportion * 8 / 2 + 580 * 7.5;
         sijiyuan.alpha = 0;
         sijiyuan.rotation = 0;
         sijiyuan.regX = 1750 / 2;
