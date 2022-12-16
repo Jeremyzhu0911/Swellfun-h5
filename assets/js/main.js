@@ -203,6 +203,9 @@ function main() {
         }, {
             src: ossURL + "next.png",
             id: "next_img"
+        }, {
+            src: ossURL + "background.jpg",
+            id: "background_img"
         }];
 
         for (var i = 0; i < 28; i++) {
@@ -1137,6 +1140,18 @@ function main() {
         wenti2Text.scaleY = proportion / 2;
         wenti2Text.alpha = 0;
 
+        var nijiaoBtnbg = new createjs.Bitmap(preload.getResult("background_img"));
+        nijiaoBtnbg.scaleX = proportion * 0.2;
+        nijiaoBtnbg.scaleY = proportion * 0.05;
+        nijiaoBtnbg.x = (canvas.width - 151 * proportion * 0.5) / 2 - 60 * proportion;
+        nijiaoBtnbg.y = (canvas.height - 106 * proportion * 0.5) / 2 + 150 * proportion;
+
+        var shijiaoBtnbg = new createjs.Bitmap(preload.getResult("background_img"));
+        shijiaoBtnbg.scaleX = proportion * 0.2;
+        shijiaoBtnbg.scaleY = proportion * 0.05;
+        shijiaoBtnbg.x = (canvas.width - 151 * proportion * 0.5) / 2 + 60 * proportion;
+        shijiaoBtnbg.y = (canvas.height - 106 * proportion * 0.5) / 2 + 150 * proportion;
+
         var jiaochixuanze_img = new Array();
         for (var i = 0; i < 19; i++) {
             jiaochixuanze_img[i] = preload.getResult("jiaochixuanze" + i);
@@ -1226,7 +1241,9 @@ function main() {
                 }, 1000)
 
             nijiaoBtn.addEventListener("click", nijiaoBtnFun)
+            nijiaoBtnbg.addEventListener("click", nijiaoBtnFun)
             shijiaoBtn.addEventListener("click", shijiaoBtnFun)
+            shijiaoBtnbg.addEventListener("click", shijiaoBtnFun)
         }
 
 
@@ -2449,7 +2466,11 @@ function main() {
             switch (title) {
                 case 'nijiao':
                     nijiaoBtn.removeEventListener("click", nijiaoBtnFun);
+                    nijiaoBtnbg.removeEventListener("click", nijiaoBtnFun);
                     shijiaoBtn.removeEventListener("click", shijiaoBtnFun);
+                    shijiaoBtnbg.removeEventListener("click", shijiaoBtnFun);
+                    nijiaoBtnbg.alpha = 0;
+                    shijiaoBtnbg.alpha = 0;
                     nijiaoBtn.gotoAndPlay("run");
                     createjs.Tween.get(wentiText)
                         .to({
@@ -3193,7 +3214,7 @@ function main() {
             jiuTitle, nongjiang1Text, nongjiang2Text, nongjiang3Text, nongjiang4Text, mobile, yearNum, tanceng2, jiujiaoText1, jiujiaoText2, next3
         )
         xuzaoContainer.addChild(wannianzao, quan, wannianzao_cz, paoliao1, paoliao2, faxiaoText1, faxiaoText2, faxiaoText3, faxiaoText4, faxiaoText5, faxiaoText6, huangni, huangniText, huangni2Text, tanceng1)
-        nongjiangchiContainer.addChild(nongjiangchi, wentiText, wenti2Text, nijiaoBtn, shijiaoBtn, weishengwu, tanceng0, next, jiaoban_liuliang, gutaifaxiaoText)
+        nongjiangchiContainer.addChild(nongjiangchi, wentiText, wenti2Text, nijiaoBtnbg, shijiaoBtnbg, nijiaoBtn, shijiaoBtn, weishengwu, tanceng0, next, jiaoban_liuliang, gutaifaxiaoText)
         tanliangContainer.addChild(liangshai, chuifeng, touliao, tanliangText, jiaquText, jiaqu2Text)
         zhengzhuContainer.addChild(faxiaotong, gaizi, guandao, zhengzhuText, zhengzhu2Text)
         runliangContainer.addChild(jiaoban_down, chanziA, chanziB, jiaoban_up, jiaoban_liuliang, shuitong, shuihua, runliangText, runliang2Text, banheText, banhe2Text)
