@@ -362,7 +362,7 @@ function main() {
         xuanliangText.scaleY = 0;
         xuanliangText.alpha = 0;
         createjs.Tween.get(xuanliangText)
-            .wait(2500)
+            .wait(2000)
             .to({
                 scaleX: proportion * 0.5,
                 scaleY: proportion * 0.5,
@@ -1477,10 +1477,18 @@ function main() {
                         }, 1000)
                         .call(() => {
                             createjs.Tween.get(faxiaoText6)
+                                .wait(500)
                                 .to({
                                     alpha: 1
                                 }, 1000)
-
+                            createjs.Tween.get(next)
+                                .wait(500)
+                                .to({
+                                    alpha: 1
+                                }, 1000)
+                                .call(() => {
+                                    next.addEventListener("click", fencengFun)
+                                })
                         })
 
                     createjs.Tween.get(wannianzao, { loop: true })
@@ -1557,15 +1565,6 @@ function main() {
                                 .to({
                                     alpha: 1
                                 }, 1000)
-
-                            createjs.Tween.get(next)
-                                .wait(1000)
-                                .to({
-                                    alpha: 1
-                                }, 1000)
-                                .call(() => {
-                                    next.addEventListener("click", fencengFun)
-                                })
                         })
                 })
         }
@@ -2495,6 +2494,7 @@ function main() {
                                     nongjiangchi.gotoAndPlay("run")
 
                                     createjs.Tween.get(weishengwu)
+                                        .wait(1000)
                                         .call(() => {
                                             weishengwu.gotoAndPlay("run")
                                         })
