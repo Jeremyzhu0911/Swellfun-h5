@@ -1075,7 +1075,7 @@ function main() {
                     touliao.gotoAndPlay("run")
                 })
             createjs.Tween.get(jiaquText)
-                .wait(3500)
+                .wait(4500)
                 .to({
                     scaleX: proportion * 0.5,
                     scaleY: proportion * 0.5,
@@ -1083,7 +1083,7 @@ function main() {
                     alpha: 1
                 }, 1000)
             createjs.Tween.get(jiaqu2Text)
-                .wait(4000)
+                .wait(5000)
                 .to({
                     alpha: 1
                 }, 1000)
@@ -1239,6 +1239,21 @@ function main() {
                 .to({
                     alpha: 1
                 }, 1000)
+                .call(() => {
+                    createjs.Tween.get(wentiText, { loop: true })
+                        .wait(3000)
+                        .to({
+                            scaleX: proportion * 0.75,
+                            scaleY: proportion * 0.75,
+                            x: (canvas.width - 750 * proportion * 0.75) / 2
+                        }, 500)
+                        .to({
+                            scaleX: proportion * 0.5,
+                            scaleY: proportion * 0.5,
+                            x: (canvas.width - 750 * proportion * 0.5) / 2
+                        }, 300)
+
+                })
 
             nijiaoBtn.addEventListener("click", nijiaoBtnFun)
             nijiaoBtnbg.addEventListener("click", nijiaoBtnFun)
@@ -2468,6 +2483,7 @@ function main() {
                     nijiaoBtnbg.removeEventListener("click", nijiaoBtnFun);
                     shijiaoBtn.removeEventListener("click", shijiaoBtnFun);
                     shijiaoBtnbg.removeEventListener("click", shijiaoBtnFun);
+                    createjs.Tween.removeTweens(wentiText)
                     nijiaoBtnbg.alpha = 0;
                     shijiaoBtnbg.alpha = 0;
                     nijiaoBtn.gotoAndPlay("run");
