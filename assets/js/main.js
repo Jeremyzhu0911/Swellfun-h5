@@ -1070,12 +1070,12 @@ function main() {
                     chuifeng.gotoAndPlay("run")
                 })
             createjs.Tween.get(touliao)
-                .wait(3500)
+                .wait(4000)
                 .call(() => {
                     touliao.gotoAndPlay("run")
                 })
             createjs.Tween.get(jiaquText)
-                .wait(3500)
+                .wait(3300)
                 .to({
                     scaleX: proportion * 0.5,
                     scaleY: proportion * 0.5,
@@ -1445,6 +1445,7 @@ function main() {
 
         wannianzaoFun = () => {
             wannianzao.removeEventListener("click", wannianzaoFun);
+            createjs.Tween.removeTweens(faxiaoText5)
 
             createjs.Tween.get(quan)
                 .to({
@@ -2866,6 +2867,18 @@ function main() {
                                 }, 1500)
                                 .call(() => {
                                     wannianzao.addEventListener("click", wannianzaoFun)
+                                    createjs.Tween.get(faxiaoText5, { loop: true })
+                                        .wait(3000)
+                                        .to({
+                                            scaleX: proportion * 0.75,
+                                            scaleY: proportion * 0.75,
+                                            x: (canvas.width - 750 * proportion * 0.75) / 2
+                                        }, 500)
+                                        .to({
+                                            scaleX: proportion * 0.5,
+                                            scaleY: proportion * 0.5,
+                                            x: (canvas.width - 750 * proportion * 0.5) / 2
+                                        }, 300)
                                 })
 
                         })
