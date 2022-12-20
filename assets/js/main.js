@@ -1070,12 +1070,12 @@ function main() {
                     chuifeng.gotoAndPlay("run")
                 })
             createjs.Tween.get(touliao)
-                .wait(2500)
+                .wait(3500)
                 .call(() => {
                     touliao.gotoAndPlay("run")
                 })
             createjs.Tween.get(jiaquText)
-                .wait(4500)
+                .wait(3500)
                 .to({
                     scaleX: proportion * 0.5,
                     scaleY: proportion * 0.5,
@@ -1083,7 +1083,7 @@ function main() {
                     alpha: 1
                 }, 1000)
             createjs.Tween.get(jiaqu2Text)
-                .wait(5000)
+                .wait(4000)
                 .to({
                     alpha: 1
                 }, 1000)
@@ -2754,7 +2754,7 @@ function main() {
                 .call(() => {
                     tanliangFun()
                 })
-                .wait(4000)
+                .wait(3000)
                 .to({
                     y: canvas.height * 0.15 - canvas.height * 0.3
                 }, 2000)
