@@ -1609,7 +1609,7 @@ function main() {
             },
             "animations": {
                 start: [0],
-                run: [0, 17, 'end', 0.4],
+                run: [0, 17, 'end', 0.65],
                 end: [17]
             },
             "framerate": 18
