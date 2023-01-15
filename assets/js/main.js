@@ -1740,14 +1740,14 @@ function main() {
         wannianzaoTips = (e) => {
             wannianzao.removeEventListener("click", wannianzaoTips)
             createjs.Tween.removeTweens(faxiaoText5)
+            console.log(e.stageY + ":" + wannianzao.y)
+            createjs.Sound.play("music" + (e.stageY < (wannianzao.y * 2 - 50) ? 2 : 3));
 
-            createjs.Sound.play("music" + (e.stageY < 1200 ? 2 : 3));
-
-            fraction = parseInt(fraction + (e.stageY < 1200 ? 0 : 1));
+            fraction = parseInt(fraction + (e.stageY < (wannianzao.y * 2 - 50) ? 0 : 1));
             console.log("当前积分：" + fraction)
 
             //改动 附加
-            tipsImg = new createjs.Bitmap(preload.getResult("tips" + (e.stageY < 1200 ? 0 : 1)));
+            tipsImg = new createjs.Bitmap(preload.getResult("tips" + (e.stageY < (wannianzao.y * 2 - 50) ? 0 : 1)));
             tipsImg.x = (canvas.width - 1013 * proportion * 0.25) / 2;
             tipsImg.y = (canvas.height - 800 * proportion * 0.25) / 2 - 100;
             tipsImg.scaleX = proportion * 0.25;
