@@ -1490,7 +1490,7 @@ function main() {
         }
 
         nongjiangchiFunEnd = (e) => {
-alert(e.stageX)
+alert(e.stageX+"y:"+e.stageY)
             if (e.stageX > 700 && e.stageX < 770 && e.stageY > 560 && e.stageY < 650) {
                 createjs.Tween.get(tipsImg)
                     .to({
