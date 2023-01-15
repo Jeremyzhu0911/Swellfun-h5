@@ -1490,8 +1490,7 @@ function main() {
         }
 
         nongjiangchiFunEnd = (e) => {
-alert(e.stageX+"y:"+e.stageY)
-            if (e.stageX > 700 && e.stageX < 770 && e.stageY > 560 && e.stageY < 650) {
+            if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
                 createjs.Tween.get(tipsImg)
                     .to({
                         alpha: 0
@@ -1776,7 +1775,7 @@ alert(e.stageX+"y:"+e.stageY)
         }
 
         wannianzaoFunEnd = (e) => {
-            if (e.stageX > 700 && e.stageX < 770 && e.stageY > 560 && e.stageY < 650) {
+            if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
                 tipsImg.removeEventListener("click", wannianzaoFunEnd);
                 createjs.Tween.get(tipsImg)
                     .to({
@@ -2709,7 +2708,7 @@ alert(e.stageX+"y:"+e.stageY)
         }
 
         nongjiangnianxianFun = (e) => {
-            if (e.stageX > 700 && e.stageX < 770 && e.stageY > 560 && e.stageY < 650) {
+            if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
                 createjs.Tween.get(tipsImg)
                     .to({
                         alpha: 0
