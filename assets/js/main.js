@@ -102,19 +102,19 @@ function main() {
         loadingsp = new createjs.Shape();
 
     loadingbox.graphics.beginFill('#000').rr((canvas.width - 445 * proportion * 0.5) / 2, (canvas.height - 712 *
-        proportion * 0.5) / 2 - 50, 445 * proportion * 0.5, 22 * proportion * 0.5, 11 * proportion * 0.5);
+        proportion * 0.5) / 2 - 250, 445 * proportion * 0.5, 22 * proportion * 0.5, 11 * proportion * 0.5);
     loadingbg.graphics.beginFill('#fff').rr((canvas.width - 435 * proportion * 0.5) / 2, (canvas.height - 707 *
-        proportion * 0.5) / 2 - 50, 435 * proportion * 0.5, 17 * proportion * 0.5, 8.5 * proportion * 0.5);
+        proportion * 0.5) / 2 - 250, 435 * proportion * 0.5, 17 * proportion * 0.5, 8.5 * proportion * 0.5);
 
     var loading_logo = new createjs.Bitmap(ossURL + "loading/loading_jiuping.png");
     loading_logo.x = (canvas.width - 446 * proportion * 0.5) / 2;
-    loading_logo.y = (canvas.height - 753 * proportion * 0.5) / 2 - 50;
+    loading_logo.y = (canvas.height - 753 * proportion * 0.5) / 2 - 250;
     loading_logo.scaleX = proportion * 0.5;
     loading_logo.scaleY = proportion * 0.5;
 
     var loadingText = new createjs.Text("", "40px Arial", "#fff");
     loadingText.y = (canvas.height - (loadingText.getMeasuredHeight() + 730) * proportion * 0.5) / 2 + 44 * proportion * 0.5 *
-        1.5 - 50;
+        1.5 - 250;
 
     var mask = new createjs.Shape()
     mask.graphics.beginFill("#000").rr(0, 0, canvas.width, canvas.height, 0);
@@ -122,13 +122,13 @@ function main() {
 
     var logo = new createjs.Bitmap(ossURL + "loading/loadingLogo.png")
     logo.x = (canvas.width - 473 * proportion * 0.5) / 2;
-    logo.y = (canvas.height - 164 * proportion * 0.5) / 2 - 250; //190
+    logo.y = (canvas.height - 164 * proportion * 0.5) / 2 - 450; //190
     logo.scaleX = proportion * 0.5;
     logo.scaleY = proportion * 0.5;
 
     var loading_shuoming = new createjs.Bitmap(ossURL + "loading/loadingText.png");
     loading_shuoming.x = (canvas.width - 603 * proportion * 0.5) / 2;
-    loading_shuoming.y = (canvas.height - 669 * proportion * 0.5) / 2 + 400; //383
+    loading_shuoming.y = (canvas.height - 669 * proportion * 0.5) / 2 + 200; //383
     loading_shuoming.scaleX = proportion * 0.5;
     loading_shuoming.scaleY = proportion * 0.5;
 
@@ -352,7 +352,7 @@ function main() {
         if (event.item.id == "loadingBtn") {
             loadingBtn = new createjs.Bitmap(preload.getResult("loadingBtn"));
             loadingBtn.x = (canvas.width - 287 * proportion * 0.5) / 2;
-            loadingBtn.y = (canvas.height - 74 * proportion * 0.5) / 2 + 680; //383
+            loadingBtn.y = (canvas.height - 74 * proportion * 0.5) / 2 + 480; //383
             loadingBtn.scaleX = proportion * 0.5;
             loadingBtn.scaleY = proportion * 0.5;
             loadingBtn.alpha = 0
@@ -380,11 +380,11 @@ function main() {
 
         if ((preload.progress * 100 | 0) > 10) {
             loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion * 0.5) / 2, (canvas.height -
-                707 * proportion * 0.5) / 2 - 50, 435 * proportion * 0.5 / 100 * (preload.progress * 100 | 0), 17 *
+                707 * proportion * 0.5) / 2 - 250, 435 * proportion * 0.5 / 100 * (preload.progress * 100 | 0), 17 *
                 proportion * 0.5, 8.5 * proportion * 0.5);
         } else {
             loadingsp.graphics.beginFill('#f0d8a1').rr((canvas.width - 435 * proportion * 0.5) / 2, (canvas.height -
-                707 * proportion * 0.5) / 2 - 50, 435 * proportion * 0.5 / 100 * 10, 17 * proportion * 0.5, 8.5 * proportion * 0.5);
+                707 * proportion * 0.5) / 2 - 250, 435 * proportion * 0.5 / 100 * 10, 17 * proportion * 0.5, 8.5 * proportion * 0.5);
         }
         if ((preload.progress * 100 | 0) > 10 && (preload.progress * 100 | 0) < 95) {
             loading_logo.x = (canvas.width - 500 * proportion * 0.5) / 2 + 460 * proportion * 0.5 / 100 * (preload
@@ -557,6 +557,13 @@ function main() {
                 alpha: 1
             }, 500) //改动 1000
 
+        var next = new createjs.Bitmap(preload.getResult("next_img"));
+        next.scaleX = proportion;
+        next.scaleY = proportion;
+        next.x = (canvas.width - 120 * proportion) / 2;
+        next.y = (canvas.height - 34 * proportion) / 2 + 300 * proportion;
+        next.alpha = 0
+
         /**
          * 运粮车
          */
@@ -594,25 +601,25 @@ function main() {
         B_Car.x = (canvas.width - 74 * proportion) / 2 + 74 * proportion / 2;
         B_Car.y = (canvas.height - 190 * proportion) / 2;
 
-        createjs.Tween.get(A_Car)
-            .wait(2000) //改动 3000
-            .to({
-                x: (canvas.width - A_Car_animate._frameWidth * proportion + 30 * proportion) / 2,
-                rotation: -7
-            }, 375) //改动 500
-            .to({
-                x: (canvas.width - A_Car_animate._frameWidth * proportion + 80 * proportion) / 2,
-                rotation: 0
-            }, 375) //改动 500
-            .wait(750) //改动 2000
-            .call(() => {
-                A_Car.gotoAndPlay("run");
-            });
-        createjs.Tween.get(B_Car)
-            .wait(2000) //改动 3000
-            .to({
-                y: -(canvas.height * 0.9 - (canvas.height - 190 * proportion) / 2)
-            }, 1500); //改动 3000
+        // createjs.Tween.get(A_Car)
+        //     .wait(2000) //改动 3000
+        //     .to({
+        //         x: (canvas.width - A_Car_animate._frameWidth * proportion + 30 * proportion) / 2,
+        //         rotation: -7
+        //     }, 375) //改动 500
+        //     .to({
+        //         x: (canvas.width - A_Car_animate._frameWidth * proportion + 80 * proportion) / 2,
+        //         rotation: 0
+        //     }, 375) //改动 500
+        //     .wait(750) //改动 2000
+        //     .call(() => {
+        //         A_Car.gotoAndPlay("run");
+        //     });
+        // createjs.Tween.get(B_Car)
+        //     .wait(2000) //改动 3000
+        //     .to({
+        //         y: -(canvas.height * 0.9 - (canvas.height - 190 * proportion) / 2)
+        //     }, 1500); //改动 3000
 
         /**
          * 粮食粒子
@@ -739,13 +746,6 @@ function main() {
         liuliangText.scaleX = proportion * 0.5;
         liuliangText.scaleY = proportion * 0.5;
         liuliangText.alpha = 0;
-
-        var next = new createjs.Bitmap(preload.getResult("next_img"));
-        next.scaleX = proportion;
-        next.scaleY = proportion;
-        next.x = (canvas.width - 120 * proportion) / 2;
-        next.y = (canvas.height - 34 * proportion) / 2 + 300 * proportion;
-        next.alpha = 0
 
         /**
          * 磨盘动画
@@ -1148,7 +1148,7 @@ function main() {
                     createjs.Tween.get(next)
                         .to({
                             alpha: 1
-                        }, 1000)
+                        }, 250)
                     next.addEventListener("click", tanliangNext)
                 })
         }
@@ -1460,7 +1460,6 @@ function main() {
             createjs.Tween.removeTweens(wentiText)
             nijiaoBtnbg.alpha = 0;
             shijiaoBtnbg.alpha = 0;
-            nijiaoBtn.gotoAndPlay("run");
 
             createjs.Tween.get(wentiText)
                 .to({
@@ -1491,6 +1490,7 @@ function main() {
 
         nongjiangchiFunEnd = (e) => {
             if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
+                nijiaoBtn.gotoAndPlay("run");
                 createjs.Tween.get(tipsImg)
                     .to({
                         alpha: 0
@@ -1546,10 +1546,8 @@ function main() {
                                             .wait(500)
                                             .to({
                                                 alpha: 1
-                                            }, 500)
-                                            .call(() => {
-                                                next.addEventListener("click", nijiaoFun)
-                                            })
+                                            }, 250)
+                                        next.addEventListener("click", nijiaoFun)
                                     })
                             })
                     });
@@ -1609,7 +1607,7 @@ function main() {
             },
             "animations": {
                 start: [0],
-                run: [0, 17, 'end', 0.65],
+                run: [0, 17, 'end', 0.85],
                 end: [17]
             },
             "framerate": 18
@@ -1790,7 +1788,6 @@ function main() {
                     }) //改动 附加
 
                 createjs.Tween.get(quan)
-                    .wait(500)
                     .to({
                         alpha: 1
                     }, 500)
@@ -1800,130 +1797,127 @@ function main() {
                     .wait(1000)
                     .to({
                         alpha: 0
-                    }, 250)
+                    }, 500)
                     .call(() => {
                         createjs.Tween.get(faxiaoText1)
                             .to({
                                 alpha: 0
-                            }, 1000)
+                            }, 700) // 改动 1000
                         createjs.Tween.get(faxiaoText2)
                             .to({
                                 alpha: 0
-                            }, 1000)
+                            }, 700) // 改动 1000
                         createjs.Tween.get(faxiaoText5)
                             .to({
                                 alpha: 0
-                            }, 1000)
+                            }, 700) // 改动 1000
 
                         createjs.Tween.get(faxiaoText3)
-                            .wait(1000)
+                            .wait(700) // 改动 1000
                             .to({
                                 alpha: 1
-                            }, 1000)
-                            .wait(500)
+                            }, 700) // 改动 1000
+                            .wait(350) // 改动 500
                             .to({
                                 alpha: 0
-                            }, 1000)
+                            }, 700) // 改动 1000
 
                         createjs.Tween.get(faxiaoText4)
-                            .wait(7200)
+                            .wait(3600) //改动 7200
                             .to({
                                 alpha: 1
-                            }, 1000)
-                            .wait(500)
+                            }, 700) // 改动 1000
+                            .wait(350) // 改动 500
                             .to({
                                 alpha: 0
-                            }, 1000)
+                            }, 700) // 改动 1000
                             .call(() => {
                                 createjs.Tween.get(faxiaoText6)
                                     .wait(500)
                                     .to({
                                         alpha: 1
-                                    }, 500) //改动 1000
+                                    }, 250) //改动 1000
                                 createjs.Tween.get(next)
                                     .wait(500)
                                     .to({
                                         alpha: 1
-                                    }, 500) //改动 1000
-                                    .call(() => {
-                                        next.addEventListener("click", fencengFun)
-                                    })
+                                    }, 250) //改动 1000
+                                next.addEventListener("click", fencengFun)
                             })
 
                         createjs.Tween.get(wannianzao, { loop: true })
                             .call(() => {
                                 wannianzao.gotoAndPlay("run");
                                 createjs.Tween.get(wannianzao_cz)
-                                    .wait(2000)
+                                    .wait(1400) //改动 2000
                                     .to({
                                         x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
                                         y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
                                         alpha: 1
-                                    }, 2000, sineInOutEase)
-                                    .wait(500)
+                                    }, 1400, sineInOutEase) //改动 2000
+                                    .wait(350) //改动 500
                                     .to({
                                         alpha: 0
-                                    }, 1000, sineInOutEase)
+                                    }, 700, sineInOutEase) //改动 1000
                                     .to({
                                         x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
                                         y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
                                     })
                                 createjs.Tween.get(paoliao1)
-                                    .wait(3000)
+                                    .wait(2100) //改动 3000
                                     .to({
                                         x: (canvas.width - 185 * proportion * 0.5) / 2 - 230 * proportion,
                                         y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
                                         rotation: -15,
                                         alpha: 1
-                                    }, 2000, sineInOutEase)
-                                    .wait(500)
+                                    }, 1400, sineInOutEase) //改动 2000
+                                    .wait(350) //改动 500
                                     .to({
                                         alpha: 0
-                                    }, 1000, sineInOutEase)
+                                    }, 700, sineInOutEase) //改动 1000
                                     .to({
                                         x: (canvas.width - 185 * proportion * 0.5) / 2 - 50 * proportion,
                                         y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
                                         rotation: 30
                                     })
-
                             }, sineInOutEase)
-                            .wait(3000)
+                            .wait(2100) //改动 3000
                             .call(() => {
                                 wannianzao.gotoAndPlay("run2");
                                 createjs.Tween.get(paoliao2)
-                                    .wait(3000)
+                                    .wait(2100) //改动 3000
                                     .to({
                                         x: (canvas.width - 185 * proportion * 0.5) / 2 + 50 * proportion,
                                         y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
                                         rotation: -15,
                                         alpha: 1
-                                    }, 1000, sineInOutEase)
+                                    }, 700, sineInOutEase) //改动 1000
                                     .to({
                                         alpha: 0
-                                    }, 500, sineInOutEase)
+                                    }, 350, sineInOutEase) //改动 500
                                     .to({
                                         x: (canvas.width - 185 * proportion * 0.5) / 2 + 230 * proportion,
                                         y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
                                         rotation: 30
                                     })
                             }, sineInOutEase)
-                            .wait(3500)
+                            .wait(2450) //改动 3500
                             .call(() => {
                                 wannianzao.gotoAndPlay("run3");
                             }, sineInOutEase)
-                            .wait(1500)
+                            .wait(1050) //改动 1500
                             .call(() => {
                                 console.log("循环结束")
                             }, sineInOutEase)
 
                         createjs.Tween.get(wannianzao_cz)
-                            .wait(5500)
+                            .wait(3850) //改动 5500
                             .call(() => {
                                 createjs.Tween.get(tanceng1)
-                                    .wait(1000)
+                                    .wait(700) //改动 1000
                                     .to({
                                         alpha: 1
-                                    }, 1000)
+                                    }, 700) //改动 1000
                             })
                     })
             }
@@ -2472,81 +2466,81 @@ function main() {
                     createjs.Tween.get(zhengliuText1)
                         .to({
                             alpha: 1
-                        }, 1000)
+                        }, 500) //改动 1000
                     zhengqi.gotoAndPlay("run1")
                     createjs.Tween.get(jiuping1)
-                        .wait(500)
+                        .wait(250) //改动 500
                         .to({
                             x: (canvas.width - 132 * proportion / 2) / 2,
                             alpha: 1
-                        }, 500)
+                        }, 250) //改动 500
                         .call(() => {
                             createjs.Tween.get(zhengliushui)
                                 .to({
                                     alpha: 1
-                                }, 500, sineInOutEase)
-                                .wait(500)
+                                }, 250, sineInOutEase) //改动 500
+                                .wait(250) //改动 500
                                 .to({
                                     alpha: 0
-                                }, 500)
+                                }, 250) //改动 500
                         }, sineInOutEase)
-                        .wait(1500)
+                        .wait(750) //改动 1500
                         .to({
                             x: (canvas.width - 132 * proportion / 2 - 650) / 2,
-                        }, 500)
+                        }, 250) //改动 500
                         .call(() => {
                             createjs.Tween.get(jiuping2)
-                                .wait(500)
+                                .wait(250) //改动 500
                                 .to({
                                     x: (canvas.width - 143 * proportion / 2) / 2,
                                     alpha: 1
-                                }, 500)
+                                }, 250) //改动 500
                                 .call(() => {
                                     createjs.Tween.get(zhengliushui)
                                         .to({
                                             alpha: 1
-                                        }, 500, sineInOutEase)
-                                        .wait(500)
+                                        }, 250, sineInOutEase) //改动 500
+                                        .wait(250) //改动 500
                                         .to({
                                             alpha: 0
-                                        }, 500)
+                                        }, 250) //改动 500
                                 }, sineInOutEase)
-                                .wait(1500)
+                                .wait(750) //改动 1500
                                 .to({
                                     x: (canvas.width - 143 * proportion / 2 + 650) / 2,
-                                }, 500)
+                                }, 250) //改动 500
                                 .call(() => {
                                     createjs.Tween.get(jiuping3)
-                                        .wait(500)
+                                        .wait(250) //改动 500
                                         .to({
                                             x: (canvas.width - 120 * proportion / 2) / 2,
                                             alpha: 1
-                                        }, 500)
+                                        }, 250) //改动 500
                                         .call(() => {
                                             createjs.Tween.get(zhengliushui)
                                                 .to({
                                                     alpha: 1
-                                                }, 500, sineInOutEase)
-                                                .wait(500)
+                                                }, 250, sineInOutEase) //改动 500
+                                                .wait(250) //改动 500
                                                 .to({
                                                     alpha: 0
-                                                }, 500)
+                                                }, 250) //改动 500
                                                 .call(() => {
                                                     createjs.Tween.get(fencengContainer)
-                                                        .wait(500)
+                                                        .wait(250) //改动 500
                                                         .to({
                                                             y: -canvas.height * 2
-                                                        }, 1500)
+                                                        }, 750) //改动 1500
                                                     createjs.Tween.get(jiuping1)
-                                                        .wait(500)
+                                                        .wait(250) //改动 500
                                                         .to({
                                                             x: - 132 * proportion
-                                                        }, 1000)
+                                                        }, 500) //改动 1000
                                                     createjs.Tween.get(jiuping3)
-                                                        .wait(500)
+                                                        .wait(250) //改动 500
                                                         .to({
                                                             x: - 120 * proportion
-                                                        }, 1000)
+                                                        }, 500) //改动 1000
                                                     createjs.Tween.get(jiuping2)
                                                         .wait(500)
                                                         .to({
@@ -2610,6 +2604,7 @@ function main() {
                                                             alpha: 1
                                                         }, 500)
                                                         .call(() => {
+                                                            createjs.Sound.play("music1");
                                                             nongjiang1Text.addEventListener("click", nongjiangnianxian0)
                                                         })
                                                     createjs.Tween.get(nongjiang2Text)
@@ -2917,42 +2912,74 @@ function main() {
             .to({
                 y: -canvas.height * 0.3
             }, 2000) //改动 3000
-            // .wait(2000)
-            .to({
-                y: -canvas.height * 1.5
-            }, 1500) //改动 3000
-
-        createjs.Tween.get(tuicheContainer)
-            .wait(2000) //改动 5000
-            .to({
-                y: -160 * proportion
-            }, 1500) //改动 3000
-            .wait(2000)
-            .to({
-                y: -160 * proportion - canvas.height * 0.2
-            }, 1000)
-
-        /**
-         * 磨盘动画 - 屏幕运动
-         */
-        createjs.Tween.get(posuiContainer)
-            .wait(2000) //改动 5000
-            .to({
-                y: 0
-            }, 1500) //改动 3000
-            .wait(2000)
-            .to({
-                y: -canvas.height * 0.2
-            }, 1000)
             .call(() => {
                 createjs.Tween.get(next)
                     .to({
                         alpha: 1
-                    }, 1000)
-                    .call(() => {
-                        next.addEventListener("click", posuiNext)
-                    })
+                    }, 250)
+                next.addEventListener("click", yunliangNext)
             })
+
+        yunliangNext = () => {
+            createjs.Tween.get(next)
+                .to({
+                    alpha: 0
+                }, 250) //改动 500
+            next.removeEventListener("click", yunliangNext)
+            createjs.Tween.get(xuanliangContainer)
+                // .wait(2000)
+                .to({
+                    y: -canvas.height * 1.5
+                }, 1500) //改动 3000
+            createjs.Tween.get(tuicheContainer)
+                // .wait(2000) //改动 5000
+                .to({
+                    y: -160 * proportion
+                }, 1500) //改动 3000
+                .wait(2000)
+                .to({
+                    y: -160 * proportion - canvas.height * 0.2
+                }, 1000)
+            createjs.Tween.get(A_Car)
+                // .wait(2000) //改动 3000
+                .to({
+                    x: (canvas.width - A_Car_animate._frameWidth * proportion + 30 * proportion) / 2,
+                    rotation: -7
+                }, 375) //改动 500
+                .to({
+                    x: (canvas.width - A_Car_animate._frameWidth * proportion + 80 * proportion) / 2,
+                    rotation: 0
+                }, 375) //改动 500
+                .wait(750) //改动 2000
+                .call(() => {
+                    A_Car.gotoAndPlay("run");
+                });
+            createjs.Tween.get(B_Car)
+                // .wait(2000) //改动 3000
+                .to({
+                    y: -(canvas.height * 0.9 - (canvas.height - 190 * proportion) / 2)
+                }, 1500); //改动 3000
+
+            /**
+             * 磨盘动画 - 屏幕运动
+             */
+            createjs.Tween.get(posuiContainer)
+                // .wait(2000) //改动 5000
+                .to({
+                    y: 0
+                }, 1500) //改动 3000
+                .wait(2000)
+                .to({
+                    y: -canvas.height * 0.2
+                }, 1000)
+                .call(() => {
+                    createjs.Tween.get(next)
+                        .to({
+                            alpha: 1
+                        }, 250)
+                    next.addEventListener("click", posuiNext)
+                })
+        }
 
         /**
          * 润粮动画 - 屏幕运动
@@ -3040,10 +3067,8 @@ function main() {
                     createjs.Tween.get(next)
                         .to({
                             alpha: 1
-                        }, 500)
-                        .call(() => {
-                            next.addEventListener("click", nongjiangNext)
-                        })
+                        }, 250)
+                    next.addEventListener("click", nongjiangNext)
                 })
         }
 
@@ -3087,7 +3112,7 @@ function main() {
             createjs.Tween.get(next)
                 .to({
                     alpha: 0
-                }, 500)
+                }, 250)
             next.removeEventListener("click", nijiaoFun)
 
             createjs.Tween.get(nongjiangchiContainer)
@@ -3144,6 +3169,7 @@ function main() {
                                     alpha: 1
                                 }, 1500)
                                 .call(() => {
+                                    createjs.Sound.play("music1");
                                     wannianzao.addEventListener("click", wannianzaoTips)
                                     createjs.Tween.get(faxiaoText5, { loop: true })
                                         .wait(3000)
@@ -3256,7 +3282,7 @@ function main() {
                                     createjs.Tween.get(next)
                                         .to({
                                             alpha: 1
-                                        }, 500) //改动 1000
+                                        }, 250) //改动 1000
                                     next.addEventListener("click", zhengliuFun);
                                 })
                             // .wait(3000)
