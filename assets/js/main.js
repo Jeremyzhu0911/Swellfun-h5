@@ -3382,15 +3382,16 @@ function main() {
 
                     //结算点 105秒
                     var timeOutEnd = 105
+                    var TheTime = Math.ceil((totalTime - timeOutEnd) / 2)
 
                     if (fraction === 3) {
-                        score = totalTime > timeOutEnd ? (totalTime - timeOutEnd) < 20 ? 99 - (totalTime - timeOutEnd) : 80 : 99;
+                        score = totalTime > timeOutEnd ? TheTime < 24 ? 99 - TheTime : 76 : 99;
                     } else if (fraction === 2) {
-                        score = totalTime > timeOutEnd ? (totalTime - timeOutEnd) < 20 ? 80 - (totalTime - timeOutEnd) : 60 : 80;
+                        score = totalTime > timeOutEnd ? TheTime < 25 ? 75 - TheTime : 51 : 75;
                     } else if (fraction === 1) {
-                        score = totalTime > timeOutEnd ? (totalTime - timeOutEnd) < 20 ? 60 - (totalTime - timeOutEnd) : 40 : 60;
+                        score = totalTime > timeOutEnd ? TheTime < 25 ? 50 - TheTime : 26 : 50;
                     } else {
-                        score = totalTime > timeOutEnd ? (totalTime - timeOutEnd) < 20 ? 40 - (totalTime - timeOutEnd) : 20 : 40;
+                        score = totalTime > timeOutEnd ? TheTime < 25 ? 25 - TheTime : 1 : 25;
                     }
 
                     console.log("最终结果：" + score)
