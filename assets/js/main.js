@@ -65,7 +65,7 @@ var container = new createjs.Container(),
     container3 = new createjs.Container();
 
 var timeContainer = new createjs.Container();
-var startTime, endTime, totalTime, fraction;
+var startTime, endTime, totalTime, fraction, timeout;
 var timeAll = new createjs.Text("", "40px Arial", "#000");
 
 
@@ -1473,7 +1473,7 @@ function main() {
             tipsImg.scaleX = proportion * 0.25;
             tipsImg.scaleY = proportion * 0.25;
             tipsImg.alpha = 0;
-            tipsImg.addEventListener("click", nongjiangchiFunEnd)
+            tipsImg.addEventListener("click", nongjiangchiTipsEnd)
 
             loadingContainer.addChild(tipsImg) //改动 附加
 
@@ -1483,75 +1483,87 @@ function main() {
                     alpha: 1
                 }, 250) //改动 附加
 
+            timeout = setTimeout(() => {
+                if (obj === 1) {
+                    nongjiangchiFunEnd()
+                }
+            }, 2500)
+
 
             fraction = obj;
             console.log("当前积分：" + fraction);
         }
 
-        nongjiangchiFunEnd = (e) => {
+        nongjiangchiTipsEnd = (e) => {
             if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
-                nijiaoBtn.gotoAndPlay("run");
-                createjs.Tween.get(tipsImg)
-                    .to({
-                        alpha: 0
-                    }, 250)
-                    .call(() => {
-                        loadingContainer.removeAllChildren()
-                    }) //改动 附加
-
-                createjs.Tween.get(wenti2Text)
-                    .wait(500) //改动 1000
-                    .to({
-                        alpha: 1
-                    }, 500) //改动 1000
-                    .wait(500) //改动 1000
-                    .to({
-                        alpha: 0
-                    }, 250) //改动 500
-                    .call(() => {
-                        createjs.Tween.get(nongjiangchi)
-                            .wait(400)
-                            .call(() => {
-                                jiaoban_liuliang.y = (canvas.height - jiaoban_liuliang_animate._frameHeight * proportion) / 2 + 450 * proportion;
-
-                                jiaoban_liuliang.gotoAndPlay("run");
-                                nongjiangchi.gotoAndPlay("run")
-
-                                createjs.Tween.get(weishengwu)
-                                    .wait(1000)
-                                    .call(() => {
-                                        weishengwu.gotoAndPlay("run")
-                                    })
-                                    .to({
-                                        alpha: 1
-                                    }, 1000)
-
-                                createjs.Tween.get(jiaoban_liuliang)
-                                    .wait(1000)
-                                    .to({
-                                        alpha: 0
-                                    }, 1000)
-                                createjs.Tween.get(gutaifaxiaoText)
-                                    .wait(500)
-                                    .to({
-                                        alpha: 0
-                                    }, 1000)
-                                createjs.Tween.get(tanceng0)
-                                    .wait(1000)
-                                    .to({
-                                        alpha: 1
-                                    }, 2000)
-                                    .call(() => {
-                                        createjs.Tween.get(next)
-                                            .wait(500)
-                                            .to({
-                                                alpha: 1
-                                            }, 250)
-                                        next.addEventListener("click", nijiaoFun)
-                                    })
-                            })
-                    });
+                nongjiangchiFunEnd()
             }
+        }
+
+        nongjiangchiFunEnd = () => {
+            clearTimeout(timeout)
+            tipsImg.removeEventListener("click", nongjiangchiTipsEnd)
+            nijiaoBtn.gotoAndPlay("run");
+            createjs.Tween.get(tipsImg)
+                .to({
+                    alpha: 0
+                }, 250)
+                .call(() => {
+                    loadingContainer.removeAllChildren()
+                }) //改动 附加
+
+            createjs.Tween.get(wenti2Text)
+                .wait(500) //改动 1000
+                .to({
+                    alpha: 1
+                }, 500) //改动 1000
+                .wait(500) //改动 1000
+                .to({
+                    alpha: 0
+                }, 250) //改动 500
+                .call(() => {
+                    createjs.Tween.get(nongjiangchi)
+                        .wait(400)
+                        .call(() => {
+                            jiaoban_liuliang.y = (canvas.height - jiaoban_liuliang_animate._frameHeight * proportion) / 2 + 450 * proportion;
+
+                            jiaoban_liuliang.gotoAndPlay("run");
+                            nongjiangchi.gotoAndPlay("run")
+
+                            createjs.Tween.get(weishengwu)
+                                .wait(1000)
+                                .call(() => {
+                                    weishengwu.gotoAndPlay("run")
+                                })
+                                .to({
+                                    alpha: 1
+                                }, 1000)
+
+                            createjs.Tween.get(jiaoban_liuliang)
+                                .wait(1000)
+                                .to({
+                                    alpha: 0
+                                }, 1000)
+                            createjs.Tween.get(gutaifaxiaoText)
+                                .wait(500)
+                                .to({
+                                    alpha: 0
+                                }, 1000)
+                            createjs.Tween.get(tanceng0)
+                                .wait(1000)
+                                .to({
+                                    alpha: 1
+                                }, 2000)
+                                .call(() => {
+                                    createjs.Tween.get(next)
+                                        .wait(500)
+                                        .to({
+                                            alpha: 1
+                                        }, 250)
+                                    next.addEventListener("click", nijiaoFun)
+                                })
+                        })
+                });
         }
 
         xuzaoContainer.y = canvas.height * 1.35
@@ -1752,7 +1764,7 @@ function main() {
             tipsImg.scaleY = proportion * 0.25;
             tipsImg.alpha = 0;
 
-            tipsImg.addEventListener("click", wannianzaoFunEnd)
+            tipsImg.addEventListener("click", wannianzaoTipsEnd)
 
             loadingContainer.addChild(tipsImg) //改动 附加
 
@@ -1770,157 +1782,168 @@ function main() {
                 .to({
                     alpha: 1
                 }, 250) //改动 附加
+
+            timeout = setTimeout(() => {
+                if ((e.stageY < (wannianzao.y * 2 - 50) ? 0 : 1) === 1) {
+                    wannianzaoFunEnd()
+                }
+            }, 2500)
         }
 
-        wannianzaoFunEnd = (e) => {
+        wannianzaoTipsEnd = (e) => {
             if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
-                tipsImg.removeEventListener("click", wannianzaoFunEnd);
-                createjs.Tween.get(tipsImg)
-                    .to({
-                        alpha: 0
-                    }, 250)
-                    .call(() => {
-                        loadingContainer.removeAllChildren()
-                        createjs.Tween.get(faxiaoText2)
-                            .to({
-                                alpha: 1
-                            }, 250)
-                    }) //改动 附加
-
-                createjs.Tween.get(quan)
-                    .to({
-                        alpha: 1
-                    }, 500)
-                    .call(() => {
-                        quan.gotoAndPlay("run")
-                    })
-                    .wait(1000)
-                    .to({
-                        alpha: 0
-                    }, 500)
-                    .call(() => {
-                        createjs.Tween.get(faxiaoText1)
-                            .to({
-                                alpha: 0
-                            }, 700) // 改动 1000
-                        createjs.Tween.get(faxiaoText2)
-                            .to({
-                                alpha: 0
-                            }, 700) // 改动 1000
-                        createjs.Tween.get(faxiaoText5)
-                            .to({
-                                alpha: 0
-                            }, 700) // 改动 1000
-
-                        createjs.Tween.get(faxiaoText3)
-                            .wait(700) // 改动 1000
-                            .to({
-                                alpha: 1
-                            }, 700) // 改动 1000
-                            .wait(350) // 改动 500
-                            .to({
-                                alpha: 0
-                            }, 700) // 改动 1000
-
-                        createjs.Tween.get(faxiaoText4)
-                            .wait(3600) //改动 7200
-                            .to({
-                                alpha: 1
-                            }, 700) // 改动 1000
-                            .wait(350) // 改动 500
-                            .to({
-                                alpha: 0
-                            }, 700) // 改动 1000
-                            .call(() => {
-                                createjs.Tween.get(faxiaoText6)
-                                    .wait(500)
-                                    .to({
-                                        alpha: 1
-                                    }, 250) //改动 1000
-                                createjs.Tween.get(next)
-                                    .wait(500)
-                                    .to({
-                                        alpha: 1
-                                    }, 250) //改动 1000
-                                next.addEventListener("click", fencengFun)
-                            })
-
-                        createjs.Tween.get(wannianzao, { loop: true })
-                            .call(() => {
-                                wannianzao.gotoAndPlay("run");
-                                createjs.Tween.get(wannianzao_cz)
-                                    .wait(1400) //改动 2000
-                                    .to({
-                                        x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
-                                        y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
-                                        alpha: 1
-                                    }, 1400, sineInOutEase) //改动 2000
-                                    .wait(350) //改动 500
-                                    .to({
-                                        alpha: 0
-                                    }, 700, sineInOutEase) //改动 1000
-                                    .to({
-                                        x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
-                                        y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
-                                    })
-                                createjs.Tween.get(paoliao1)
-                                    .wait(2100) //改动 3000
-                                    .to({
-                                        x: (canvas.width - 185 * proportion * 0.5) / 2 - 230 * proportion,
-                                        y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
-                                        rotation: -15,
-                                        alpha: 1
-                                    }, 1400, sineInOutEase) //改动 2000
-                                    .wait(350) //改动 500
-                                    .to({
-                                        alpha: 0
-                                    }, 700, sineInOutEase) //改动 1000
-                                    .to({
-                                        x: (canvas.width - 185 * proportion * 0.5) / 2 - 50 * proportion,
-                                        y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
-                                        rotation: 30
-                                    })
-                            }, sineInOutEase)
-                            .wait(2100) //改动 3000
-                            .call(() => {
-                                wannianzao.gotoAndPlay("run2");
-                                createjs.Tween.get(paoliao2)
-                                    .wait(2100) //改动 3000
-                                    .to({
-                                        x: (canvas.width - 185 * proportion * 0.5) / 2 + 50 * proportion,
-                                        y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
-                                        rotation: -15,
-                                        alpha: 1
-                                    }, 700, sineInOutEase) //改动 1000
-                                    .to({
-                                        alpha: 0
-                                    }, 350, sineInOutEase) //改动 500
-                                    .to({
-                                        x: (canvas.width - 185 * proportion * 0.5) / 2 + 230 * proportion,
-                                        y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
-                                        rotation: 30
-                                    })
-                            }, sineInOutEase)
-                            .wait(2450) //改动 3500
-                            .call(() => {
-                                wannianzao.gotoAndPlay("run3");
-                            }, sineInOutEase)
-                            .wait(1050) //改动 1500
-                            .call(() => {
-                                console.log("循环结束")
-                            }, sineInOutEase)
-
-                        createjs.Tween.get(wannianzao_cz)
-                            .wait(3850) //改动 5500
-                            .call(() => {
-                                createjs.Tween.get(tanceng1)
-                                    .wait(700) //改动 1000
-                                    .to({
-                                        alpha: 1
-                                    }, 700) //改动 1000
-                            })
-                    })
+                wannianzaoFunEnd()
             }
+        }
+
+        wannianzaoFunEnd = () => {
+            clearTimeout(timeout)
+            tipsImg.removeEventListener("click", wannianzaoTipsEnd);
+            createjs.Tween.get(tipsImg)
+                .to({
+                    alpha: 0
+                }, 250)
+                .call(() => {
+                    loadingContainer.removeAllChildren()
+                    createjs.Tween.get(faxiaoText2)
+                        .to({
+                            alpha: 1
+                        }, 250)
+                }) //改动 附加
+
+            createjs.Tween.get(quan)
+                .to({
+                    alpha: 1
+                }, 500)
+                .call(() => {
+                    quan.gotoAndPlay("run")
+                })
+                .wait(1000)
+                .to({
+                    alpha: 0
+                }, 500)
+                .call(() => {
+                    createjs.Tween.get(faxiaoText1)
+                        .to({
+                            alpha: 0
+                        }, 700) // 改动 1000
+                    createjs.Tween.get(faxiaoText2)
+                        .to({
+                            alpha: 0
+                        }, 700) // 改动 1000
+                    createjs.Tween.get(faxiaoText5)
+                        .to({
+                            alpha: 0
+                        }, 700) // 改动 1000
+
+                    createjs.Tween.get(faxiaoText3)
+                        .wait(700) // 改动 1000
+                        .to({
+                            alpha: 1
+                        }, 700) // 改动 1000
+                        .wait(350) // 改动 500
+                        .to({
+                            alpha: 0
+                        }, 700) // 改动 1000
+
+                    createjs.Tween.get(faxiaoText4)
+                        .wait(3600) //改动 7200
+                        .to({
+                            alpha: 1
+                        }, 700) // 改动 1000
+                        .wait(350) // 改动 500
+                        .to({
+                            alpha: 0
+                        }, 700) // 改动 1000
+                        .call(() => {
+                            createjs.Tween.get(faxiaoText6)
+                                .wait(500)
+                                .to({
+                                    alpha: 1
+                                }, 250) //改动 1000
+                            createjs.Tween.get(next)
+                                .wait(500)
+                                .to({
+                                    alpha: 1
+                                }, 250) //改动 1000
+                            next.addEventListener("click", fencengFun)
+                        })
+
+                    createjs.Tween.get(wannianzao, { loop: true })
+                        .call(() => {
+                            wannianzao.gotoAndPlay("run");
+                            createjs.Tween.get(wannianzao_cz)
+                                .wait(1400) //改动 2000
+                                .to({
+                                    x: (canvas.width - 207 * proportion * 0.5 + 300) / 2,
+                                    y: (canvas.height - 182 * proportion * 0.5) / 2 - 100 * proportion,
+                                    alpha: 1
+                                }, 1400, sineInOutEase) //改动 2000
+                                .wait(350) //改动 500
+                                .to({
+                                    alpha: 0
+                                }, 700, sineInOutEase) //改动 1000
+                                .to({
+                                    x: (canvas.width - 207 * proportion * 0.5) / 2 + 300 * proportion,
+                                    y: (canvas.height - 182 * proportion * 0.5) / 2 - 300 * proportion
+                                })
+                            createjs.Tween.get(paoliao1)
+                                .wait(2100) //改动 3000
+                                .to({
+                                    x: (canvas.width - 185 * proportion * 0.5) / 2 - 230 * proportion,
+                                    y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
+                                    rotation: -15,
+                                    alpha: 1
+                                }, 1400, sineInOutEase) //改动 2000
+                                .wait(350) //改动 500
+                                .to({
+                                    alpha: 0
+                                }, 700, sineInOutEase) //改动 1000
+                                .to({
+                                    x: (canvas.width - 185 * proportion * 0.5) / 2 - 50 * proportion,
+                                    y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
+                                    rotation: 30
+                                })
+                        }, sineInOutEase)
+                        .wait(2100) //改动 3000
+                        .call(() => {
+                            wannianzao.gotoAndPlay("run2");
+                            createjs.Tween.get(paoliao2)
+                                .wait(2100) //改动 3000
+                                .to({
+                                    x: (canvas.width - 185 * proportion * 0.5) / 2 + 50 * proportion,
+                                    y: (canvas.height - 70 * proportion * 0.5) / 2 - 70 * proportion,
+                                    rotation: -15,
+                                    alpha: 1
+                                }, 700, sineInOutEase) //改动 1000
+                                .to({
+                                    alpha: 0
+                                }, 350, sineInOutEase) //改动 500
+                                .to({
+                                    x: (canvas.width - 185 * proportion * 0.5) / 2 + 230 * proportion,
+                                    y: (canvas.height - 70 * proportion * 0.5) / 2 - 130 * proportion,
+                                    rotation: 30
+                                })
+                        }, sineInOutEase)
+                        .wait(2450) //改动 3500
+                        .call(() => {
+                            wannianzao.gotoAndPlay("run3");
+                        }, sineInOutEase)
+                        .wait(1050) //改动 1500
+                        .call(() => {
+                            console.log("循环结束")
+                        }, sineInOutEase)
+
+                    createjs.Tween.get(wannianzao_cz)
+                        .wait(3850) //改动 5500
+                        .call(() => {
+                            createjs.Tween.get(tanceng1)
+                                .wait(700) //改动 1000
+                                .to({
+                                    alpha: 1
+                                }, 700) //改动 1000
+                        })
+                })
         }
 
 
@@ -2650,9 +2673,11 @@ function main() {
                 }, 1000) //改动 2000
         }
         nongjiangnianxian0 = () => {
+            createjs.Sound.play("music2");
             nongjiangnianxianTips(0)
         }
         nongjiangnianxian1 = () => {
+            createjs.Sound.play("music3");
             nongjiangnianxianTips(1)
         }
 
@@ -2672,11 +2697,9 @@ function main() {
             tipsImg.scaleX = proportion * 0.25;
             tipsImg.scaleY = proportion * 0.25;
             tipsImg.alpha = 0;
-            tipsImg.addEventListener("click", nongjiangnianxianFun)
+            tipsImg.addEventListener("click", nongjiangnianxianTipsEnd)
 
             loadingContainer.addChild(tipsImg) //改动 附加
-
-            createjs.Sound.play("music" + obj);
 
             createjs.Tween.get(tipsImg)
                 .wait(250)
@@ -2700,54 +2723,66 @@ function main() {
                 .to({
                     alpha: 0
                 }, 500);
+
+            timeout = setTimeout(() => {
+                if (obj === 1) {
+                    nongjiangnianxianFun()
+                }
+            }, 2500)
         }
 
-        nongjiangnianxianFun = (e) => {
+        nongjiangnianxianTipsEnd = (e) => {
             if (e.stageX > 700 && e.stageX < 770 && e.stageY > tipsImg.y + 50 && e.stageY < tipsImg.y + 140) {
-                createjs.Tween.get(tipsImg)
-                    .to({
-                        alpha: 0
-                    }, 250)
-                    .call(() => {
-                        loadingContainer.removeAllChildren()
-                    }) //改动 附加
-                createjs.Tween.get(jiuTitle)
-                    .to({
-                        alpha: 0
-                    }, 1000)
-                createjs.Tween.get(jiujiaoText1)
-                    .to({
-                        alpha: 1
-                    }, 1000);
-
-                createjs.Tween.get(jiujiaoText2)
-                    .to({
-                        alpha: 1
-                    }, 500)
-                    .wait(1500)
-                    .to({
-                        alpha: 0
-                    }, 500)
-
-                createjs.Tween.get(mobile)
-                    .to({
-                        alpha: 1
-                    }, 1000)
-                    .call(() => {
-                        createjs.Tween.get(mobile, { loop: true })
-                            .to({
-                                rotation: -15
-                            }, 500, sineInOutEase)
-                            .to({
-                                rotation: 0
-                            }, 500, sineInOutEase)
-                    })
-                    .wait(2000)
-                    .call(() => {
-                        createjs.Sound.play("music4");
-                        jiujiaoFun()
-                    })
+                nongjiangnianxianFun()
             }
+        }
+
+        nongjiangnianxianFun = () => {
+            clearTimeout(timeout)
+            tipsImg.removeEventListener("click", nongjiangnianxianTipsEnd);
+            createjs.Tween.get(tipsImg)
+                .to({
+                    alpha: 0
+                }, 250)
+                .call(() => {
+                    loadingContainer.removeAllChildren()
+                }) //改动 附加
+            createjs.Tween.get(jiuTitle)
+                .to({
+                    alpha: 0
+                }, 1000)
+            createjs.Tween.get(jiujiaoText1)
+                .to({
+                    alpha: 1
+                }, 1000);
+
+            createjs.Tween.get(jiujiaoText2)
+                .to({
+                    alpha: 1
+                }, 500)
+                .wait(1500)
+                .to({
+                    alpha: 0
+                }, 500)
+
+            createjs.Tween.get(mobile)
+                .to({
+                    alpha: 1
+                }, 1000)
+                .call(() => {
+                    createjs.Tween.get(mobile, { loop: true })
+                        .to({
+                            rotation: -15
+                        }, 500, sineInOutEase)
+                        .to({
+                            rotation: 0
+                        }, 500, sineInOutEase)
+                })
+                .wait(2000)
+                .call(() => {
+                    createjs.Sound.play("music4");
+                    jiujiaoFun()
+                })
         }
 
         jiujiaoFun = () => {
